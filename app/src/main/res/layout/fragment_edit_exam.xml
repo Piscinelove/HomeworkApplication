@@ -1,0 +1,207 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.audreycelia.homeworkapp.EditExamFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <!-- TODO: Update blank fragment layout -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv_add_course_name"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:gravity="bottom"
+            android:padding="10dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18dp"
+            tools:text="Name" />
+
+
+        <EditText
+            android:id="@+id/et_add_homework_name"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true" />
+
+        <TextView
+            android:id="@+id/tv_add_homework_date"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tv_add_course_name"
+            android:gravity="bottom"
+            android:padding="10dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18dp"
+            tools:text="Date" />
+
+        <EditText
+            android:id="@+id/et_add_homework_date"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/et_add_homework_name"
+            android:ems="10"
+            android:inputType="date"/>
+
+
+
+        <TextView
+            android:id="@+id/tv_hour"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tv_add_homework_date"
+            android:gravity="bottom"
+            android:padding="10dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18dp"
+            tools:text="Hour" />
+
+        <EditText
+            android:id="@+id/et_hour"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/et_add_homework_date"
+            android:ems="10"
+            android:inputType="time"/>
+
+
+        <TextView
+            android:id="@+id/tv_add_exam_grade"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tv_hour"
+            android:gravity="bottom"
+            android:padding="10dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18dp"
+            tools:text="Grade" />
+
+        <EditText
+            android:id="@+id/et_add_exam_grade"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/et_hour" />
+
+        <TextView
+            android:id="@+id/tv_add_homework_course"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tv_add_exam_grade"
+            android:gravity="bottom"
+            android:padding="10dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18dp"
+            tools:text="Course" />
+
+        <Spinner
+            android:id="@+id/sp_add_homework_course"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignLeft="@+id/et_add_exam_grade"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignStart="@+id/et_add_exam_grade"
+            android:layout_below="@+id/et_add_exam_grade"
+            />
+
+        <TextView
+            android:id="@+id/tv_add_exam_room"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tv_add_homework_course"
+            android:gravity="bottom"
+            android:padding="10dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18dp"
+            tools:text="Room" />
+
+        <EditText
+            android:id="@+id/et_add_exam_room"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignLeft="@+id/sp_add_homework_course"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignStart="@+id/sp_add_homework_course"
+            android:layout_below="@+id/sp_add_homework_course" />
+
+        <TextView
+            android:id="@+id/tv_add_homework_description"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tv_add_exam_room"
+            android:layout_marginTop="14dp"
+            android:gravity="bottom"
+            android:padding="10dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18dp"
+            tools:text="Description" />
+
+        <EditText
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="115dp"
+            android:ems="30"
+            android:gravity="left|top"
+            android:inputType="textMultiLine"
+            android:layout_below="@+id/tv_add_homework_description"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_above="@+id/bt_add_homework_save" />
+
+
+        <Button
+            android:id="@+id/bt_add_homework_save"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:onClick="save"
+            android:text="Save"
+            android:textColor="@android:color/white"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <Button
+            android:id="@+id/buttonEdit"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:onClick="edit"
+            android:text="Edit"
+            android:textColor="@android:color/white"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+
+    </RelativeLayout>
+
+</FrameLayout>

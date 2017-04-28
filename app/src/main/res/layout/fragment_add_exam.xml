@@ -1,0 +1,226 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.audreycelia.homeworkapp.AddExamFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv_add_exam_name"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:gravity="bottom"
+            android:padding="10dp"
+            android:text="Name"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18dp"
+            tools:text="Name" />
+
+
+        <EditText
+            android:id="@+id/et_add_exam_name"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/tv_add_exam_date"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tv_add_exam_name"
+            android:gravity="bottom"
+            android:padding="10dp"
+            android:text="Date"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18dp"
+            tools:text="Date" />
+
+        <EditText
+            android:id="@+id/et_add_exam_date"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/et_add_exam_name"
+            android:ems="10"
+            android:inputType="date"/>
+
+
+        <TextView
+            android:id="@+id/tv_add_exam_from"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:gravity="bottom"
+            android:padding="10dp"
+            android:text="From"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18dp"
+            tools:text="From"
+            android:layout_below="@+id/tv_add_exam_date"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <EditText
+            android:id="@+id/et_add_exam_from"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:ems="10"
+            android:inputType="time"
+            android:layout_below="@+id/tv_add_exam_date"
+            android:layout_toRightOf="@+id/tv_add_exam_from"
+            android:layout_toEndOf="@+id/tv_add_exam_from" />
+
+        <TextView
+            android:id="@+id/tv_add_exam_until"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/et_add_exam_date"
+            android:layout_toEndOf="@+id/et_add_exam_from"
+            android:layout_toRightOf="@+id/et_add_exam_from"
+            android:gravity="bottom"
+            android:padding="10dp"
+            android:text="Until"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18dp"
+            tools:text="Until" />
+
+        <EditText
+            android:id="@+id/et_add_exam_until"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/et_add_exam_date"
+            android:layout_toEndOf="@+id/bt_add_exam_save"
+            android:layout_toRightOf="@+id/bt_add_exam_save"
+            android:ems="10"
+            android:inputType="time" />
+
+        <TextView
+            android:id="@+id/tv_add_exam_course"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tv_add_exam_from"
+            android:gravity="bottom"
+            android:padding="10dp"
+            android:text="Course"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18dp"
+            tools:text="Course" />
+
+        <Spinner
+            android:id="@+id/sp_add_exam_course"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/et_add_exam_from"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignLeft="@+id/et_add_exam_grade"
+            android:layout_alignStart="@+id/et_add_exam_grade" />
+
+        <TextView
+            android:id="@+id/tv_add_exam_room"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tv_add_exam_course"
+            android:gravity="bottom"
+            android:padding="10dp"
+            android:text="Room"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18dp"
+            tools:text="Room" />
+
+        <EditText
+            android:id="@+id/et_add_exam_room"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignLeft="@+id/et_add_exam_date"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignStart="@+id/et_add_exam_date"
+            android:layout_alignTop="@+id/tv_add_exam_room"
+            android:inputType="number" />
+
+        <TextView
+            android:id="@+id/tv_add_exam_grade"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tv_add_exam_room"
+            android:gravity="bottom"
+            android:padding="10dp"
+            android:text="Grade"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18dp"
+            tools:text="Grade" />
+
+        <EditText
+            android:id="@+id/et_add_exam_grade"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/et_add_exam_room"
+            android:inputType="numberDecimal" />
+
+        <TextView
+            android:id="@+id/tv_add_exam_description"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tv_add_exam_grade"
+            android:gravity="bottom"
+            android:padding="10dp"
+            android:text="Description"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18dp"
+            tools:text="Description" />
+
+        <EditText
+            android:id="@+id/et_add_exam_description"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_above="@+id/bt_add_exam_save"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tv_add_exam_description"
+            android:ems="30"
+            android:gravity="left|top"
+            android:inputType="textMultiLine" />
+
+
+        <Button
+            android:id="@+id/bt_add_exam_save"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toEndOf="@+id/tv_add_exam_room"
+            android:layout_toRightOf="@+id/tv_add_exam_room"
+            android:background="@color/colorAccent"
+            android:onClick="save"
+            android:text="Save"
+            android:textColor="@android:color/white" />
+
+
+    </RelativeLayout>
+
+</FrameLayout>

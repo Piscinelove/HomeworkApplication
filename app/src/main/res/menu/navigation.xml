@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+
+    <item
+        android:id="@+id/navigation_timetable"
+        android:enabled="true"
+        android:title="@string/title_timetable"
+        app:showAsAction="ifRoom" />
+
+
+    <item
+        app:showAsAction="ifRoom"
+        android:enabled="true"
+        android:id="@+id/navigation_course"
+        android:icon="@drawable/ic_students_cap"
+        android:title="@string/title_course"
+        />
+
+    <item
+        app:showAsAction="ifRoom"
+        android:enabled="true"
+        android:id="@+id/navigation_exam"
+        android:icon="@drawable/ic_exam"
+        android:title="@string/title_exam" />
+
+    <item
+        app:showAsAction="ifRoom"
+        android:enabled="true"
+        android:id="@+id/navigation_homework"
+        android:icon="@drawable/ic_to_do_list"
+        android:title="@string/title_homework" />
+
+    <item
+        app:showAsAction="ifRoom"
+        android:enabled="true"
+        android:id="@+id/navigation_teacher"
+        android:title="@string/title_teacher" />
+
+
+
+</menu>
