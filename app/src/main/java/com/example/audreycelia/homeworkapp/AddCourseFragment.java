@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +19,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 
-//import com.android.colorpicker.ColorPickerDialog;
-//import com.android.colorpicker.ColorPickerSwatch;
+import com.android.colorpicker.ColorPickerDialog;
+import com.android.colorpicker.ColorPickerSwatch;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,7 +36,7 @@ public class AddCourseFragment extends Fragment {
     private FragmentManager fragmentManager;
 
     private TimePickerDialog timePickerDialog;
-    //private ColorPickerDialog colorPickerDialog;
+    private ColorPickerDialog colorPickerDialog;
     private int hour;
     private int minute;
     //
@@ -108,19 +109,20 @@ public class AddCourseFragment extends Fragment {
                 timePickerDialog.show();
             }});
 
-        /*colorButton.setOnClickListener(new View.OnClickListener() {
+        colorButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 colorPickerDialog = new ColorPickerDialog();
-                int[] colors = {getResources().getColor(R.color.primary1),
-                        getResources().getColor(R.color.primary2),
-                        getResources().getColor(R.color.primary3),
-                        getResources().getColor(R.color.primary4),
-                        getResources().getColor(R.color.primary5),
-                        getResources().getColor(R.color.primary6),
-                        getResources().getColor(R.color.primary7),
-                        getResources().getColor(R.color.primary8),
-                        getResources().getColor(R.color.primary9)};
+                int[] colors = {ContextCompat.getColor(getActivity(),R.color.primary1),
+                        ContextCompat.getColor(getActivity(),R.color.primary1),
+                        ContextCompat.getColor(getActivity(),R.color.primary2),
+                        ContextCompat.getColor(getActivity(),R.color.primary3),
+                        ContextCompat.getColor(getActivity(),R.color.primary4),
+                        ContextCompat.getColor(getActivity(),R.color.primary5),
+                        ContextCompat.getColor(getActivity(),R.color.primary6),
+                        ContextCompat.getColor(getActivity(),R.color.primary7),
+                        ContextCompat.getColor(getActivity(),R.color.primary8)};
                 colorPickerDialog.initialize(R.string.colorChange,colors, colors[1], 3, colors.length);
                 colorPickerDialog.show(getActivity().getFragmentManager(), "test");
                 colorPickerDialog.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener() {
@@ -132,7 +134,7 @@ public class AddCourseFragment extends Fragment {
                     }
                 });
             }
-        });*/
+        });
 
 
         //add button
