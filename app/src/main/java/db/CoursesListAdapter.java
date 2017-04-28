@@ -19,6 +19,8 @@ public class CoursesListAdapter extends BaseAdapter {
 
         private ArrayList<Course> listData;
         private LayoutInflater layoutInflater;
+        private String currentDay;
+
 
         public CoursesListAdapter(Context aContext, ArrayList<Course> listData) {
             this.listData = listData;
@@ -42,10 +44,12 @@ public class CoursesListAdapter extends BaseAdapter {
 
         public View getView(int position, View convertView, ViewGroup parent) {
 
+
             CoursesListAdapter.ViewHolder holder;
             if (convertView == null) {
                 convertView = layoutInflater.inflate(R.layout.row_course, null);
                 holder = new CoursesListAdapter.ViewHolder();
+                holder.header = (TextView) convertView.findViewById(R.id.tv_header);
                 holder.date = (TextView) convertView.findViewById(R.id.tv_course_date);
                 holder.courseName = (TextView) convertView.findViewById(R.id.tv_course_name);
                 convertView.setTag(holder);
@@ -55,12 +59,30 @@ public class CoursesListAdapter extends BaseAdapter {
 
             holder.date.setText(listData.get(position).getStart()+" " + listData.get(position).getEnd());
             holder.courseName.setText(listData.get(position).getName());
+
+            //test if show header
+            if(!listData.get(position).getDay().equals(currentDay))
+            {
+                currentDay = listData.get(position).getDay();
+                holder.header.setVisibility(View.VISIBLE);
+                holder.header.setText(listData.get(position).getDay());
+
+            }
+            else
+            {
+                holder.header.setVisibility(View.GONE);
+            }
+
+
             return convertView;
         }
 
 static class ViewHolder {
+    TextView header;
     TextView date;
     TextView courseName;
+
+
 
 }
 }

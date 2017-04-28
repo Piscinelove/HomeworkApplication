@@ -61,6 +61,7 @@ public class AddCourseFragment extends Fragment {
         Spinner teacher = (Spinner) rootView.findViewById(R.id.sp_add_course_teacher);
 
 
+
         //Fill spinner from database
         db = new DatabaseHelper(getActivity().getApplicationContext());
         ArrayList<Teacher> teachers = db.getAllTeachers();
@@ -165,13 +166,14 @@ public class AddCourseFragment extends Fragment {
                 return true;
             //When user click button save on toolbar
             case R.id.ab_save:
-                EditText name = (EditText) getView().findViewById(R.id.et_add_exam_name);
+                EditText name = (EditText) getView().findViewById(R.id.et_add_course_name);
                 EditText from = (EditText) getView().findViewById(R.id.et_add_course_from);
                 EditText until = (EditText) getView().findViewById(R.id.et_add_course_until);
                 Spinner teacher = (Spinner) getView().findViewById(R.id.sp_add_course_teacher);
                 Button color = (Button) getView().findViewById(R.id.bt_add_course_color);
                 EditText room = (EditText) getView().findViewById(R.id.et_add_course_room);
                 EditText description = (EditText) getView().findViewById(R.id.et_add_course_description);
+                Spinner day = (Spinner) getView().findViewById(R.id.sp_add_course_day);
 
                 if(TextUtils.isEmpty(name.getText().toString())) {
                     name.setError("Name field cannot be empty");
@@ -201,7 +203,7 @@ public class AddCourseFragment extends Fragment {
 
 
                 db = new DatabaseHelper(getActivity().getApplicationContext());
-                db.insertCourse(name.getText().toString(),from.getText().toString(),until.getText().toString(), colorPickerDialog.getSelectedColor(), Integer.parseInt(room.getText().toString()),description.getText().toString(),teacher.getId());
+                db.insertCourse(name.getText().toString(),day.getSelectedItem().toString(),from.getText().toString(),until.getText().toString(), colorPickerDialog.getSelectedColor(), Integer.parseInt(room.getText().toString()),description.getText().toString(),teacher.getId());
 
                 fragmentManager = getActivity().getSupportFragmentManager();
                 fragment = new CourseFragment();

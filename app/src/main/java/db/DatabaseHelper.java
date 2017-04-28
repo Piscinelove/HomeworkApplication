@@ -60,12 +60,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(DatabaseContract.Teachers.TABLE_NAME,null, values);
     }
 
-    public void insertCourse (String name, String start, String end, int color, int room, String description, int teacherId)
+    public void insertCourse (String name, String day, String start, String end, int color, int room, String description, int teacherId)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
         values.put(DatabaseContract.Courses.COURSE_NAME, name );
+        values.put(DatabaseContract.Courses.COURSE_DAY, day );
         values.put(DatabaseContract.Courses.COURSE_START, start);
         values.put(DatabaseContract.Courses.COURSE_END, end);
         values.put(DatabaseContract.Courses.COURSE_COLOR, color );
@@ -128,12 +129,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.update(DatabaseContract.Teachers.TABLE_NAME, values, selection, selectionArgs);
     }
 
-    public void updateCourse (int courseId, String name, String start, String end, int color, int room, String description, int teacherId)
+    public void updateCourse (int courseId, String name, String day, String start, String end, int color, int room, String description, int teacherId)
     {
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
 
         values.put(DatabaseContract.Courses.COURSE_NAME, name );
+        values.put(DatabaseContract.Courses.COURSE_DAY, day );
         values.put(DatabaseContract.Courses.COURSE_START, start);
         values.put(DatabaseContract.Courses.COURSE_END,end);
         values.put(DatabaseContract.Courses.COURSE_COLOR, color );
@@ -217,12 +219,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 Course course = new Course();
                 course.setCourseId(Integer.parseInt(cursor.getString(0)));
                 course.setName(cursor.getString(1));
-                course.setStart(cursor.getString(2));
-                course.setEnd(cursor.getString(3));
-                course.setColor(Integer.parseInt(cursor.getString(4)));
-                course.setRoom(Integer.parseInt(cursor.getString(5)));
-                course.setDescription(cursor.getString(6));
-                course.setTeacherId(Integer.parseInt(cursor.getString(7)));
+                course.setDay(cursor.getString(2));
+                course.setStart(cursor.getString(3));
+                course.setEnd(cursor.getString(4));
+                course.setColor(Integer.parseInt(cursor.getString(5)));
+                course.setRoom(Integer.parseInt(cursor.getString(6)));
+                course.setDescription(cursor.getString(7));
+                course.setTeacherId(Integer.parseInt(cursor.getString(8)));
 
                 //POPULATE THE ARRAY LIST
                 listCourses.add(course);

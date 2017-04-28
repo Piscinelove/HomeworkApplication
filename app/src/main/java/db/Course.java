@@ -11,6 +11,10 @@ public class Course {
     //private variables
     private int courseId;
     private String name;
+
+
+
+    private String day;
     private String start;
     private String end;
     private int color;
@@ -19,10 +23,11 @@ public class Course {
     private int teacherId;
 
     //constructor
-    public Course(int courseId, String name, String start, String end, int color, int room, String description, int teacherId)
+    public Course(int courseId, String name,String day, String start, String end, int color, int room, String description, int teacherId)
     {
         this.courseId = courseId;
         this.name = name;
+        this.day = day;
         this.start = start;
         this.end = end;
         this.color = color;
@@ -87,4 +92,8 @@ public class Course {
     public void setTeacherId(int teacherId) {
         this.teacherId = teacherId;
     }
+
+    public String getDay() {return day;}
+
+    public void setDay(String day) {this.day = day;}
 }

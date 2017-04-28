@@ -26,6 +26,7 @@ public final class DatabaseContract {
         //Columns names
         public static final String COURSE_ID = "courseId";
         public static final String COURSE_NAME = "name";
+        public static final String COURSE_DAY = "day";
         public static final String COURSE_START = "start";
         public static final String COURSE_END = "end";
         public static final String COURSE_COLOR = "color";
@@ -89,8 +90,9 @@ public final class DatabaseContract {
             "CREATE TABLE " + Courses.TABLE_NAME+ "("
                     + Courses.COURSE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + Courses.COURSE_NAME + " TEXT NOT NULL, "
-                    + Courses.COURSE_START + " TEXT NOT NULL,"
-                    + Courses.COURSE_END + " TEXT NOT NULL,"
+                    + Courses.COURSE_DAY + " TEXT NOT NULL, "
+                    + Courses.COURSE_START + " TEXT NOT NULL, "
+                    + Courses.COURSE_END + " TEXT NOT NULL, "
                     + Courses.COURSE_COLOR + " INTEGER NULL, "
                     + Courses.COURSE_ROOM + " INTEGER NOT NULL, "
                     + Courses.COURSE_DESCRIPTION + " TEXT NULL, "
@@ -124,10 +126,10 @@ public final class DatabaseContract {
                     + Exams.EXAM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + Exams.EXAM_NAME + " TEXT NOT NULL, "
                     + Exams.EXAM_DATE +" TEXT NOT NULL, "
-                    + Exams.EXAM_START + " TEXT NOT NULL,"
-                    + Exams.EXAM_END + " TEXT NOT NULL,"
-                    + Exams.EXAM_GRADE + " REAL NULL,"
-                    + Exams.EXAM_ROOM + " INTEGER NOT NULL,"
+                    + Exams.EXAM_START + " TEXT NOT NULL, "
+                    + Exams.EXAM_END + " TEXT NOT NULL, "
+                    + Exams.EXAM_GRADE + " REAL NULL, "
+                    + Exams.EXAM_ROOM + " INTEGER NOT NULL, "
                     + Exams.EXAM_DESCRIPTION + " TEXT NULL, "
                     + Exams.EXAM_COURSE_ID + " INTEGER NOT NULL, "
                     + " FOREIGN KEY ("+Exams.EXAM_COURSE_ID+") REFERENCES " + Courses.TABLE_NAME+"("+Courses.COURSE_ID+"));";
