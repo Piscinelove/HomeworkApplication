@@ -47,7 +47,6 @@ public class CourseFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 int courseId = ((Course) listView.getItemAtPosition(position)).getCourseId();
-                System.out.println("ID COURSE = "+courseId);
                 Bundle bundle = new Bundle();
                 bundle.putInt("SelectedCourseId", courseId);
                 fragmentManager = getActivity().getSupportFragmentManager();

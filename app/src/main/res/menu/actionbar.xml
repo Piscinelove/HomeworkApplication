@@ -6,7 +6,14 @@
     <item
         android:id="@+id/action_bar_back"
         android:enabled="true"
-        android:icon="@drawable/ic_back"
+        android:icon="@drawable/ic_close__24dp"
+        android:orderInCategory="-10"
+        android:title="back"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/ab_save"
+        android:enabled="true"
+        android:icon="@drawable/ic_save__24dp"
         android:orderInCategory="-10"
         android:title="back"
         app:showAsAction="always" />

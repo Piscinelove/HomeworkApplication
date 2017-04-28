@@ -9,6 +9,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -51,6 +54,7 @@ public class AddCourseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_add_course, container, false);
+        setHasOptionsMenu(true);
         final EditText from = (EditText) rootView.findViewById(R.id.et_add_course_from);
         final EditText until = (EditText) rootView.findViewById(R.id.et_add_course_until);
         final Button colorButton = (Button) rootView.findViewById(R.id.bt_add_course_color);
@@ -63,6 +67,19 @@ public class AddCourseFragment extends Fragment {
         ArrayAdapter<Teacher> dataAdapter = new ArrayAdapter<Teacher>(getActivity(), android.R.layout.simple_spinner_item, teachers);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         teacher.setAdapter(dataAdapter);
+
+        //Color Picker
+        colorPickerDialog = new ColorPickerDialog();
+        int[] colors = {ContextCompat.getColor(getActivity(),R.color.primary1),
+                ContextCompat.getColor(getActivity(),R.color.primary2),
+                ContextCompat.getColor(getActivity(),R.color.primary3),
+                ContextCompat.getColor(getActivity(),R.color.primary4),
+                ContextCompat.getColor(getActivity(),R.color.primary5),
+                ContextCompat.getColor(getActivity(),R.color.primary6),
+                ContextCompat.getColor(getActivity(),R.color.primary7),
+                ContextCompat.getColor(getActivity(),R.color.primary8),
+                ContextCompat.getColor(getActivity(),R.color.primary9)};
+        colorPickerDialog.initialize(R.string.colorChange,colors, colors[1], 3, colors.length);
 
 
         //Time picker for from time
@@ -109,87 +126,93 @@ public class AddCourseFragment extends Fragment {
                 timePickerDialog.show();
             }});
 
+        //Color picker when click on color button
         colorButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                colorPickerDialog = new ColorPickerDialog();
-                int[] colors = {ContextCompat.getColor(getActivity(),R.color.primary1),
-                        ContextCompat.getColor(getActivity(),R.color.primary1),
-                        ContextCompat.getColor(getActivity(),R.color.primary2),
-                        ContextCompat.getColor(getActivity(),R.color.primary3),
-                        ContextCompat.getColor(getActivity(),R.color.primary4),
-                        ContextCompat.getColor(getActivity(),R.color.primary5),
-                        ContextCompat.getColor(getActivity(),R.color.primary6),
-                        ContextCompat.getColor(getActivity(),R.color.primary7),
-                        ContextCompat.getColor(getActivity(),R.color.primary8)};
-                colorPickerDialog.initialize(R.string.colorChange,colors, colors[1], 3, colors.length);
+
                 colorPickerDialog.show(getActivity().getFragmentManager(), "test");
                 colorPickerDialog.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener() {
                     @Override
                     public void onColorSelected(int color) {
                         colorButton.setBackgroundColor(color);
                         colorButton.setTextColor(Color.WHITE);
+                        //change la couleur actuellement sélectionnée
+                        colorPickerDialog.setSelectedColor(color);
 
                     }
                 });
             }
         });
 
+        return  rootView;
+    }
 
-        //add button
-        //test
-        saveButton = (Button) rootView.findViewById(R.id.bt_add_exam_save);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EditText name = (EditText) rootView.findViewById(R.id.et_add_exam_name);
-                EditText from = (EditText) rootView.findViewById(R.id.et_add_course_from);
-                EditText until = (EditText) rootView.findViewById(R.id.et_add_course_until);
-                Spinner teacher = (Spinner) rootView.findViewById(R.id.sp_add_course_teacher);
-                Button color = (Button) rootView.findViewById(R.id.bt_add_course_color);
-                EditText room = (EditText) rootView.findViewById(R.id.et_add_course_room);
-                EditText description = (EditText) rootView.findViewById(R.id.et_add_course_description);
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.actionbar, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.action_bar_back:
+                getActivity().getSupportFragmentManager().popBackStack();
+                return true;
+            //When user click button save on toolbar
+            case R.id.ab_save:
+                EditText name = (EditText) getView().findViewById(R.id.et_add_exam_name);
+                EditText from = (EditText) getView().findViewById(R.id.et_add_course_from);
+                EditText until = (EditText) getView().findViewById(R.id.et_add_course_until);
+                Spinner teacher = (Spinner) getView().findViewById(R.id.sp_add_course_teacher);
+                Button color = (Button) getView().findViewById(R.id.bt_add_course_color);
+                EditText room = (EditText) getView().findViewById(R.id.et_add_course_room);
+                EditText description = (EditText) getView().findViewById(R.id.et_add_course_description);
 
                 if(TextUtils.isEmpty(name.getText().toString())) {
                     name.setError("Name field cannot be empty");
-                    return;
+                    return false;
                 }
 
                 if(TextUtils.isEmpty(from.getText().toString())) {
                     from.setError("From field cannot be empty");
-                    return;
+                    return false;
                 }
 
                 if(TextUtils.isEmpty(until.getText().toString())) {
                     from.setError("Until field cannot be empty");
-                    return;
+                    return false;
                 }
 
                 if(teacher.getSelectedItem()==null) {
                     TextView spinnerText = (TextView) teacher.getSelectedView();
                     spinnerText.setError("Teacher field cannot be empty");
-                    return;
+                    return false;
                 }
 
                 if(TextUtils.isEmpty(room.getText().toString())) {
                     room.setError("Room field cannot be empty");
-                    return;
+                    return false;
                 }
 
 
                 db = new DatabaseHelper(getActivity().getApplicationContext());
-                db.insertCourse(name.getText().toString(),from.getText().toString(),until.getText().toString(), Integer.parseInt(color.getText().toString()), Integer.parseInt(room.getText().toString()),description.getText().toString(),1);
+                db.insertCourse(name.getText().toString(),from.getText().toString(),until.getText().toString(), colorPickerDialog.getSelectedColor(), Integer.parseInt(room.getText().toString()),description.getText().toString(),teacher.getId());
 
                 fragmentManager = getActivity().getSupportFragmentManager();
                 fragment = new CourseFragment();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.addToBackStack(null);
                 transaction.replace(R.id.main_container, fragment).commit();
-            }
-        });
+                return true;
 
-        return  rootView;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 

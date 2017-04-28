@@ -207,20 +207,6 @@
             android:inputType="textMultiLine" />
 
 
-        <Button
-            android:id="@+id/bt_add_exam_save"
-            android:layout_width="160dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentStart="true"
-            android:background="@color/colorAccent"
-            android:text="Save"
-            android:textColor="@android:color/white" />
-
-
     </RelativeLayout>
 
 </FrameLayout>
