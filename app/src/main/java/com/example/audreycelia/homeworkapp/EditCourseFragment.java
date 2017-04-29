@@ -61,6 +61,7 @@ public class EditCourseFragment extends Fragment {
                 save.setVisible(true);
                 return true;
 
+
             case R.id.ab_edit_undo:
                 //Gérer les boutons du menu
                 edit.setVisible(true);
