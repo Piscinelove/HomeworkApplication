@@ -27,4 +27,5 @@
     <string name="title_timetable">Stundenplan</string>
     <string name="tuesday">Dienstag</string>
     <string name="wednesday">Mittwoch</string>
+    <string name="colorChange">Wählen eine Farbe:</string>
 </resources>
