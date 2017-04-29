@@ -104,8 +104,6 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/et_add_exam_date"
-            android:layout_toEndOf="@+id/bt_add_exam_save"
-            android:layout_toRightOf="@+id/bt_add_exam_save"
             android:ems="10"
             android:inputType="time" />
 
@@ -199,7 +197,6 @@
             android:id="@+id/et_add_exam_description"
             android:layout_width="wrap_content"
             android:layout_height="80dp"
-            android:layout_above="@+id/bt_add_exam_save"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/tv_add_exam_description"
@@ -207,18 +204,6 @@
             android:gravity="left|top"
             android:inputType="textMultiLine" />
 
-
-        <Button
-            android:id="@+id/bt_add_exam_save"
-            android:layout_width="160dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_toEndOf="@+id/tv_add_exam_room"
-            android:layout_toRightOf="@+id/tv_add_exam_room"
-            android:background="@color/colorAccent"
-            android:onClick="save"
-            android:text="Save"
-            android:textColor="@android:color/white" />
 
 
     </RelativeLayout>

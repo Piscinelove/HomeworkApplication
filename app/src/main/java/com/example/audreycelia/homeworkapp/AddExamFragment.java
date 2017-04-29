@@ -45,6 +45,56 @@ public class AddExamFragment extends Fragment {
                 getActivity().getSupportFragmentManager().popBackStack();
                 return true;
 
+            case R.id.ab_save:
+            EditText name = (EditText) getView().findViewById(R.id.et_add_exam_name);
+            EditText date = (EditText) getView().findViewById(R.id.et_add_exam_date);
+            EditText from = (EditText) getView().findViewById(R.id.et_add_exam_from);
+            EditText until = (EditText) getView().findViewById(R.id.et_add_exam_until);
+            Spinner course = (Spinner) getView().findViewById(R.id.sp_add_exam_course);
+            EditText room = (EditText) getView().findViewById(R.id.et_add_exam_room);
+            EditText grade = (EditText) getView().findViewById(R.id.et_add_exam_grade);
+            EditText description = (EditText) getView().findViewById(R.id.et_add_exam_description);
+
+            if(TextUtils.isEmpty(name.getText().toString())) {
+                name.setError("Name field cannot be empty");
+                return false;
+            }
+
+            if(TextUtils.isEmpty(date.getText().toString())) {
+                date.setError("Date field cannot be empty");
+                return false;
+            }
+
+            if(TextUtils.isEmpty(from.getText().toString())) {
+                from.setError("From field cannot be empty");
+                return false;
+            }
+
+            if(TextUtils.isEmpty(until.getText().toString())) {
+                from.setError("Until field cannot be empty");
+                return false;
+            }
+
+            if(course.getSelectedItem()==null) {
+                TextView spinnerText = (TextView) course.getSelectedView();
+                spinnerText.setError("Course field cannot be empty");
+                return false;
+            }
+
+            if(TextUtils.isEmpty(room.getText().toString())) {
+                room.setError("Room field cannot be empty");
+                return false;
+            }
+
+
+            db = new DatabaseHelper(getActivity().getApplicationContext());
+            db.insertExam(name.getText().toString(),date.getText().toString(),from.getText().toString(),until.getText().toString(), Double.parseDouble(grade.getText().toString()), Integer.parseInt(room.getText().toString()),description.getText().toString(),1);
+
+            fragmentManager = getActivity().getSupportFragmentManager();
+            fragment = new ExamFragment();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.addToBackStack(null);
+            transaction.replace(R.id.main_container, fragment).commit();
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -56,62 +106,6 @@ public class AddExamFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_add_exam, container, false);
         setHasOptionsMenu(true);
 
-        //add button
-        saveButton = (Button) rootView.findViewById(R.id.bt_add_exam_save);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EditText name = (EditText) rootView.findViewById(R.id.et_add_exam_name);
-                EditText date = (EditText) rootView.findViewById(R.id.et_add_exam_date);
-                EditText from = (EditText) rootView.findViewById(R.id.et_add_exam_from);
-                EditText until = (EditText) rootView.findViewById(R.id.et_add_exam_until);
-                Spinner course = (Spinner) rootView.findViewById(R.id.sp_add_exam_course);
-                EditText room = (EditText) rootView.findViewById(R.id.et_add_exam_room);
-                EditText grade = (EditText) rootView.findViewById(R.id.et_add_exam_grade);
-                EditText description = (EditText) rootView.findViewById(R.id.et_add_exam_description);
-
-                if(TextUtils.isEmpty(name.getText().toString())) {
-                    name.setError("Name field cannot be empty");
-                    return;
-                }
-
-                if(TextUtils.isEmpty(date.getText().toString())) {
-                    date.setError("Date field cannot be empty");
-                    return;
-                }
-
-                if(TextUtils.isEmpty(from.getText().toString())) {
-                    from.setError("From field cannot be empty");
-                    return;
-                }
-
-                if(TextUtils.isEmpty(until.getText().toString())) {
-                    from.setError("Until field cannot be empty");
-                    return;
-                }
-
-                if(course.getSelectedItem()==null) {
-                    TextView spinnerText = (TextView) course.getSelectedView();
-                    spinnerText.setError("Course field cannot be empty");
-                    return;
-                }
-
-                if(TextUtils.isEmpty(room.getText().toString())) {
-                    room.setError("Room field cannot be empty");
-                    return;
-                }
-
-
-                db = new DatabaseHelper(getActivity().getApplicationContext());
-                db.insertExam(name.getText().toString(),date.getText().toString(),from.getText().toString(),until.getText().toString(), Double.parseDouble(grade.getText().toString()), Integer.parseInt(room.getText().toString()),description.getText().toString(),1);
-
-                fragmentManager = getActivity().getSupportFragmentManager();
-                fragment = new ExamFragment();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.addToBackStack(null);
-                transaction.replace(R.id.main_container, fragment).commit();
-            }
-        });
 
         return  rootView;
     }

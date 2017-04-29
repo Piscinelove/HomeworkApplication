@@ -44,51 +44,34 @@ public class AddTeacherFragment extends Fragment {
                 getActivity().getSupportFragmentManager().popBackStack();
                 return true;
 
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        final View rootView = inflater.inflate(R.layout.fragment_add_teacher, container, false);
-        setHasOptionsMenu(true);
-
-
-        //add button
-        saveButton = (Button) rootView.findViewById(R.id.bt_add_teacher_save);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EditText firstName = (EditText) rootView.findViewById(R.id.et_add_teacher_firstname);
-                EditText lastName = (EditText) rootView.findViewById(R.id.et_add_teacher_lastname);
-                EditText email = (EditText) rootView.findViewById(R.id.et_add_teacher_email);
-                EditText phone = (EditText) rootView.findViewById(R.id.et_add_teacher_phone);
-                EditText description = (EditText) rootView.findViewById(R.id.et_add_teacher_description);
+            case R.id.ab_save:
+                EditText firstName = (EditText) getView().findViewById(R.id.et_add_teacher_firstname);
+                EditText lastName = (EditText) getView().findViewById(R.id.et_add_teacher_lastname);
+                EditText email = (EditText) getView().findViewById(R.id.et_add_teacher_email);
+                EditText phone = (EditText) getView().findViewById(R.id.et_add_teacher_phone);
+                EditText description = (EditText) getView().findViewById(R.id.et_add_teacher_description);
 
                 if(TextUtils.isEmpty(firstName.getText().toString())) {
                     firstName.setError("Firstname field cannot be empty");
-                    return;
+                    return false;
                 }
 
                 if(TextUtils.isEmpty(lastName.getText().toString())) {
                     lastName.setError("Lastname field cannot be empty");
-                    return;
+                    return false;
                 }
 
 
                 if(!TextUtils.isEmpty(phone.getText().toString()) && !isPhoneValid(phone.getText()))
                 {
                     phone.setError("Invalid phone number");
-                    return;
+                    return false;
                 }
 
                 if(!TextUtils.isEmpty(email.getText().toString()) && !isEmailValid(email.getText()))
                 {
                     email.setError("Invalid email");
-                    return;
+                    return false;
                 }
 
 
@@ -100,9 +83,19 @@ public class AddTeacherFragment extends Fragment {
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.addToBackStack(null);
                 transaction.replace(R.id.main_container, fragment).commit();
+                return true;
 
-            }
-        });
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        final View rootView = inflater.inflate(R.layout.fragment_add_teacher, container, false);
+        setHasOptionsMenu(true);
 
         return  rootView;
     }

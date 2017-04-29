@@ -8,6 +8,7 @@
     <item
         android:id="@+id/navigation_timetable"
         android:enabled="true"
+        android:icon="@drawable/ic_calendar"
         android:title="@string/title_timetable"
         app:showAsAction="ifRoom" />
 
@@ -16,7 +17,7 @@
         app:showAsAction="ifRoom"
         android:enabled="true"
         android:id="@+id/navigation_course"
-        android:icon="@drawable/ic_students_cap"
+        android:icon="@drawable/ic_course"
         android:title="@string/title_course"
         />
 
@@ -31,13 +32,14 @@
         app:showAsAction="ifRoom"
         android:enabled="true"
         android:id="@+id/navigation_homework"
-        android:icon="@drawable/ic_to_do_list"
+        android:icon="@drawable/ic_homework"
         android:title="@string/title_homework" />
 
     <item
         app:showAsAction="ifRoom"
         android:enabled="true"
         android:id="@+id/navigation_teacher"
+        android:icon="@drawable/ic_teacher"
         android:title="@string/title_teacher" />
 
 

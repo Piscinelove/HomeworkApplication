@@ -45,6 +45,8 @@ public class EditTeacherFragment extends Fragment {
                 getActivity().getSupportFragmentManager().popBackStack();
                 return true;
 
+            case R.id.ab_save:
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -60,7 +62,9 @@ public class EditTeacherFragment extends Fragment {
 
         final int teacherId = getArguments().getInt("SelectedTeacherId");
         db = new DatabaseHelper(getActivity().getApplicationContext());
+
         Teacher teacher = db.getTeacherFromId(teacherId);
+
         final EditText firstName = (EditText) rootView.findViewById(R.id.et_edit_teacher_firstname);
         final EditText lastName = (EditText) rootView.findViewById(R.id.et_edit_teacher_lastname);
         final EditText phone = (EditText) rootView.findViewById(R.id.et_edit_teacher_phone);
