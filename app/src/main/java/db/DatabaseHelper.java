@@ -369,6 +369,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return teacher;
     }
+    //SELECT TEACHER FORM ID
+    public Course getCourseFromId(int courseId) {
+        Teacher teacher = new Teacher();
+
+        //SELECT
+        String select = "SELECT  * FROM " + DatabaseContract.Courses.TABLE_NAME + " WHERE "+DatabaseContract.Courses.COURSE_ID+" = "+courseId;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(select, null);
+        Course course = new Course();
+
+        if (cursor.moveToFirst()) {
+            do {
+                course.setCourseId(Integer.parseInt(cursor.getString(0)));
+                course.setName(cursor.getString(1));
+                course.setDay(cursor.getString(2));
+                course.setStart(cursor.getString(3));
+                course.setEnd(cursor.getString(4));
+                course.setColor(Integer.parseInt(cursor.getString(5)));
+                course.setRoom(Integer.parseInt(cursor.getString(6)));
+                course.setDescription(cursor.getString(7));
+                course.setTeacherId(Integer.parseInt(cursor.getString(8)));
+            }
+            while (cursor.moveToNext());
+        }
+
+
+        return course;
+    }
 
     //SELECT TEACHER FORM ID
     public Homework getHomeworkFromId(int homeworkId) {
