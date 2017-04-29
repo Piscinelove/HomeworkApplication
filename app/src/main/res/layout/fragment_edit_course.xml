@@ -33,7 +33,9 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/tv_edit_course_name"
-            android:layout_toRightOf="@+id/tv_edit_course_name" />
+            android:layout_toRightOf="@+id/tv_edit_course_name"
+            android:textColor="@color/text_color"
+            android:backgroundTint="@color/text_color"/>
 
         <TextView
             android:id="@+id/tv_edit_course_day"
@@ -89,7 +91,9 @@
             android:ems="10"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:inputType="time" />
+            android:inputType="time"
+            android:textColor="@color/text_color"
+            android:backgroundTint="@color/text_color"/>
 
         <TextView
             android:id="@+id/tv_edit_course_until"
@@ -118,7 +122,9 @@
             android:ems="10"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:inputType="time" />
+            android:inputType="time"
+            android:textColor="@color/text_color"
+            android:backgroundTint="@color/text_color"/>
 
         <TextView
             android:id="@+id/tv_edit_course_teacher"
@@ -173,7 +179,8 @@
             android:layout_below="@+id/sp_edit_course_teacher"
             android:layout_toEndOf="@+id/tv_edit_course_teacher"
             android:layout_toRightOf="@+id/tv_edit_course_color"
-            android:text="choose" />
+            android:text="choose"
+            android:textColor="@color/text_color"/>
 
         <TextView
             android:id="@+id/tv_edit_course_room"
@@ -199,7 +206,9 @@
             android:layout_toEndOf="@+id/tv_edit_course_color"
             android:layout_toRightOf="@+id/tv_edit_course_color"
             android:ems="10"
-            android:inputType="number" />
+            android:inputType="number"
+            android:textColor="@color/text_color"
+            android:backgroundTint="@color/text_color"/>
 
         <TextView
             android:id="@+id/tv_edit_course_description"
@@ -226,7 +235,9 @@
             android:layout_below="@+id/tv_edit_course_description"
             android:ems="30"
             android:gravity="left|top"
-            android:inputType="textMultiLine" />
+            android:inputType="textMultiLine"
+            android:textColor="@color/text_color"
+            android:backgroundTint="@color/text_color"/>
 
 
     </RelativeLayout>
