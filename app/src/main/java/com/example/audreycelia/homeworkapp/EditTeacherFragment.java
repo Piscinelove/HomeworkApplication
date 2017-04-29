@@ -24,7 +24,7 @@ public class EditTeacherFragment extends Fragment {
     private DatabaseHelper db;
     private Fragment fragment;
     private FragmentManager fragmentManager;
-
+    private Menu menu;
 
     public EditTeacherFragment() {
         // Required empty public constructor
@@ -33,19 +33,106 @@ public class EditTeacherFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
-        inflater.inflate(R.menu.addactionbar, menu);
+        inflater.inflate(R.menu.editactionbar, menu);
+        this.menu = menu;
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+        MenuItem edit = menu.findItem(R.id.ab_edit_edit);
+        MenuItem back = menu.findItem(R.id.ab_edit_back);
+        MenuItem undo = menu.findItem(R.id.ab_edit_undo);
+        MenuItem save = menu.findItem(R.id.ab_edit_save);
+
+        final int teacherId = getArguments().getInt("SelectedTeacherId");
+
+        final EditText firstName = (EditText) getView().findViewById(R.id.et_edit_teacher_firstname);
+        final EditText lastName = (EditText) getView().findViewById(R.id.et_edit_teacher_lastname);
+        final EditText phone = (EditText) getView().findViewById(R.id.et_edit_teacher_phone);
+        final EditText email = (EditText) getView().findViewById(R.id.et_edit_teacher_email);
+        final EditText description = (EditText) getView().findViewById(R.id.et_edit_teacher_description);
+        final Button deleteButton = (Button) getView().findViewById(R.id.buttonDelete_edit_teacher);
+
         switch (item.getItemId())
         {
-            case R.id.action_bar_back:
+            case R.id.ab_edit_back:
                 getActivity().getSupportFragmentManager().popBackStack();
                 return true;
+            case R.id.ab_edit_edit:
 
-            case R.id.ab_save:
+                deleteButton.setVisibility(View.VISIBLE);
+                firstName.setEnabled(true);
+                lastName.setEnabled(true);
+                email.setEnabled(true);
+                phone.setEnabled(true);
+                description.setEnabled(true);
+
+                //Gérer les boutons du menu
+                edit.setVisible(false);
+                back.setVisible(false);
+                undo.setVisible(true);
+                save.setVisible(true);
+
+
+                return true;
+
+
+            case R.id.ab_edit_undo:
+                //Gérer les boutons du menu
+                edit.setVisible(true);
+                back.setVisible(true);
+                undo.setVisible(false);
+                save.setVisible(false);
+                return true;
+
+            case R.id.ab_edit_save:
+
+                if(TextUtils.isEmpty(firstName.getText().toString())) {
+                    firstName.setError("Firstname field cannot be empty");
+                    return false;
+                }
+
+                if(TextUtils.isEmpty(lastName.getText().toString())) {
+                    lastName.setError("Lastname field cannot be empty");
+                    return false;
+                }
+
+
+                if(!TextUtils.isEmpty(phone.getText().toString()) && !isPhoneValid(phone.getText()))
+                {
+                    phone.setError("Invalid phone number");
+                    return false;
+                }
+
+                if(!TextUtils.isEmpty(email.getText().toString()) && !isEmailValid(email.getText()))
+                {
+                    email.setError("Invalid email");
+                    return false;
+                }
+
+                db.updateTeacher(teacherId,firstName.getText().toString().substring(0,1).toUpperCase() +firstName.getText().toString().substring(1).toLowerCase(),lastName.getText().toString().substring(0,1).toUpperCase() +lastName.getText().toString().substring(1).toLowerCase(),phone.getText().toString(),email.getText().toString(),description.getText().toString());
+
+                deleteButton.setVisibility(View.INVISIBLE);
+
+
+
+                //Gérer les fields
+
+                firstName.setEnabled(false);
+                lastName.setEnabled(false);
+                email.setEnabled(false);
+                phone.setEnabled(false);
+                description.setEnabled(false);
+
+                //Gérer les boutons du menu
+                edit.setVisible(true);
+                back.setVisible(true);
+                undo.setVisible(false);
+                save.setVisible(false);
+
+                return true;
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -71,7 +158,6 @@ public class EditTeacherFragment extends Fragment {
         final EditText email = (EditText) rootView.findViewById(R.id.et_edit_teacher_email);
         final EditText description = (EditText) rootView.findViewById(R.id.et_edit_teacher_description);
         final Button editButton = (Button) rootView.findViewById(R.id.bt_add_homework_save);
-        final Button saveButton = (Button) rootView.findViewById(R.id.buttonSave_edit_teacher);
         final Button deleteButton = (Button) rootView.findViewById(R.id.buttonDelete_edit_teacher);
 
         firstName.setText(teacher.getFirstName());
@@ -80,57 +166,11 @@ public class EditTeacherFragment extends Fragment {
         email.setText(teacher.getEmail());
         description.setText(teacher.getDescription());
 
-        editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveButton.setVisibility(View.VISIBLE);
-                deleteButton.setVisibility(View.VISIBLE);
-                editButton.setVisibility(View.INVISIBLE);
-                firstName.setEnabled(true);
-                lastName.setEnabled(true);
-                email.setEnabled(true);
-                phone.setEnabled(true);
-                description.setEnabled(true);
-
-                saveButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        if(TextUtils.isEmpty(firstName.getText().toString())) {
-                            firstName.setError("Firstname field cannot be empty");
-                            return;
-                        }
-
-                        if(TextUtils.isEmpty(lastName.getText().toString())) {
-                            lastName.setError("Lastname field cannot be empty");
-                            return;
-                        }
-
-
-                        if(!TextUtils.isEmpty(phone.getText().toString()) && !isPhoneValid(phone.getText()))
-                        {
-                            phone.setError("Invalid phone number");
-                            return;
-                        }
-
-                        if(!TextUtils.isEmpty(email.getText().toString()) && !isEmailValid(email.getText()))
-                        {
-                            email.setError("Invalid email");
-                            return;
-                        }
-
-                        db.updateTeacher(teacherId,firstName.getText().toString().substring(0,1).toUpperCase() +firstName.getText().toString().substring(1).toLowerCase(),lastName.getText().toString().substring(0,1).toUpperCase() +lastName.getText().toString().substring(1).toLowerCase(),phone.getText().toString(),email.getText().toString(),description.getText().toString());
-                        saveButton.setVisibility(View.INVISIBLE);
-                        deleteButton.setVisibility(View.INVISIBLE);
-                        editButton.setVisibility(View.VISIBLE);
-                    }
-                });
 
                 deleteButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         db.deleteTeacher(teacherId);
-                        saveButton.setVisibility(View.INVISIBLE);
                         deleteButton.setVisibility(View.INVISIBLE);
                         editButton.setVisibility(View.VISIBLE);
 
@@ -144,8 +184,7 @@ public class EditTeacherFragment extends Fragment {
 
                     }
                 });
-            }
-        });
+
 
 
 

@@ -219,6 +219,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    //DELETE METHODS
+    public void deleteExam (int examId)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(DatabaseContract.Exams.TABLE_NAME, DatabaseContract.Exams.EXAM_ID + " = ?", new String[]{String.valueOf(examId)});
+        db.close();
+    }
+
     //SELECT METHODS
     public ArrayList<Course> getAllCourses() {
         ArrayList<Course> listCourses = new ArrayList<Course>();
@@ -390,7 +398,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return teacher;
     }
-    //SELECT TEACHER FORM ID
+    //SELECT COURSE FORM ID
     public Course getCourseFromId(int courseId) {
         Teacher teacher = new Teacher();
 
@@ -420,7 +428,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return course;
     }
 
-    //SELECT TEACHER FORM ID
+    //SELECT HOMEWORK FORM ID
     public Homework getHomeworkFromId(int homeworkId) {
         Homework homework = new Homework();
 
@@ -453,6 +461,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return homework;
     }
 
+    //SELECT EXAM FORM ID
+    public Exam getExamFromId(int examId) {
+        Exam exam = new Exam();
+
+        //SELECT
+        String select = "SELECT  * FROM " + DatabaseContract.Exams.TABLE_NAME + " WHERE "+DatabaseContract.Exams.EXAM_ID+" = "+examId;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(select, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                exam.setExamId(Integer.parseInt(cursor.getString(0)));
+                exam.setName(cursor.getString(1));
+                exam.setDate(cursor.getString(2));
+                exam.setStart(cursor.getString(3));
+                exam.setEnd(cursor.getString(4));
+                exam.setGrade(cursor.getDouble(5));
+                exam.setRoom(Integer.parseInt(cursor.getString(6)));
+                exam.setDescription(cursor.getString(7));
+                exam.setCourseId(Integer.parseInt(cursor.getString(8)));
+            }
+            while (cursor.moveToNext());
+        }
+
+        db.close();
+        return exam;
+    }
 
 
 
