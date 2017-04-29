@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.android.colorpicker.ColorPickerDialog;
+
 import java.util.ArrayList;
 
 import db.Course;
@@ -27,6 +29,7 @@ public class EditCourseFragment extends Fragment {
     private Fragment fragment;
     private FragmentManager fragmentManager;
     private Menu menu;
+    private ColorPickerDialog colorPickerDialog;
 
     public EditCourseFragment() {
         // Required empty public constructor
@@ -72,6 +75,20 @@ public class EditCourseFragment extends Fragment {
 
             case R.id.ab_edit_save:
                 //Gérer les boutons du menu
+
+                // Recupérer les éléments de la view
+                EditText name = (EditText) getView().findViewById(R.id.et_edit_course_name);
+                EditText from = (EditText) getView().findViewById(R.id.et_edit_course_from);
+                EditText until = (EditText) getView().findViewById(R.id.et_edit_course_until);
+                Spinner teacher = (Spinner) getView().findViewById(R.id.sp_edit_course_teacher);
+                Button color = (Button) getView().findViewById(R.id.bt_edit_course_color);
+                EditText room = (EditText) getView().findViewById(R.id.et_edit_course_room);
+                EditText description = (EditText) getView().findViewById(R.id.et_edit_course_description);
+                Spinner day = (Spinner) getView().findViewById(R.id.sp_edit_course_day);
+
+                db = new DatabaseHelper(getActivity().getApplicationContext());
+                db.insertCourse(name.getText().toString(),day.getSelectedItem().toString(),from.getText().toString(),until.getText().toString(), colorPickerDialog.getSelectedColor(), Integer.parseInt(room.getText().toString()),description.getText().toString(),((Teacher)teacher.getSelectedItem()).getTeacherId());
+
                 edit.setVisible(true);
                 back.setVisible(true);
                 undo.setVisible(false);
