@@ -19,7 +19,7 @@ public class CoursesListAdapter extends BaseAdapter {
 
         private ArrayList<Course> listData;
         private LayoutInflater layoutInflater;
-        private String currentDay;
+
 
 
         public CoursesListAdapter(Context aContext, ArrayList<Course> listData) {
@@ -61,17 +61,21 @@ public class CoursesListAdapter extends BaseAdapter {
             holder.courseName.setText(listData.get(position).getName());
 
             //test if show header
-            if(!listData.get(position).getDay().equals(currentDay))
+            String actualDay = listData.get(position).getDay();
+            String previousDay = null;
+
+            if(position > 0)
             {
-                currentDay = listData.get(position).getDay();
+                previousDay = listData.get(position-1).getDay();
+            }
+
+            if(previousDay == null || !previousDay.equals(actualDay) ) {
                 holder.header.setVisibility(View.VISIBLE);
                 holder.header.setText(listData.get(position).getDay());
-
             }
             else
-            {
                 holder.header.setVisibility(View.GONE);
-            }
+
 
 
             return convertView;

@@ -208,7 +208,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ArrayList<Course> listCourses = new ArrayList<Course>();
 
         //SELECT
-        String select = "SELECT  * FROM " + DatabaseContract.Courses.TABLE_NAME;
+        String select = "SELECT  * FROM " + DatabaseContract.Courses.TABLE_NAME+" ORDER BY "
+                +" CASE "
+                +" WHEN DAY = 'Sunday' THEN 1 "
+                +" WHEN DAY = 'Monday' THEN 2 "
+                +" WHEN DAY = 'Tuesday' THEN 3 "
+                +" WHEN DAY = 'Wednesday' THEN 4 "
+                +" WHEN DAY = 'Thursday' THEN 5 "
+                +" WHEN DAY = 'Friday' THEN 6 "
+                +" WHEN DAY = 'Saturday' THEN 7 "
+                +" END ASC";
+
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(select, null);
