@@ -4,105 +4,95 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+
+import java.util.ArrayList;
+
+import db.Course;
+import db.DatabaseHelper;
+import db.Teacher;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link EditCourseFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link EditCourseFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class EditCourseFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
+    private DatabaseHelper db;
+    private Fragment fragment;
+    private FragmentManager fragmentManager;
 
     public EditCourseFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment EditCourseFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static EditCourseFragment newInstance(String param1, String param2) {
-        EditCourseFragment fragment = new EditCourseFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.actionbar, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.action_bar_back:
+                getActivity().getSupportFragmentManager().popBackStack();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_course, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_edit_course, container, false);
+        setHasOptionsMenu(true);
+
+        final int courseId = getArguments().getInt("SelectedCourseId");
+        db = new DatabaseHelper(getActivity().getApplicationContext());
+        Course course = db.getCourseFromId(courseId);
+
+        // Recupérer les éléments de la view
+        EditText name = (EditText) rootView.findViewById(R.id.et_edit_course_name);
+        EditText from = (EditText) rootView.findViewById(R.id.et_edit_course_from);
+        EditText until = (EditText) rootView.findViewById(R.id.et_edit_course_until);
+        Spinner teacher = (Spinner) rootView.findViewById(R.id.sp_edit_course_teacher);
+        Button color = (Button) rootView.findViewById(R.id.bt_edit_course_color);
+        EditText room = (EditText) rootView.findViewById(R.id.et_edit_course_room);
+        EditText description = (EditText) rootView.findViewById(R.id.et_edit_course_description);
+        Spinner day = (Spinner) rootView.findViewById(R.id.sp_edit_course_day);
+
+        name.setText(course.getName());
+        from.setText(course.getStart());
+        until.setText(course.getEnd());
+
+        //Fill spinner from database
+        db = new DatabaseHelper(getActivity().getApplicationContext());
+        ArrayList<Teacher> teachers = db.getAllTeachers();
+        ArrayAdapter<Teacher> dataAdapter = new ArrayAdapter<Teacher>(getActivity(), android.R.layout.simple_spinner_item, teachers);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        teacher.setAdapter(dataAdapter);
+        // Récupérer le nom et prénom du teacher pour le mettre comme élément sélectionner dans le spinner
+        Teacher selectedTeacher = db.getTeacherFromId(course.getTeacherId());
+        teacher.setSelection(((ArrayAdapter)teacher.getAdapter()).getPosition(selectedTeacher));
+        color.setBackgroundColor(course.getColor());
+        room.setText(""+course.getRoom());
+        description.setText(course.getDescription());
+        day.setSelection(((ArrayAdapter)day.getAdapter()).getPosition(course.getDay()));
+        return  rootView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }

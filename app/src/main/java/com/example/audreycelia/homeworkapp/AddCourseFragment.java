@@ -25,8 +25,11 @@ import android.widget.TimePicker;
 import com.android.colorpicker.ColorPickerDialog;
 import com.android.colorpicker.ColorPickerSwatch;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import db.DatabaseHelper;
 import db.Teacher;
@@ -99,7 +102,20 @@ public class AddCourseFragment extends Fragment {
                     public void onTimeSet(TimePicker view, int hourOfDay,int minute)
                     {
 
-                        from.setText(hourOfDay + ":" + minute);
+                        SimpleDateFormat hourFormatin = new SimpleDateFormat("K:mm");
+                        SimpleDateFormat hourFormatout = new SimpleDateFormat("KK:mm");
+                        Date date;
+                        try {
+                            date = hourFormatin.parse(hourOfDay+":"+minute);
+                            hourFormatout.format(date);
+                            String hour = hourFormatout.format(date);
+                            from.setText(hour);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+
+
                     }
                 },hour,minute,true);
                 timePickerDialog.show();
@@ -203,7 +219,7 @@ public class AddCourseFragment extends Fragment {
 
 
                 db = new DatabaseHelper(getActivity().getApplicationContext());
-                db.insertCourse(name.getText().toString(),day.getSelectedItem().toString(),from.getText().toString(),until.getText().toString(), colorPickerDialog.getSelectedColor(), Integer.parseInt(room.getText().toString()),description.getText().toString(),teacher.getId());
+                db.insertCourse(name.getText().toString(),day.getSelectedItem().toString(),from.getText().toString(),until.getText().toString(), colorPickerDialog.getSelectedColor(), Integer.parseInt(room.getText().toString()),description.getText().toString(),((Teacher)teacher.getSelectedItem()).getTeacherId());
 
                 fragmentManager = getActivity().getSupportFragmentManager();
                 fragment = new CourseFragment();
