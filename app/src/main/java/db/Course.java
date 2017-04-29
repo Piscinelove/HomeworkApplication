@@ -96,4 +96,9 @@ public class Course {
     public String getDay() {return day;}
 
     public void setDay(String day) {this.day = day;}
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

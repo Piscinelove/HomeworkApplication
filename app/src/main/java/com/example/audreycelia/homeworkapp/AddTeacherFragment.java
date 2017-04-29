@@ -76,7 +76,7 @@ public class AddTeacherFragment extends Fragment {
 
 
                 db = new DatabaseHelper(getActivity().getApplicationContext());
-                db.insertTeacher(firstName.getText().toString(),lastName.getText().toString(),phone.getText().toString(),email.getText().toString(),description.getText().toString());
+                db.insertTeacher(firstName.getText().toString().substring(0,1).toUpperCase() +firstName.getText().toString().substring(1).toLowerCase(),lastName.getText().toString().substring(0,1).toUpperCase() +lastName.getText().toString().substring(1).toLowerCase(),phone.getText().toString(),email.getText().toString(),description.getText().toString());
 
                 fragmentManager = getActivity().getSupportFragmentManager();
                 fragment = new TeacherFragment();
