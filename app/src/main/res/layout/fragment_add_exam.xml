@@ -54,7 +54,11 @@
             android:layout_alignParentRight="true"
             android:layout_below="@+id/et_add_exam_name"
             android:ems="10"
-            android:inputType="date"/>
+            android:inputType="date"
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
 
 
         <TextView
@@ -133,7 +137,8 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_alignLeft="@+id/et_add_exam_grade"
-            android:layout_alignStart="@+id/et_add_exam_grade" />
+            android:layout_alignStart="@+id/et_add_exam_grade"
+            android:spinnerMode="dialog"/>
 
         <TextView
             android:id="@+id/tv_add_exam_room"
