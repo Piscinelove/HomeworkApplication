@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="color">Farbe</string>
+    <string name="course">Kurs</string>
+    <string name="date">Datum</string>
+    <string name="day">Tag</string>
+    <string name="description">Beschreibung</string>
+    <string name="done">Erledigt</string>
+    <string name="email">Email</string>
+    <string name="firstname">Vorname</string>
+    <string name="lastname">Nachname</string>
+    <string name="from">Von</string>
+    <string name="grade">Note</string>
+    <string name="name">Name</string>
+    <string name="phone">Telefon</string>
+    <string name="room">Raum</string>
+    <string name="until">Bis</string>
+    <string name="friday">Freitag</string>
+    <string name="monday">Montag</string>
+    <string name="saturday">Samstag</string>
+    <string name="sunday">Sonntag</string>
+    <string name="thursday">Donnerstag</string>
+    <string name="title_course">Kurs</string>
+    <string name="title_exam">Prüfung</string>
+    <string name="title_homework">Hausaufgaben</string>
+    <string name="title_teacher">Lehrer</string>
+    <string name="title_timetable">Stundenplan</string>
+    <string name="tuesday">Dienstag</string>
+    <string name="wednesday">Mittwoch</string>
+</resources>

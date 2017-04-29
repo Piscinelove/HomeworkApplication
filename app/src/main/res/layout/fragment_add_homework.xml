@@ -19,10 +19,9 @@
             android:layout_alignParentTop="true"
             android:gravity="bottom"
             android:padding="10dp"
-            android:text="Name"
+            android:text="@string/name"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="18dp"
-            tools:text="Name" />
+            android:textSize="18dp" />
 
 
         <EditText
@@ -43,10 +42,10 @@
             android:layout_below="@+id/tv_add_homework_name"
             android:gravity="bottom"
             android:padding="10dp"
-            android:text="Date"
+            android:text="@string/date"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="18dp"
-            tools:text="Date" />
+            android:layout_above="@+id/sp_add_homework_course" />
 
         <EditText
             android:id="@+id/et_add_homework_date"
@@ -68,10 +67,9 @@
             android:layout_below="@+id/tv_add_homework_date"
             android:gravity="bottom"
             android:padding="10dp"
-            android:text="Course"
+            android:text="@string/course"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="18dp"
-            tools:text="Course" />
+            android:textSize="18dp" />
 
         <Spinner
             android:id="@+id/sp_add_homework_course"
@@ -93,10 +91,9 @@
             android:layout_below="@+id/tv_add_homework_course"
             android:gravity="bottom"
             android:padding="10dp"
-            android:text="Done"
+            android:text="@string/done"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="18dp"
-            tools:text="Done" />
+            android:textSize="18dp" />
 
         <CheckBox
             android:id="@+id/cb_add_homework_done"
@@ -110,15 +107,14 @@
             android:id="@+id/tv_add_homework_description"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tv_add_homework_done"
             android:gravity="bottom"
             android:padding="10dp"
-            android:text="Description"
+            android:text="@string/description"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="18dp"
-            tools:text="Description"
-            android:layout_below="@+id/tv_add_homework_done"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:textSize="18dp" />
 
         <EditText
             android:id="@+id/et_add_homework_description"

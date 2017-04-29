@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MeMinder</string>
+    <string name="app_name" translatable="false">MeMinder</string>
     <string name="title_timetable">Timetable</string>
     <string name="title_course">Course</string>
     <string name="title_exam">Exam</string>
@@ -8,16 +8,23 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="name">Name</string>
+    <string name="firstname">Firstname</string>
+    <string name="lastname">Lastname</string>
     <string name="course">Course</string>
     <string name="phone">Phone</string>
     <string name="email">Email</string>
     <string name="date">Date</string>
+    <string name="day">Day</string>
+    <string name="done">Done</string>
+    <string name="from">From</string>
+    <string name="until">Until</string>
+    <string name="grade">Grade</string>
     <string name="room">Room</string>
     <string name="description">Description</string>
-    <string name="colorChange">Select a color :</string>
+    <string name="color">Color</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- DAYS -->
     <string-array name="days">

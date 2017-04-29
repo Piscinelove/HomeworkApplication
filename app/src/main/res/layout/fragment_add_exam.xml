@@ -19,10 +19,9 @@
             android:layout_alignParentTop="true"
             android:gravity="bottom"
             android:padding="10dp"
-            android:text="Name"
+            android:text="@string/name"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="18dp"
-            tools:text="Name" />
+            android:textSize="18dp" />
 
 
         <EditText
@@ -43,10 +42,9 @@
             android:layout_below="@+id/tv_add_exam_name"
             android:gravity="bottom"
             android:padding="10dp"
-            android:text="Date"
+            android:text="@string/date"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="18dp"
-            tools:text="Date" />
+            android:textSize="18dp" />
 
         <EditText
             android:id="@+id/et_add_exam_date"
@@ -63,15 +61,14 @@
             android:id="@+id/tv_add_exam_from"
             android:layout_width="80dp"
             android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tv_add_exam_date"
             android:gravity="bottom"
             android:padding="10dp"
-            android:text="From"
+            android:text="@string/from"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="18dp"
-            tools:text="From"
-            android:layout_below="@+id/tv_add_exam_date"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:textSize="18dp" />
 
         <EditText
             android:id="@+id/et_add_exam_from"
@@ -92,10 +89,9 @@
             android:layout_toRightOf="@+id/et_add_exam_from"
             android:gravity="bottom"
             android:padding="10dp"
-            android:text="Until"
+            android:text="@string/until"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="18dp"
-            tools:text="Until" />
+            android:textSize="18dp" />
 
         <EditText
             android:id="@+id/et_add_exam_until"
@@ -116,10 +112,9 @@
             android:layout_below="@+id/tv_add_exam_from"
             android:gravity="bottom"
             android:padding="10dp"
-            android:text="Course"
+            android:text="@string/course"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="18dp"
-            tools:text="Course" />
+            android:textSize="18dp" />
 
 
         <Spinner
@@ -141,10 +136,9 @@
             android:layout_below="@+id/tv_add_exam_course"
             android:gravity="bottom"
             android:padding="10dp"
-            android:text="Room"
+            android:text="@string/room"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="18dp"
-            tools:text="Room" />
+            android:textSize="18dp" />
 
         <EditText
             android:id="@+id/et_add_exam_room"
@@ -166,10 +160,9 @@
             android:layout_below="@+id/tv_add_exam_room"
             android:gravity="bottom"
             android:padding="10dp"
-            android:text="Grade"
+            android:text="@string/grade"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="18dp"
-            tools:text="Grade" />
+            android:textSize="18dp" />
 
         <EditText
             android:id="@+id/et_add_exam_grade"
@@ -189,10 +182,9 @@
             android:layout_below="@+id/tv_add_exam_grade"
             android:gravity="bottom"
             android:padding="10dp"
-            android:text="Description"
+            android:text="@string/description"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="18dp"
-            tools:text="Description" />
+            android:textSize="18dp" />
 
         <EditText
             android:id="@+id/et_add_exam_description"
