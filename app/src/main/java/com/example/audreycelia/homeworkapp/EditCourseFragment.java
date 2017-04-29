@@ -1,7 +1,5 @@
 package com.example.audreycelia.homeworkapp;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -28,6 +26,7 @@ public class EditCourseFragment extends Fragment {
     private DatabaseHelper db;
     private Fragment fragment;
     private FragmentManager fragmentManager;
+    private Menu menu;
 
     public EditCourseFragment() {
         // Required empty public constructor
@@ -36,7 +35,8 @@ public class EditCourseFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
-        inflater.inflate(R.menu.actionbar, menu);
+        inflater.inflate(R.menu.editactionbar, menu);
+        this.menu = menu;
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -44,8 +44,22 @@ public class EditCourseFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId())
         {
-            case R.id.action_bar_back:
+            case R.id.ab_edit_back:
                 getActivity().getSupportFragmentManager().popBackStack();
+                return true;
+            case R.id.ab_edit_edit:
+
+                MenuItem edit = menu.findItem(R.id.ab_edit_edit);
+                MenuItem back = menu.findItem(R.id.ab_edit_back);
+                MenuItem undo = menu.findItem(R.id.ab_edit_undo);
+                MenuItem save = menu.findItem(R.id.ab_edit_save);
+
+                edit.setVisible(false);
+                back.setVisible(false);
+
+                undo.setVisible(true);
+                save.setVisible(true);
+
                 return true;
 
             default:
