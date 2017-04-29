@@ -207,6 +207,7 @@ public class EditCourseFragment extends Fragment {
                 db.updateCourse(courseId, name.getText().toString(),day.getSelectedItem().toString(),from.getText().toString(),until.getText().toString(), color, Integer.parseInt(room.getText().toString()),description.getText().toString(),((Teacher)teacher.getSelectedItem()).getTeacherId());
 
                 //Disable temporaiement les fields
+
                 name.setEnabled(false);
                 from.setEnabled(false);
                 until.setEnabled(false);
