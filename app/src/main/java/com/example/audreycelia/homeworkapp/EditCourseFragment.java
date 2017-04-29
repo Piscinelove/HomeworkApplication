@@ -42,24 +42,39 @@ public class EditCourseFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+        MenuItem edit = menu.findItem(R.id.ab_edit_edit);
+        MenuItem back = menu.findItem(R.id.ab_edit_back);
+        MenuItem undo = menu.findItem(R.id.ab_edit_undo);
+        MenuItem save = menu.findItem(R.id.ab_edit_save);
+
         switch (item.getItemId())
         {
             case R.id.ab_edit_back:
                 getActivity().getSupportFragmentManager().popBackStack();
                 return true;
             case R.id.ab_edit_edit:
-
-                MenuItem edit = menu.findItem(R.id.ab_edit_edit);
-                MenuItem back = menu.findItem(R.id.ab_edit_back);
-                MenuItem undo = menu.findItem(R.id.ab_edit_undo);
-                MenuItem save = menu.findItem(R.id.ab_edit_save);
-
+                //Gérer les boutons du menu
                 edit.setVisible(false);
                 back.setVisible(false);
-
                 undo.setVisible(true);
                 save.setVisible(true);
+                return true;
 
+            case R.id.ab_edit_undo:
+                //Gérer les boutons du menu
+                edit.setVisible(true);
+                back.setVisible(true);
+                undo.setVisible(false);
+                save.setVisible(false);
+                return true;
+
+            case R.id.ab_edit_save:
+                //Gérer les boutons du menu
+                edit.setVisible(true);
+                back.setVisible(true);
+                undo.setVisible(false);
+                save.setVisible(false);
                 return true;
 
             default:

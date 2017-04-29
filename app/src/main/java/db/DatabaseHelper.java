@@ -58,6 +58,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(DatabaseContract.Teachers.TEACHER_DESCRIPTION, description );
 
         db.insert(DatabaseContract.Teachers.TABLE_NAME,null, values);
+
+        db.close();
     }
 
     public void insertCourse (String name, String day, String start, String end, int color, int room, String description, int teacherId)
@@ -75,6 +77,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(DatabaseContract.Courses.COURSE_TEACHER_ID, teacherId );
 
         db.insert(DatabaseContract.Courses.TABLE_NAME,null, values);
+
+        db.close();
     }
 
     public void insertHomework (String name, String deadline, boolean done, String description, int courseId)
@@ -92,6 +96,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(DatabaseContract.Homeworks.HOMEWORK_COURSE_ID, courseId );
 
         db.insert(DatabaseContract.Homeworks.TABLE_NAME,null, values);
+
+        db.close();
     }
 
     public void insertExam (String name, String date, String start, String end, double grade, int room, String description, int courseId)
@@ -109,6 +115,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(DatabaseContract.Exams.EXAM_COURSE_ID, courseId );
 
         db.insert(DatabaseContract.Exams.TABLE_NAME,null, values);
+
+        db.close();
     }
 
     //UPDATE METHODS
@@ -127,6 +135,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String selection = DatabaseContract.Teachers.TEACHER_ID + " LIKE ?";
         String[] selectionArgs = { String.valueOf(teacherId)};
         db.update(DatabaseContract.Teachers.TABLE_NAME, values, selection, selectionArgs);
+
+        db.close();
     }
 
     public void updateCourse (int courseId, String name, String day, String start, String end, int color, int room, String description, int teacherId)
@@ -146,6 +156,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String selection = DatabaseContract.Courses.COURSE_ID + " LIKE ?";
         String[] selectionArgs = { String.valueOf(courseId)};
         db.update(DatabaseContract.Courses.TABLE_NAME, values, selection, selectionArgs);
+
+        db.close();
     }
 
     public void updateHomework (int homeworkId, String name, String deadline, boolean done, String description, int courseId)
@@ -165,6 +177,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String selection = DatabaseContract.Homeworks.HOMEWORK_ID + " LIKE ?";
         String[] selectionArgs = { String.valueOf(homeworkId)};
         db.update(DatabaseContract.Homeworks.TABLE_NAME, values, selection, selectionArgs);
+
+        db.close();
     }
 
     public void updateExam (int examId, String name, String date, String start, String end, double grade, int room, String description, int courseId)
@@ -185,6 +199,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String selection = DatabaseContract.Exams.EXAM_ID + " LIKE ?";
         String[] selectionArgs = { String.valueOf(examId)};
         db.update(DatabaseContract.Exams.TABLE_NAME, values, selection, selectionArgs);
+
+        db.close();
     }
 
     //DELETE METHODS
@@ -243,7 +259,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
-
+        db.close();
         return listCourses;
 
     }
@@ -272,6 +288,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             } while (cursor.moveToNext());
         }
+        db.close();
         return listTeachers;
     }
 
@@ -307,6 +324,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             } while (cursor.moveToNext());
         }
+
+        db.close();
         return listHomeworks;
     }
 
@@ -341,6 +360,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             } while (cursor.moveToNext());
         }
+
+        db.close();
         return listExams;
     }
 
@@ -366,7 +387,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             while (cursor.moveToNext());
         }
 
-
+        db.close();
         return teacher;
     }
     //SELECT TEACHER FORM ID
@@ -395,7 +416,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             while (cursor.moveToNext());
         }
 
-
+        db.close();
         return course;
     }
 
@@ -428,7 +449,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             while (cursor.moveToNext());
         }
 
-
+        db.close();
         return homework;
     }
 
