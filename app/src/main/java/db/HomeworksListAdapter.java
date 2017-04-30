@@ -1,10 +1,12 @@
 package db;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.audreycelia.homeworkapp.R;
@@ -47,7 +49,7 @@ public class HomeworksListAdapter extends BaseAdapter {
             convertView = layoutInflater.inflate(R.layout.row_homework, null);
             holder = new HomeworksListAdapter.ViewHolder();
             holder.header = (TextView) convertView.findViewById(R.id.tv_homework_header);
-            holder.date = (TextView) convertView.findViewById(R.id.tv_homework_date);
+            holder.date = (ImageView) convertView.findViewById(R.id.iv_homework_image);
             holder.homeworkName = (TextView) convertView.findViewById(R.id.tv_homework_name);
             convertView.setTag(holder);
         } else {
@@ -56,13 +58,14 @@ public class HomeworksListAdapter extends BaseAdapter {
 
         if(listData.get(position).isDone())
         {
-            holder.date.setText(R.string.done);
+            holder.date.setBackgroundColor(ContextCompat.getColor(convertView.getContext(),R.color.done));
+            holder.date.setImageResource(R.drawable.ic_save);
         }
-        else
-            holder.date.setText(R.string.todo);
+        else {
+            holder.date.setBackgroundColor(ContextCompat.getColor(convertView.getContext(),R.color.colorBlue));
+            holder.date.setImageResource(R.drawable.ic_todo);
+        }
 
-
-        holder.date.setText(listData.get(position).getDeadline());
         holder.homeworkName.setText(listData.get(position).getName());
 
         //test if show header
@@ -86,7 +89,7 @@ public class HomeworksListAdapter extends BaseAdapter {
 
     static class ViewHolder {
         TextView header;
-        TextView date;
+        ImageView date;
         TextView homeworkName;
 
     }

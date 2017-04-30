@@ -173,8 +173,14 @@ public class EditHomeworkFragment extends Fragment {
                     e.printStackTrace();
                 }
 
+                boolean checked;
+                if(done.isChecked())
+                    checked = true;
+                else
+                    checked = false;
+
                 db = new DatabaseHelper(getActivity().getApplicationContext());
-                db.updateHomework(homeworkId,name.getText().toString(),examDate,true,description.getText().toString(),1);
+                db.updateHomework(homeworkId,name.getText().toString(),examDate,checked,description.getText().toString(),1);
 
                 //Disable temporaiement les fields
                 deleteButton.setVisibility(View.INVISIBLE);

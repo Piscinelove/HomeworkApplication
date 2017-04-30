@@ -106,8 +106,14 @@ public class AddHomeworkFragment extends Fragment {
                 }
 
 
+                boolean checked;
+                if(done.isChecked())
+                    checked = true;
+                else
+                    checked = false;
+
                 db = new DatabaseHelper(getActivity().getApplicationContext());
-                db.insertHomework(name.getText().toString(),examDate,true,description.getText().toString(),1);
+                db.insertHomework(name.getText().toString(),examDate,checked,description.getText().toString(),1);
 
                 fragmentManager = getActivity().getSupportFragmentManager();
                 fragment = new HomeworkFragment();
