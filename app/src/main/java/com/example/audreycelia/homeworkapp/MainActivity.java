@@ -24,6 +24,33 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
+    public void onBackPressed() {
+
+
+        if(fragmentManager.getBackStackEntryCount() > 0) {
+                super.onBackPressed();
+                Fragment currentFragment = fragmentManager.findFragmentById(R.id.main_container);
+                if(currentFragment instanceof CalendarFragment){
+                    navigation.getMenu().getItem(0).setChecked(true);
+                }
+                else if(currentFragment instanceof CourseFragment){
+                    navigation.getMenu().getItem(2).setChecked(true);
+                }
+                else if(currentFragment instanceof ExamFragment){
+                    navigation.getMenu().getItem(1).setChecked(true);
+                }
+                else if(currentFragment instanceof HomeworkFragment){
+                    navigation.getMenu().getItem(3).setChecked(true);
+                }
+                else if(currentFragment instanceof TeacherFragment){
+                    navigation.getMenu().getItem(4).setChecked(true);
+                }
+            }
+        }
+
+
+
+    @Override
     //test
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,32 +66,44 @@ public class MainActivity extends AppCompatActivity {
         fragment = new CalendarFragment();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.main_container, fragment).commit();
+        transaction.addToBackStack(null);
+        navigation.getMenu().getItem(0).setChecked(true);
+
 
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item)
             {
+                Fragment currentFragment = fragmentManager.findFragmentById(R.id.main_container);
                 switch (item.getItemId())
+
                 {
                     case R.id.navigation_timetable:
-                        fragment = new CalendarFragment();
+                        if (!(currentFragment instanceof CalendarFragment))
+                            fragment = new CalendarFragment();
                         break;
                     case R.id.navigation_course:
-                        fragment = new CourseFragment();
+                        if (!(currentFragment instanceof CourseFragment))
+                            fragment = new CourseFragment();
                         break;
                     case R.id.navigation_exam:
-                        fragment = new ExamFragment();
+                        if (!(currentFragment instanceof ExamFragment))
+                            fragment = new ExamFragment();
                         break;
                     case R.id.navigation_homework:
-                        fragment = new HomeworkFragment();
+                        if (!(currentFragment instanceof HomeworkFragment))
+                            fragment = new HomeworkFragment();
                         break;
                     case R.id.navigation_teacher:
-                        fragment = new TeacherFragment();
+                        if (!(currentFragment instanceof TeacherFragment))
+                            fragment = new TeacherFragment();
                         break;
+
                 }
 
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.replace(R.id.main_container, fragment).commit();
+                transaction.addToBackStack(null);
                 return true;
             }
         });

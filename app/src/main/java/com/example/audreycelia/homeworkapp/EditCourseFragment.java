@@ -169,6 +169,7 @@ public class EditCourseFragment extends Fragment {
 
                             }
                         });
+
                     }
                 });
 
@@ -263,6 +264,7 @@ public class EditCourseFragment extends Fragment {
 
 
 
+
         courseId = getArguments().getInt("SelectedCourseId");
         db = new DatabaseHelper(getActivity().getApplicationContext());
         Course course = db.getCourseFromId(courseId);
@@ -290,6 +292,7 @@ public class EditCourseFragment extends Fragment {
         room.setEnabled(false);
         description.setEnabled(false);
         day.setEnabled(false);
+
 
         //Fill spinner from database
         db = new DatabaseHelper(getActivity().getApplicationContext());
