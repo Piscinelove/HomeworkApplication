@@ -264,6 +264,7 @@ public class EditCourseFragment extends Fragment {
 
 
 
+
         courseId = getArguments().getInt("SelectedCourseId");
         db = new DatabaseHelper(getActivity().getApplicationContext());
         Course course = db.getCourseFromId(courseId);
