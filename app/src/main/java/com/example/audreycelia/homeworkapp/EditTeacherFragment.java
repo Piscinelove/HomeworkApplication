@@ -59,6 +59,7 @@ public class EditTeacherFragment extends Fragment {
         {
             case R.id.ab_edit_back:
                 getActivity().getSupportFragmentManager().popBackStack();
+
                 return true;
             case R.id.ab_edit_edit:
 
@@ -78,13 +79,20 @@ public class EditTeacherFragment extends Fragment {
 
                 return true;
 
-
             case R.id.ab_edit_undo:
                 //Gérer les boutons du menu
                 edit.setVisible(true);
                 back.setVisible(true);
                 undo.setVisible(false);
                 save.setVisible(false);
+
+                deleteButton.setVisibility(View.INVISIBLE);
+                firstName.setEnabled(false);
+                lastName.setEnabled(false);
+                email.setEnabled(false);
+                phone.setEnabled(false);
+                description.setEnabled(false);
+
                 return true;
 
             case R.id.ab_edit_save:
@@ -116,10 +124,7 @@ public class EditTeacherFragment extends Fragment {
 
                 deleteButton.setVisibility(View.INVISIBLE);
 
-
-
                 //Gérer les fields
-
                 firstName.setEnabled(false);
                 lastName.setEnabled(false);
                 email.setEnabled(false);
@@ -157,7 +162,7 @@ public class EditTeacherFragment extends Fragment {
         final EditText phone = (EditText) rootView.findViewById(R.id.et_edit_teacher_phone);
         final EditText email = (EditText) rootView.findViewById(R.id.et_edit_teacher_email);
         final EditText description = (EditText) rootView.findViewById(R.id.et_edit_teacher_description);
-        final Button editButton = (Button) rootView.findViewById(R.id.bt_add_homework_save);
+
         final Button deleteButton = (Button) rootView.findViewById(R.id.buttonDelete_edit_teacher);
 
         firstName.setText(teacher.getFirstName());
@@ -167,12 +172,19 @@ public class EditTeacherFragment extends Fragment {
         description.setText(teacher.getDescription());
 
 
+        //Disable temporaiement les fields
+        firstName.setEnabled(false);
+        lastName.setEnabled(false);
+        phone.setEnabled(false);
+        email.setEnabled(false);
+        description.setEnabled(false);
+
+
                 deleteButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         db.deleteTeacher(teacherId);
                         deleteButton.setVisibility(View.INVISIBLE);
-                        editButton.setVisibility(View.VISIBLE);
 
                         fragmentManager = getActivity().getSupportFragmentManager();
                         fragment = new TeacherFragment();

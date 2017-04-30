@@ -24,7 +24,7 @@
         android:id="@+id/tv_homework_date"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:paddingLeft="30dp"
+        android:paddingLeft="10dp"
         android:background="@color/colorBlue"
         android:textColor="@color/colorWhite"
         android:textSize="15dp"

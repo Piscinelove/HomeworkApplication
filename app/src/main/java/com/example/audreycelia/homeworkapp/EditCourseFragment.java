@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.android.colorpicker.ColorPickerDialog;
@@ -80,6 +82,7 @@ public class EditCourseFragment extends Fragment {
             case R.id.ab_edit_back:
                 getActivity().getSupportFragmentManager().popBackStack();
                 return true;
+
             case R.id.ab_edit_edit:
                 //Color Picker
                 colorPickerDialog = new ColorPickerDialog();
@@ -121,8 +124,6 @@ public class EditCourseFragment extends Fragment {
                                 } catch (ParseException e) {
                                     e.printStackTrace();
                                 }
-
-
 
                             }
                         },hour,minute,true);
@@ -201,14 +202,37 @@ public class EditCourseFragment extends Fragment {
 
             case R.id.ab_edit_save:
 
+                if(TextUtils.isEmpty(name.getText().toString())) {
+                    name.setError("Name field cannot be empty");
+                    return false;
+                }
 
+                if(TextUtils.isEmpty(from.getText().toString())) {
+                    from.setError("From field cannot be empty");
+                    return false;
+                }
+
+                if(TextUtils.isEmpty(until.getText().toString())) {
+                    from.setError("Until field cannot be empty");
+                    return false;
+                }
+
+                if(teacher.getSelectedItem()==null) {
+                    TextView spinnerText = (TextView) teacher.getSelectedView();
+                    spinnerText.setError("Teacher field cannot be empty");
+                    return false;
+                }
+
+                if(TextUtils.isEmpty(room.getText().toString())) {
+                    room.setError("Room field cannot be empty");
+                    return false;
+                }
 
                 int color = ((ColorDrawable)colorButton.getBackground()).getColor();
                 db = new DatabaseHelper(getActivity().getApplicationContext());
                 db.updateCourse(courseId, name.getText().toString(),day.getSelectedItem().toString(),from.getText().toString(),until.getText().toString(), color, Integer.parseInt(room.getText().toString()),description.getText().toString(),((Teacher)teacher.getSelectedItem()).getTeacherId());
 
                 //Disable temporaiement les fields
-
                 name.setEnabled(false);
                 from.setEnabled(false);
                 until.setEnabled(false);
@@ -274,9 +298,11 @@ public class EditCourseFragment extends Fragment {
         ArrayAdapter<Teacher> dataAdapter = new ArrayAdapter<Teacher>(getActivity(), android.R.layout.simple_spinner_item, teachers);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         teacher.setAdapter(dataAdapter);
+
         // Récupérer le nom et prénom du teacher pour le mettre comme élément sélectionner dans le spinner
         Teacher selectedTeacher = db.getTeacherFromId(course.getTeacherId());
         teacher.setSelection(((ArrayAdapter)teacher.getAdapter()).getPosition(selectedTeacher));
+
         color.setBackgroundColor(course.getColor());
         room.setText(""+course.getRoom());
         description.setText(course.getDescription());
