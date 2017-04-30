@@ -54,6 +54,14 @@ public class HomeworksListAdapter extends BaseAdapter {
             holder = (HomeworksListAdapter.ViewHolder) convertView.getTag();
         }
 
+        if(listData.get(position).isDone())
+        {
+            holder.date.setText(R.string.done);
+        }
+        else
+            holder.date.setText(R.string.todo);
+
+
         holder.date.setText(listData.get(position).getDeadline());
         holder.homeworkName.setText(listData.get(position).getName());
 

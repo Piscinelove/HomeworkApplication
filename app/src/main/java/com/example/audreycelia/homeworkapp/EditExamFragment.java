@@ -112,6 +112,7 @@ public class EditExamFragment extends Fragment {
                                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
                                 Date dateTime;
                                 try {
+                                    month++;
                                     dateTime = dateFormat.parse(dayOfMonth+"."+month+"."+year);
                                     dateFormat.format(dateTime);
                                     String courseDate = dateFormat.format(dateTime);
@@ -252,8 +253,21 @@ public class EditExamFragment extends Fragment {
                     return false;
                 }
 
+                //transform date format for correct handling in db
+                SimpleDateFormat dateFormatin = new SimpleDateFormat("dd.MM.yyyy");
+                SimpleDateFormat dateFormatout = new SimpleDateFormat("yyyyMMdd");
+                String examDate ="";
+                Date dateTime;
+                try
+                {
+                    dateTime = dateFormatin.parse(date.getText().toString());
+                    examDate = dateFormatout.format(dateTime);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
                 db = new DatabaseHelper(getActivity().getApplicationContext());
-                db.updateExam(examId,name.getText().toString(),date.getText().toString(),from.getText().toString(),until.getText().toString(), Double.parseDouble(grade.getText().toString()), Integer.parseInt(room.getText().toString()),description.getText().toString(),1);
+                db.updateExam(examId,name.getText().toString(),examDate,from.getText().toString(),until.getText().toString(), Double.parseDouble(grade.getText().toString()), Integer.parseInt(room.getText().toString()),description.getText().toString(),1);
 
 
                 //Disable temporaiement les fields

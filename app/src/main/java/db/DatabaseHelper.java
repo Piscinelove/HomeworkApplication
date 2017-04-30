@@ -248,7 +248,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 +" WHEN DAY = 'Thursday' THEN 5 "
                 +" WHEN DAY = 'Friday' THEN 6 "
                 +" WHEN DAY = 'Saturday' THEN 7 "
-                +" END ASC, "+DatabaseContract.Courses.COURSE_START+" ASC, "+DatabaseContract.Courses.COURSE_END+" ASC";
+                +" END ASC, "+DatabaseContract.Courses.COURSE_START+" ASC, "+DatabaseContract.Courses.COURSE_END+" ASC, "+DatabaseContract.Courses.COURSE_NAME+" ASC";
 
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -283,7 +283,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ArrayList<Teacher> listTeachers = new ArrayList<Teacher>();
 
         //SELECT
-        String select = "SELECT  * FROM " + DatabaseContract.Teachers.TABLE_NAME + " ORDER BY FIRSTNAME";
+        String select = "SELECT  * FROM " + DatabaseContract.Teachers.TABLE_NAME + " ORDER BY "+DatabaseContract.Teachers.TEACHER_FIRSTNAME+" ASC, "+DatabaseContract.Teachers.TEACHER_LASTNAME+" ASC";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(select, null);
@@ -312,7 +312,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ArrayList<Homework> listHomeworks = new ArrayList<Homework>();
 
         //SELECT
-        String select = "SELECT  * FROM " + DatabaseContract.Homeworks.TABLE_NAME;
+        String select = "SELECT  * FROM " + DatabaseContract.Homeworks.TABLE_NAME+ " ORDER BY "+DatabaseContract.Homeworks.HOMEWORK_DEADLINE+" ASC, "+DatabaseContract.Homeworks.HOMEWORK_NAME+" ASC";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(select, null);
@@ -350,7 +350,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ArrayList<Exam> listExams = new ArrayList<Exam>();
 
         //SELECT
-        String select = "SELECT  * FROM " + DatabaseContract.Exams.TABLE_NAME + " ORDER BY "+DatabaseContract.Exams.EXAM_DATE+" ASC, "+DatabaseContract.Exams.EXAM_START+" ASC, "+DatabaseContract.Exams.EXAM_END+" ASC";
+        String select = "SELECT  * FROM " + DatabaseContract.Exams.TABLE_NAME + " ORDER BY "+DatabaseContract.Exams.EXAM_DATE+" ASC, "+DatabaseContract.Exams.EXAM_START+" ASC, "+DatabaseContract.Exams.EXAM_END+" ASC, "+DatabaseContract.Exams.EXAM_NAME+" ASC";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(select, null);

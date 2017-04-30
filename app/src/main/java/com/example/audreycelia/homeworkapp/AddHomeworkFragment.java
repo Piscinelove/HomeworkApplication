@@ -91,9 +91,23 @@ public class AddHomeworkFragment extends Fragment {
                     return false;
                 }
 
+                db = new DatabaseHelper(getActivity().getApplicationContext());
+                //transform date format for correct handling in db
+                SimpleDateFormat dateFormatin = new SimpleDateFormat("dd.MM.yyyy");
+                SimpleDateFormat dateFormatout = new SimpleDateFormat("yyyyMMdd");
+                String examDate ="";
+                Date dateTime;
+                try
+                {
+                    dateTime = dateFormatin.parse(date.getText().toString());
+                    examDate = dateFormatout.format(dateTime);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
 
                 db = new DatabaseHelper(getActivity().getApplicationContext());
-                db.insertHomework(name.getText().toString(),date.getText().toString(),true,description.getText().toString(),1);
+                db.insertHomework(name.getText().toString(),examDate,true,description.getText().toString(),1);
 
                 fragmentManager = getActivity().getSupportFragmentManager();
                 fragment = new HomeworkFragment();
@@ -143,6 +157,7 @@ public class AddHomeworkFragment extends Fragment {
                         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
                         Date dateTime;
                         try {
+                            month++;
                             dateTime = dateFormat.parse(dayOfMonth+"."+month+"."+year);
                             dateFormat.format(dateTime);
                             String courseDate = dateFormat.format(dateTime);

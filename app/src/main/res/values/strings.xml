@@ -16,6 +16,7 @@
     <string name="date">Date</string>
     <string name="day">Day</string>
     <string name="done">Done</string>
+    <string name="todo">To do</string>
     <string name="from">From</string>
     <string name="until">Until</string>
     <string name="grade">Grade</string>

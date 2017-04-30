@@ -28,4 +28,5 @@
     <string name="tuesday">Dienstag</string>
     <string name="wednesday">Mittwoch</string>
     <string name="colorChange">Wählen eine Farbe:</string>
+    <string name="todo">Unerledigt</string>
 </resources>

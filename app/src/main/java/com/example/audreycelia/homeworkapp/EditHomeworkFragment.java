@@ -160,8 +160,21 @@ public class EditHomeworkFragment extends Fragment {
                     return false;
                 }
 
+                //transform date format for correct handling in db
+                SimpleDateFormat dateFormatin = new SimpleDateFormat("dd.MM.yyyy");
+                SimpleDateFormat dateFormatout = new SimpleDateFormat("yyyyMMdd");
+                String examDate ="";
+                Date dateTime;
+                try
+                {
+                    dateTime = dateFormatin.parse(date.getText().toString());
+                    examDate = dateFormatout.format(dateTime);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
                 db = new DatabaseHelper(getActivity().getApplicationContext());
-                db.updateHomework(homeworkId,name.getText().toString(),date.getText().toString(),true,description.getText().toString(),1);
+                db.updateHomework(homeworkId,name.getText().toString(),examDate,true,description.getText().toString(),1);
 
                 //Disable temporaiement les fields
                 deleteButton.setVisibility(View.INVISIBLE);

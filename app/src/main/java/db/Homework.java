@@ -1,5 +1,7 @@
 package db;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -54,7 +56,20 @@ public class Homework {
         return deadline;
     }
 
-    public void setDeadline(String deadline) {
+    public void setDeadline(String deadline)
+    {
+        //transform date format for correct handling
+        SimpleDateFormat dateFormatin = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat dateFormatout = new SimpleDateFormat("dd.MM.yyyy");
+        Date dateTime;
+
+        try
+        {
+            dateTime = dateFormatin.parse(deadline);
+            deadline = dateFormatout.format(dateTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         this.deadline = deadline;
     }
 
