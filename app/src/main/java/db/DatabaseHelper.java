@@ -241,7 +241,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 +" WHEN DAY = 'Thursday' THEN 5 "
                 +" WHEN DAY = 'Friday' THEN 6 "
                 +" WHEN DAY = 'Saturday' THEN 7 "
-                +" END ASC";
+                +" END ASC, "+DatabaseContract.Courses.COURSE_START+" ASC, "+DatabaseContract.Courses.COURSE_END+" ASC";
 
 
         SQLiteDatabase db = this.getWritableDatabase();

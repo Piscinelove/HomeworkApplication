@@ -46,6 +46,7 @@ public class HomeworksListAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.row_homework, null);
             holder = new HomeworksListAdapter.ViewHolder();
+            holder.header = (TextView) convertView.findViewById(R.id.tv_homework_header);
             holder.date = (TextView) convertView.findViewById(R.id.tv_homework_date);
             holder.homeworkName = (TextView) convertView.findViewById(R.id.tv_homework_name);
             convertView.setTag(holder);
@@ -55,10 +56,28 @@ public class HomeworksListAdapter extends BaseAdapter {
 
         holder.date.setText(listData.get(position).getDeadline());
         holder.homeworkName.setText(listData.get(position).getName());
+
+        //test if show header
+        String actualDate = listData.get(position).getDeadline();
+        String previousDate = null;
+
+        if(position > 0)
+        {
+            previousDate = listData.get(position-1).getDeadline();
+        }
+
+        if(previousDate == null || !previousDate.equals(actualDate) ) {
+            holder.header.setVisibility(View.VISIBLE);
+            holder.header.setText(listData.get(position).getDeadline());
+        }
+        else
+            holder.header.setVisibility(View.GONE);
+
         return convertView;
     }
 
     static class ViewHolder {
+        TextView header;
         TextView date;
         TextView homeworkName;
 

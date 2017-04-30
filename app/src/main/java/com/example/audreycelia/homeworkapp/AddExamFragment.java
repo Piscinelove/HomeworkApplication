@@ -31,6 +31,7 @@ import java.util.Date;
 
 import db.Course;
 import db.DatabaseHelper;
+import db.Teacher;
 
 
 public class AddExamFragment extends Fragment {

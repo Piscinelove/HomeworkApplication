@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -21,9 +22,11 @@ import android.widget.TextView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import db.Course;
 import db.DatabaseHelper;
 
 
@@ -112,6 +115,14 @@ public class AddHomeworkFragment extends Fragment {
         setHasOptionsMenu(true);
 
         final EditText date = (EditText) rootView.findViewById(R.id.et_add_homework_date);
+        Spinner course = (Spinner) rootView.findViewById(R.id.sp_add_homework_course);
+
+        //Fill spinner from database
+        db = new DatabaseHelper(getActivity().getApplicationContext());
+        ArrayList<Course> courses = db.getAllCourses();
+        ArrayAdapter<Course> dataAdapter = new ArrayAdapter<Course>(getActivity(), android.R.layout.simple_spinner_item, courses);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        course.setAdapter(dataAdapter);
 
         //Date picker for date
         date.setOnClickListener(new View.OnClickListener(){
