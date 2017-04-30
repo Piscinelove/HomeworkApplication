@@ -29,7 +29,7 @@ import java.util.Date;
 import db.Course;
 import db.DatabaseHelper;
 import db.Homework;
-import db.Teacher;
+
 
 
 public class EditHomeworkFragment extends Fragment {
@@ -188,7 +188,7 @@ public class EditHomeworkFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_edit_teacher, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_edit_homework, container, false);
         setHasOptionsMenu(true);
 
         final int homeworkId = getArguments().getInt("SelectedHomeworkId");
@@ -197,11 +197,11 @@ public class EditHomeworkFragment extends Fragment {
         Homework homework = db.getHomeworkFromId(homeworkId);
 
 
-        final EditText name = (EditText) rootView.findViewById(R.id.et_edit_homework_name);
-        final EditText date = (EditText) rootView.findViewById(R.id.et_edit_homework_date);
-        final Spinner course = (Spinner) rootView.findViewById(R.id.sp_edit_homework_course);
-        final CheckBox done = (CheckBox) rootView.findViewById(R.id.cb_edit_homework_done);
-        final EditText description = (EditText) rootView.findViewById(R.id.et_edit_homework_description);
+         EditText name = (EditText) rootView.findViewById(R.id.et_edit_homework_name);
+         EditText date = (EditText) rootView.findViewById(R.id.et_edit_homework_date);
+         Spinner course = (Spinner) rootView.findViewById(R.id.sp_edit_homework_course);
+         CheckBox done = (CheckBox) rootView.findViewById(R.id.cb_edit_homework_done);
+         EditText description = (EditText) rootView.findViewById(R.id.et_edit_homework_description);
         final Button deleteButton = (Button) rootView.findViewById(R.id.buttonDelete_edit_homework);
 
         name.setText(homework.getName());
