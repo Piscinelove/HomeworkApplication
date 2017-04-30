@@ -1,5 +1,6 @@
 package com.example.audreycelia.homeworkapp;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,9 +14,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import db.DatabaseHelper;
 
@@ -26,6 +33,12 @@ public class AddHomeworkFragment extends Fragment {
     private DatabaseHelper db;
     private Fragment fragment;
     private FragmentManager fragmentManager;
+    private DatePickerDialog datePickerDialog;
+    private int hour;
+    private int minute;
+    private int month;
+    private int year;
+    private int day;
 
 
     public AddHomeworkFragment() {
@@ -97,6 +110,44 @@ public class AddHomeworkFragment extends Fragment {
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_add_homework, container, false);
         setHasOptionsMenu(true);
+
+        final EditText date = (EditText) rootView.findViewById(R.id.et_add_homework_date);
+
+        //Date picker for date
+        date.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                //Get current time
+                final Calendar c = Calendar.getInstance();
+                month = c.get(Calendar.MONTH);
+                year = c.get(Calendar.YEAR);
+                day = c.get(Calendar.DAY_OF_MONTH);
+
+                //Launch date Picker Dialog
+                datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+                        Date dateTime;
+                        try {
+                            dateTime = dateFormat.parse(dayOfMonth+"."+month+"."+year);
+                            dateFormat.format(dateTime);
+                            String courseDate = dateFormat.format(dateTime);
+
+                            date.setText(courseDate);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },year,month, day);
+                datePickerDialog.show();
+
+
+            }
+        });
 
         return  rootView;
     }

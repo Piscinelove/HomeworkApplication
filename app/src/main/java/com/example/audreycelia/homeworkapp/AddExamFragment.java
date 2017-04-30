@@ -1,5 +1,6 @@
 package com.example.audreycelia.homeworkapp;
 
+import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -38,8 +40,12 @@ public class AddExamFragment extends Fragment {
     private Fragment fragment;
     private FragmentManager fragmentManager;
     private TimePickerDialog timePickerDialog;
+    private DatePickerDialog datePickerDialog;
     private int hour;
     private int minute;
+    private int month;
+    private int year;
+    private int day;
 
     public AddExamFragment() {
         // Required empty public constructor
@@ -136,6 +142,41 @@ public class AddExamFragment extends Fragment {
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         course.setAdapter(dataAdapter);
 
+        //Date picker for date
+        date.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                //Get current time
+                final Calendar c = Calendar.getInstance();
+                month = c.get(Calendar.MONTH);
+                year = c.get(Calendar.YEAR);
+                day = c.get(Calendar.DAY_OF_MONTH);
+
+                //Launch date Picker Dialog
+                datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+                        Date dateTime;
+                        try {
+                            dateTime = dateFormat.parse(dayOfMonth+"."+month+"."+year);
+                            dateFormat.format(dateTime);
+                            String courseDate = dateFormat.format(dateTime);
+
+                            date.setText(courseDate);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },year,month, day);
+                datePickerDialog.show();
+
+
+            }
+        });
 
         //Time picker for from time
         from.setOnClickListener(new View.OnClickListener() {
@@ -153,13 +194,13 @@ public class AddExamFragment extends Fragment {
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute)
                     {
 
-                        SimpleDateFormat hourFormatin = new SimpleDateFormat("K:mm");
-                        SimpleDateFormat hourFormatout = new SimpleDateFormat("KK:mm");
+                        SimpleDateFormat hourFormatout = new SimpleDateFormat("HH:mm");
                         Date date;
                         try {
-                            date = hourFormatin.parse(hourOfDay+":"+minute);
+                            date = hourFormatout.parse(hourOfDay+":"+minute);
                             hourFormatout.format(date);
                             String hour = hourFormatout.format(date);
+
                             from.setText(hour);
                         } catch (ParseException e) {
                             e.printStackTrace();
@@ -188,7 +229,17 @@ public class AddExamFragment extends Fragment {
                     public void onTimeSet(TimePicker view, int hourOfDay,int minute)
                     {
 
-                        until.setText(hourOfDay + ":" + minute);
+                        SimpleDateFormat hourFormatout = new SimpleDateFormat("HH:mm");
+                        Date date;
+                        try {
+                            date = hourFormatout.parse(hourOfDay+":"+minute);
+                            hourFormatout.format(date);
+                            String hour = hourFormatout.format(date);
+
+                            until.setText(hour);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
                     }
                 },hour,minute,true);
                 timePickerDialog.show();
