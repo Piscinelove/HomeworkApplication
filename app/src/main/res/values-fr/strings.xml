@@ -29,4 +29,5 @@
     <string name="wednesday">Mercredi</string>
     <string name="colorChange">Choisir une couleur:</string>
     <string name="todo">À faire</string>
+    <string name="overlap">Votre cours se chevauche avec un autre cours</string>
 </resources>

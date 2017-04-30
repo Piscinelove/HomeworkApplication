@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 
 import com.android.colorpicker.ColorPickerDialog;
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import db.Course;
 import db.DatabaseHelper;
 import db.Teacher;
 
@@ -102,19 +104,8 @@ public class AddCourseFragment extends Fragment {
                     public void onTimeSet(TimePicker view, int hourOfDay,int minute)
                     {
 
-                        SimpleDateFormat hourFormatin = new SimpleDateFormat("K:mm");
-                        SimpleDateFormat hourFormatout = new SimpleDateFormat("KK:mm");
-                        Date date;
-                        try {
-                            date = hourFormatin.parse(hourOfDay+":"+minute);
-                            hourFormatout.format(date);
-                            String hour = hourFormatout.format(date);
-                            from.setText(hour);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-
-
+                        String hour = formatTimeString(hourOfDay+":"+minute);
+                        from.setText(hour);
 
                     }
                 },hour,minute,true);
@@ -137,7 +128,8 @@ public class AddCourseFragment extends Fragment {
                     public void onTimeSet(TimePicker view, int hourOfDay,int minute)
                     {
 
-                        until.setText(hourOfDay + ":" + minute);
+                        String hour = formatTimeString(hourOfDay+":"+minute);
+                        until.setText(hour);
                     }
                 },hour,minute,true);
                 timePickerDialog.show();
@@ -217,8 +209,16 @@ public class AddCourseFragment extends Fragment {
                     return false;
                 }
 
+                //CHECK OVERLAPS
+                if(checkTimeOverlap(from.getText().toString(),until.getText().toString(), day.getSelectedItem().toString()))
+                {
+                    Toast toast = Toast.makeText(getActivity(), R.string.overlap, Toast.LENGTH_SHORT);
+                    toast.show();
+                    return false;
+                }
 
-                db = new DatabaseHelper(getActivity().getApplicationContext());
+
+
                 db.insertCourse(name.getText().toString(),day.getSelectedItem().toString(),from.getText().toString(),until.getText().toString(), colorPickerDialog.getSelectedColor(), Integer.parseInt(room.getText().toString()),description.getText().toString(),((Teacher)teacher.getSelectedItem()).getTeacherId());
 
                 fragmentManager = getActivity().getSupportFragmentManager();
@@ -231,6 +231,89 @@ public class AddCourseFragment extends Fragment {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    //CHECK IF START TIME AND END TIME OF THE COURSE
+    //OVERLAPS WITH AN EXISTING COURSE IN DB
+
+    public boolean checkTimeOverlap(String start, String end, String day)
+    {
+
+        //FORMAT THE START TIME AND END TIME
+        SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm");
+
+        //SHIFT OF USER
+        Date startA = formatTime(start);
+        Date endA = formatTime(end);
+
+        //EXISTING SHIFT IN DB
+        Date startB;
+        Date endB;
+
+        //OPEN DATABASE HELPER
+        db = new DatabaseHelper(getActivity().getApplicationContext());
+        ArrayList<Course> existingCourses = db.getAllCourses();
+
+        //CHECKING IN ALL THE DB
+        for (Course existingCourse : existingCourses)
+        {
+
+            if(day.equals(existingCourse.getDay()))
+            {
+                startB = formatTime(existingCourse.getStart());
+                endB = formatTime(existingCourse.getEnd());
+
+                if ((startA.before(endB) || startA.equals(endB)) && (startB.before(endA) || startB.equals(endA))
+                        && (startA.before(endB) || startA.equals(endB)) && (startB.before(endB) || startB.equals(endB)))
+                    //overlaps
+                    return true;
+            }
+        }
+
+        //doesn't overlap
+        return false;
+
+    }
+
+    //FORMAT TIME FROM A STRING
+    public Date formatTime(String time)
+    {
+        //FORMAT THE START TIME NAD
+        SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm");
+        Date date = new Date();
+
+        try
+        {
+            date = hourFormat.parse(time);
+
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
+
+        return date;
+    }
+
+    //FORMAT TIME FROM A STRING AND RETURN THE STRING
+    public String formatTimeString(String time)
+    {
+        //FORMAT THE START TIME NAD
+        SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm");
+        Date date = new Date();
+
+        try
+        {
+            date = hourFormat.parse(time);
+            time = hourFormat.format(date);
+
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
+
+        return time;
     }
 
 

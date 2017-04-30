@@ -24,6 +24,7 @@
     <string name="description">Description</string>
     <string name="color">Color</string>
     <string name="colorChange">Select one color:</string>
+    <string name="overlap">Your course overlaps with another course</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
