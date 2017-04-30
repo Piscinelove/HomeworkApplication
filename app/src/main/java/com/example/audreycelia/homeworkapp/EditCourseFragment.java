@@ -168,6 +168,7 @@ public class EditCourseFragment extends Fragment {
 
                             }
                         });
+
                     }
                 });
 
