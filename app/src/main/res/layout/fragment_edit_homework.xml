@@ -85,7 +85,8 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignStart="@+id/et_edit_homework_date"
-            android:layout_below="@+id/et_edit_homework_date" />
+            android:layout_below="@+id/et_edit_homework_date"
+            android:spinnerMode="dialog"/>
 
         <TextView
             android:id="@+id/tv_edit_homework_done"
