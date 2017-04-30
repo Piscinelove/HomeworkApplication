@@ -1,6 +1,8 @@
 package db;
 
 import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -51,7 +53,21 @@ public class Exam {
 
     public String getDate() {return date;}
 
-    public void setDate(String date) {this.date = date;}
+    public void setDate(String date) {
+        //transform date format for correct handling
+        SimpleDateFormat dateFormatin = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat dateFormatout = new SimpleDateFormat("dd.MM.yyyy");
+        Date dateTime;
+
+        try
+        {
+            dateTime = dateFormatin.parse(date);
+            date = dateFormatout.format(dateTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        this.date = date;
+    }
 
     public String getStart() {return start;}
 

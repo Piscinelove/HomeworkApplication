@@ -49,15 +49,15 @@ public class CoursesListAdapter extends BaseAdapter {
             if (convertView == null) {
                 convertView = layoutInflater.inflate(R.layout.row_course, null);
                 holder = new CoursesListAdapter.ViewHolder();
-                holder.header = (TextView) convertView.findViewById(R.id.tv_header);
-                holder.date = (TextView) convertView.findViewById(R.id.tv_course_date);
+                holder.header = (TextView) convertView.findViewById(R.id.tv_course_header);
+                holder.shift = (TextView) convertView.findViewById(R.id.tv_course_date);
                 holder.courseName = (TextView) convertView.findViewById(R.id.tv_course_name);
                 convertView.setTag(holder);
             } else {
                 holder = (CoursesListAdapter.ViewHolder) convertView.getTag();
             }
 
-            holder.date.setText(listData.get(position).getStart()+" " + listData.get(position).getEnd());
+            holder.shift.setText(listData.get(position).getStart()+" " + listData.get(position).getEnd());
             holder.courseName.setText(listData.get(position).getName());
 
             //test if show header
@@ -83,7 +83,7 @@ public class CoursesListAdapter extends BaseAdapter {
 
 static class ViewHolder {
     TextView header;
-    TextView date;
+    TextView shift;
     TextView courseName;
 
 

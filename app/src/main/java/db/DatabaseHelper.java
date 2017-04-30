@@ -343,7 +343,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ArrayList<Exam> listExams = new ArrayList<Exam>();
 
         //SELECT
-        String select = "SELECT  * FROM " + DatabaseContract.Exams.TABLE_NAME;
+        String select = "SELECT  * FROM " + DatabaseContract.Exams.TABLE_NAME + " ORDER BY "+DatabaseContract.Exams.EXAM_DATE+" ASC, "+DatabaseContract.Exams.EXAM_START+" ASC, "+DatabaseContract.Exams.EXAM_END+" ASC";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(select, null);

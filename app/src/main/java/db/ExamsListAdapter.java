@@ -46,20 +46,39 @@ public class ExamsListAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.row_exam, null);
             holder = new ExamsListAdapter.ViewHolder();
-            holder.date = (TextView) convertView.findViewById(R.id.tv_exam_date);
+            holder.header = (TextView) convertView.findViewById(R.id.tv_exam_header);
+            holder.shift = (TextView) convertView.findViewById(R.id.tv_exam_date);
             holder.examName = (TextView) convertView.findViewById(R.id.tv_exam_name);
             convertView.setTag(holder);
         } else {
             holder = (ExamsListAdapter.ViewHolder) convertView.getTag();
         }
 
-        holder.date.setText(listData.get(position).getDate());
+        holder.shift.setText(listData.get(position).getStart()+" " + listData.get(position).getEnd());
         holder.examName.setText(listData.get(position).getName());
+
+        //test if show header
+        String actualDate = listData.get(position).getDate();
+        String previousDate = null;
+
+        if(position > 0)
+        {
+            previousDate = listData.get(position-1).getDate();
+        }
+
+        if(previousDate == null || !previousDate.equals(actualDate) ) {
+            holder.header.setVisibility(View.VISIBLE);
+            holder.header.setText(listData.get(position).getDate());
+        }
+        else
+            holder.header.setVisibility(View.GONE);
+
         return convertView;
     }
 
     static class ViewHolder {
-        TextView date;
+        TextView header;
+        TextView shift;
         TextView examName;
 
     }
