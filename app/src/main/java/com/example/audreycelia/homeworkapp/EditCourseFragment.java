@@ -293,6 +293,7 @@ public class EditCourseFragment extends Fragment {
         description.setEnabled(false);
         day.setEnabled(false);
 
+
         //Fill spinner from database
         db = new DatabaseHelper(getActivity().getApplicationContext());
         ArrayList<Teacher> teachers = db.getAllTeachers();
