@@ -202,6 +202,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.close();
     }
+    //DELETE METHODS
+    public void deleteCourse (int courseId)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(DatabaseContract.Courses.TABLE_NAME, DatabaseContract.Courses.COURSE_ID + " = ?", new String[]{String.valueOf(courseId)});
+        db.close();
+    }
 
     //DELETE METHODS
     public void deleteTeacher (int teacherId)

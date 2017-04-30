@@ -84,7 +84,7 @@ public class EditExamFragment extends Fragment {
         final EditText room = (EditText) getView().findViewById(R.id.et_edit_exam_room);
         final EditText grade = (EditText) getView().findViewById(R.id.et_edit_exam_grade);
         final EditText description = (EditText) getView().findViewById(R.id.et_edit_exam_description);
-        final Button deleteButton = (Button) getView().findViewById(R.id.buttonDelete_edit_exam);
+        final Button deleteButton = (Button) getView().findViewById(R.id.bt_delete_edit_exam);
 
         switch (item.getItemId())
         {
@@ -302,7 +302,7 @@ public class EditExamFragment extends Fragment {
          EditText room = (EditText) rootView.findViewById(R.id.et_edit_exam_room);
          EditText grade = (EditText) rootView.findViewById(R.id.et_edit_exam_grade);
          EditText description = (EditText) rootView.findViewById(R.id.et_edit_exam_description);
-         final Button deleteButton = (Button) rootView.findViewById(R.id.buttonDelete_edit_exam);
+         final Button deleteButton = (Button) rootView.findViewById(R.id.bt_delete_edit_exam);
 
 
         //Disable temporaiement les fields
