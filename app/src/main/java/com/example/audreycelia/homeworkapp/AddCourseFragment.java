@@ -209,6 +209,7 @@ public class AddCourseFragment extends Fragment {
                     return false;
                 }
 
+
                 //CHECK OVERLAPS
                 if(checkTimeOverlap(from.getText().toString(),until.getText().toString(), day.getSelectedItem().toString()))
                 {
