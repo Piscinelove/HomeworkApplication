@@ -198,7 +198,7 @@ public class EditHomeworkFragment extends Fragment {
 
 
          EditText name = (EditText) rootView.findViewById(R.id.et_edit_homework_name);
-         EditText date = (EditText) rootView.findViewById(R.id.et_edit_homework_date);
+         final EditText date = (EditText) rootView.findViewById(R.id.et_edit_homework_date);
          Spinner course = (Spinner) rootView.findViewById(R.id.sp_edit_homework_course);
          CheckBox done = (CheckBox) rootView.findViewById(R.id.cb_edit_homework_done);
          EditText description = (EditText) rootView.findViewById(R.id.et_edit_homework_description);
@@ -215,6 +215,7 @@ public class EditHomeworkFragment extends Fragment {
         done.setEnabled(false);
         description.setEnabled(false);
 
+
         //Fill spinner from database
         db = new DatabaseHelper(getActivity().getApplicationContext());
         ArrayList<Course> courses = db.getAllCourses();
@@ -222,7 +223,7 @@ public class EditHomeworkFragment extends Fragment {
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         course.setAdapter(dataAdapter);
 
-        // Récupérer le nom et prénom du teacher pour le mettre comme élément sélectionner dans le spinner
+        // Récupérer le nom pour le mettre comme élément sélectionner dans le spinner
         Course selectedCourse = db.getCourseFromId(homework.getCourseId());
         course.setSelection(((ArrayAdapter)course.getAdapter()).getPosition(selectedCourse));
 

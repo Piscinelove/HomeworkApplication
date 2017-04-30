@@ -120,6 +120,7 @@ public class EditTeacherFragment extends Fragment {
                     return false;
                 }
 
+                db = new DatabaseHelper(getActivity().getApplicationContext());
                 db.updateTeacher(teacherId,firstName.getText().toString().substring(0,1).toUpperCase() +firstName.getText().toString().substring(1).toLowerCase(),lastName.getText().toString().substring(0,1).toUpperCase() +lastName.getText().toString().substring(1).toLowerCase(),phone.getText().toString(),email.getText().toString(),description.getText().toString());
 
                 deleteButton.setVisibility(View.INVISIBLE);

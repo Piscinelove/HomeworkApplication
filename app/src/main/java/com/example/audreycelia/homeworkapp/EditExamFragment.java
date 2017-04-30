@@ -1,5 +1,7 @@
 package com.example.audreycelia.homeworkapp;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,11 +17,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
+import com.android.colorpicker.ColorPickerDialog;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import db.Course;
 import db.DatabaseHelper;
@@ -33,6 +43,16 @@ public class EditExamFragment extends Fragment {
     private Fragment fragment;
     private FragmentManager fragmentManager;
     private Menu menu;
+
+    private TimePickerDialog timePickerDialog;
+    private DatePickerDialog datePickerDialog;
+
+    private int hour;
+    private int minute;
+
+    private int month;
+    private int year;
+    private int day;
 
     public EditExamFragment() {
         // Required empty public constructor
@@ -56,23 +76,113 @@ public class EditExamFragment extends Fragment {
 
         final int examId = getArguments().getInt("SelectedExamId");
 
-        final EditText name = (EditText) getView().findViewById(R.id.et_add_exam_name);
-        final EditText date = (EditText) getView().findViewById(R.id.et_add_exam_date);
-        final EditText from = (EditText) getView().findViewById(R.id.et_add_exam_from);
-        final EditText until = (EditText) getView().findViewById(R.id.et_add_exam_until);
-        final Spinner course = (Spinner) getView().findViewById(R.id.sp_add_exam_course);
-        final EditText room = (EditText) getView().findViewById(R.id.et_add_exam_room);
-        final EditText grade = (EditText) getView().findViewById(R.id.et_add_exam_grade);
-        final EditText description = (EditText) getView().findViewById(R.id.et_add_exam_description);
-        final Button deleteButton = (Button) getView().findViewById(R.id.buttonDelete_edit_teacher);
+        final EditText name = (EditText) getView().findViewById(R.id.et_edit_exam_name);
+        final EditText date = (EditText) getView().findViewById(R.id.et_edit_exam_date);
+        final EditText from = (EditText) getView().findViewById(R.id.et_edit_exam_from);
+        final EditText until = (EditText) getView().findViewById(R.id.et_edit_exam_until);
+        final Spinner course = (Spinner) getView().findViewById(R.id.sp_edit_exam_course);
+        final EditText room = (EditText) getView().findViewById(R.id.et_edit_exam_room);
+        final EditText grade = (EditText) getView().findViewById(R.id.et_edit_exam_grade);
+        final EditText description = (EditText) getView().findViewById(R.id.et_edit_exam_description);
+        final Button deleteButton = (Button) getView().findViewById(R.id.buttonDelete_edit_exam);
 
         switch (item.getItemId())
         {
             case R.id.ab_edit_back:
                 getActivity().getSupportFragmentManager().popBackStack();
                 return true;
+
             case R.id.ab_edit_edit:
 
+                //Date picker for date
+                date.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+                        //Get current time
+                        final Calendar c = Calendar.getInstance();
+                        month = c.get(Calendar.MONTH);
+                        year = c.get(Calendar.YEAR);
+                        day = c.get(Calendar.DAY_OF_MONTH);
+
+                        //Launch date Picker Dialog
+                        datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+                                Date dateTime;
+                                try {
+                                    dateTime = dateFormat.parse(dayOfMonth+"."+month+"."+year);
+                                    dateFormat.format(dateTime);
+                                    String courseDate = dateFormat.format(dateTime);
+
+                                    date.setText(courseDate);
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        },year,month, day);
+                        datePickerDialog.show();
+                    }
+                });
+
+                //Time picker for from time
+                from.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //Get current time
+                        final Calendar c = Calendar.getInstance();
+                        hour = c.get(Calendar.HOUR_OF_DAY);
+                        minute = c.get(Calendar.MINUTE);
+
+                        //Launch Time Picker Dialog
+                        timePickerDialog = new TimePickerDialog(getActivity(),new TimePickerDialog.OnTimeSetListener() {
+
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minute)
+                            {
+
+                                SimpleDateFormat hourFormatin = new SimpleDateFormat("K:mm");
+                                SimpleDateFormat hourFormatout = new SimpleDateFormat("KK:mm");
+                                Date date;
+                                try {
+                                    date = hourFormatin.parse(hourOfDay+":"+minute);
+                                    hourFormatout.format(date);
+                                    String hour = hourFormatout.format(date);
+                                    from.setText(hour);
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        },hour,minute,true);
+                        timePickerDialog.show();
+                    }});
+
+                //Time picker for until time
+                until.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //Get current time
+                        final Calendar c = Calendar.getInstance();
+                        hour = c.get(Calendar.HOUR_OF_DAY);
+                        minute = c.get(Calendar.MINUTE);
+
+                        //Launch Time Picker Dialog
+                        timePickerDialog = new TimePickerDialog(getActivity(),new TimePickerDialog.OnTimeSetListener() {
+
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay,int minute)
+                            {
+
+                                until.setText(hourOfDay + ":" + minute);
+                            }
+                        },hour,minute,true);
+                        timePickerDialog.show();
+                    }});
+
+                //Enable les fields
                 deleteButton.setVisibility(View.VISIBLE);
                 name.setEnabled(true);
                 date.setEnabled(true);
@@ -89,9 +199,7 @@ public class EditExamFragment extends Fragment {
                 undo.setVisible(true);
                 save.setVisible(true);
 
-
                 return true;
-
 
             case R.id.ab_edit_undo:
                 //Gérer les boutons du menu
@@ -99,6 +207,16 @@ public class EditExamFragment extends Fragment {
                 back.setVisible(true);
                 undo.setVisible(false);
                 save.setVisible(false);
+
+                deleteButton.setVisibility(View.INVISIBLE);
+                name.setEnabled(false);
+                date.setEnabled(false);
+                from.setEnabled(false);
+                until.setEnabled(false);
+                course.setEnabled(false);
+                room.setEnabled(false);
+                grade.setEnabled(false);
+                description.setEnabled(false);
                 return true;
 
             case R.id.ab_edit_save:
@@ -134,13 +252,13 @@ public class EditExamFragment extends Fragment {
                     return false;
                 }
 
+                db = new DatabaseHelper(getActivity().getApplicationContext());
                 db.updateExam(examId,name.getText().toString(),date.getText().toString(),from.getText().toString(),until.getText().toString(), Double.parseDouble(grade.getText().toString()), Integer.parseInt(room.getText().toString()),description.getText().toString(),1);
 
+
+                //Disable temporaiement les fields
                 deleteButton.setVisibility(View.INVISIBLE);
 
-
-
-                //Gérer les fields
                 name.setEnabled(false);
                 date.setEnabled(false);
                 from.setEnabled(false);
@@ -176,15 +294,26 @@ public class EditExamFragment extends Fragment {
 
         Exam exam = db.getExamFromId(examId);
 
-        final EditText name = (EditText) getView().findViewById(R.id.et_add_exam_name);
-        final EditText date = (EditText) getView().findViewById(R.id.et_add_exam_date);
-        final EditText from = (EditText) getView().findViewById(R.id.et_add_exam_from);
-        final EditText until = (EditText) getView().findViewById(R.id.et_add_exam_until);
-        final Spinner course = (Spinner) getView().findViewById(R.id.sp_add_exam_course);
-        final EditText room = (EditText) getView().findViewById(R.id.et_add_exam_room);
-        final EditText grade = (EditText) getView().findViewById(R.id.et_add_exam_grade);
-        final EditText description = (EditText) getView().findViewById(R.id.et_add_exam_description);
-        final Button deleteButton = (Button) getView().findViewById(R.id.buttonDelete_edit_teacher);
+         EditText name = (EditText) rootView.findViewById(R.id.et_edit_exam_name);
+         EditText date = (EditText) rootView.findViewById(R.id.et_edit_exam_date);
+         EditText from = (EditText) rootView.findViewById(R.id.et_edit_exam_from);
+         EditText until = (EditText) rootView.findViewById(R.id.et_edit_exam_until);
+         Spinner course = (Spinner) rootView.findViewById(R.id.sp_edit_exam_course);
+         EditText room = (EditText) rootView.findViewById(R.id.et_edit_exam_room);
+         EditText grade = (EditText) rootView.findViewById(R.id.et_edit_exam_grade);
+         EditText description = (EditText) rootView.findViewById(R.id.et_edit_exam_description);
+         final Button deleteButton = (Button) rootView.findViewById(R.id.buttonDelete_edit_exam);
+
+
+        //Disable temporaiement les fields
+        name.setEnabled(false);
+        date.setEnabled(false);
+        from.setEnabled(false);
+        until.setEnabled(false);
+        course.setEnabled(false);
+        room.setEnabled(false);
+        grade.setEnabled(false);
+        description.setEnabled(false);
 
         name.setText(exam.getName());
         date.setText(exam.getDate());
@@ -198,7 +327,12 @@ public class EditExamFragment extends Fragment {
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         course.setAdapter(dataAdapter);
 
-        room.setText(exam.getRoom());
+        // Récupérer le nom pour le mettre comme élément sélectionner dans le spinner
+        Course selectedCourse = db.getCourseFromId(exam.getCourseId());
+        course.setSelection(((ArrayAdapter)course.getAdapter()).getPosition(selectedCourse));
+
+
+        room.setText(""+exam.getRoom());
         grade.setText(""+exam.getGrade());
         description.setText(exam.getDescription());
 
@@ -218,9 +352,6 @@ public class EditExamFragment extends Fragment {
 
             }
         });
-
-
-
 
         return rootView;
     }
