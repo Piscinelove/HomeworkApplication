@@ -69,7 +69,7 @@ public class EditHomeworkFragment extends Fragment {
         final Spinner course = (Spinner) getView().findViewById(R.id.sp_edit_homework_course);
         final CheckBox done = (CheckBox) getView().findViewById(R.id.cb_edit_homework_done);
         final EditText description = (EditText) getView().findViewById(R.id.et_edit_homework_description);
-        final Button deleteButton = (Button) getView().findViewById(R.id.buttonDelete_edit_homework);
+        final Button deleteButton = (Button) getView().findViewById(R.id.bt_delete_edit_homework);
 
 
         switch (item.getItemId())
@@ -202,7 +202,7 @@ public class EditHomeworkFragment extends Fragment {
          Spinner course = (Spinner) rootView.findViewById(R.id.sp_edit_homework_course);
          CheckBox done = (CheckBox) rootView.findViewById(R.id.cb_edit_homework_done);
          EditText description = (EditText) rootView.findViewById(R.id.et_edit_homework_description);
-        final Button deleteButton = (Button) rootView.findViewById(R.id.buttonDelete_edit_homework);
+        final Button deleteButton = (Button) rootView.findViewById(R.id.bt_delete_edit_homework);
 
         name.setText(homework.getName());
         date.setText(homework.getDeadline());

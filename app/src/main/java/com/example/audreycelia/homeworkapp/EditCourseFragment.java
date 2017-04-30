@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -32,6 +33,7 @@ import java.util.Date;
 
 import db.Course;
 import db.DatabaseHelper;
+import db.Exam;
 import db.Teacher;
 
 
@@ -45,7 +47,7 @@ public class EditCourseFragment extends Fragment {
     private ColorPickerDialog colorPickerDialog;
     private int hour;
     private int minute;
-    private int courseId;
+
 
     public EditCourseFragment() {
         // Required empty public constructor
@@ -72,10 +74,14 @@ public class EditCourseFragment extends Fragment {
         final EditText description = (EditText) getView().findViewById(R.id.et_edit_course_description);
         final Spinner day = (Spinner) getView().findViewById(R.id.sp_edit_course_day);
 
+        final Button deleteButton = (Button) getView().findViewById(R.id.bt_delete_edit_course);
+
         MenuItem edit = menu.findItem(R.id.ab_edit_edit);
         MenuItem back = menu.findItem(R.id.ab_edit_back);
         MenuItem undo = menu.findItem(R.id.ab_edit_undo);
         MenuItem save = menu.findItem(R.id.ab_edit_save);
+
+        final int courseId = getArguments().getInt("SelectedCourseId");
 
         switch (item.getItemId())
         {
@@ -174,6 +180,7 @@ public class EditCourseFragment extends Fragment {
                 });
 
                 //Enable les fields
+                deleteButton.setVisibility(View.VISIBLE);
                 name.setEnabled(true);
                 from.setEnabled(true);
                 until.setEnabled(true);
@@ -198,6 +205,16 @@ public class EditCourseFragment extends Fragment {
                 back.setVisible(true);
                 undo.setVisible(false);
                 save.setVisible(false);
+
+                deleteButton.setVisibility(View.INVISIBLE);
+                name.setEnabled(false);
+                from.setEnabled(false);
+                until.setEnabled(false);
+                teacher.setEnabled(false);
+                colorButton.setEnabled(false);
+                room.setEnabled(false);
+                description.setEnabled(false);
+                day.setEnabled(false);
                 return true;
 
             case R.id.ab_edit_save:
@@ -233,6 +250,7 @@ public class EditCourseFragment extends Fragment {
                 db.updateCourse(courseId, name.getText().toString(),day.getSelectedItem().toString(),from.getText().toString(),until.getText().toString(), color, Integer.parseInt(room.getText().toString()),description.getText().toString(),((Teacher)teacher.getSelectedItem()).getTeacherId());
 
                 //Disable temporaiement les fields
+                deleteButton.setVisibility(View.INVISIBLE);
                 name.setEnabled(false);
                 from.setEnabled(false);
                 until.setEnabled(false);
@@ -264,8 +282,7 @@ public class EditCourseFragment extends Fragment {
 
 
 
-
-        courseId = getArguments().getInt("SelectedCourseId");
+       final int courseId = getArguments().getInt("SelectedCourseId");
         db = new DatabaseHelper(getActivity().getApplicationContext());
         Course course = db.getCourseFromId(courseId);
 
@@ -278,6 +295,8 @@ public class EditCourseFragment extends Fragment {
         EditText room = (EditText) rootView.findViewById(R.id.et_edit_course_room);
         EditText description = (EditText) rootView.findViewById(R.id.et_edit_course_description);
         Spinner day = (Spinner) rootView.findViewById(R.id.sp_edit_course_day);
+        final Button deleteButton = (Button) rootView.findViewById(R.id.bt_delete_edit_course);
+
 
         name.setText(course.getName());
         from.setText(course.getStart());
@@ -309,6 +328,22 @@ public class EditCourseFragment extends Fragment {
         room.setText(""+course.getRoom());
         description.setText(course.getDescription());
         day.setSelection(((ArrayAdapter)day.getAdapter()).getPosition(course.getDay()));
+
+
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                db.deleteCourse(courseId);
+                deleteButton.setVisibility(View.INVISIBLE);
+
+                fragmentManager = getActivity().getSupportFragmentManager();
+                fragment = new CourseFragment();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.addToBackStack(null);
+                transaction.replace(R.id.main_container, fragment).commit();
+
+            }
+        });
         return  rootView;
     }
 

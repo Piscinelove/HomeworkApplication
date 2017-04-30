@@ -53,7 +53,7 @@ public class EditTeacherFragment extends Fragment {
         final EditText phone = (EditText) getView().findViewById(R.id.et_edit_teacher_phone);
         final EditText email = (EditText) getView().findViewById(R.id.et_edit_teacher_email);
         final EditText description = (EditText) getView().findViewById(R.id.et_edit_teacher_description);
-        final Button deleteButton = (Button) getView().findViewById(R.id.buttonDelete_edit_teacher);
+        final Button deleteButton = (Button) getView().findViewById(R.id.bt_delete_edit_teacher);
 
         switch (item.getItemId())
         {
@@ -164,7 +164,7 @@ public class EditTeacherFragment extends Fragment {
         final EditText email = (EditText) rootView.findViewById(R.id.et_edit_teacher_email);
         final EditText description = (EditText) rootView.findViewById(R.id.et_edit_teacher_description);
 
-        final Button deleteButton = (Button) rootView.findViewById(R.id.buttonDelete_edit_teacher);
+        final Button deleteButton = (Button) rootView.findViewById(R.id.bt_delete_edit_teacher);
 
         firstName.setText(teacher.getFirstName());
         lastName.setText(teacher.getLastName());
