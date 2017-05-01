@@ -180,7 +180,9 @@
             android:layout_toEndOf="@+id/tv_edit_course_teacher"
             android:layout_toRightOf="@+id/tv_edit_course_color"
             android:text="choose"
-            android:textColor="@color/text_color"/>
+            android:textColor="@color/button_text_color"
+            android:background="@color/primary2"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/tv_edit_course_room"

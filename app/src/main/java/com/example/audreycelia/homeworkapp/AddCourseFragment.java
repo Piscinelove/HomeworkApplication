@@ -38,16 +38,29 @@ import db.Teacher;
 
 
 public class AddCourseFragment extends Fragment {
-    private Button saveButton;
+
+    //DB
     private DatabaseHelper db;
+    //FRAGMENTS HANDLE
     private Fragment fragment;
     private FragmentManager fragmentManager;
 
+    //PICKERS AND VARIABLES NEEDED
     private TimePickerDialog timePickerDialog;
     private ColorPickerDialog colorPickerDialog;
     private int hour;
     private int minute;
-    //
+
+    //FIELDS
+    EditText name;
+    EditText from;
+    EditText until;
+    Button colorButton;
+    Spinner teacher;
+    EditText room;
+    EditText description;
+    Spinner day;
+
 
 
 
@@ -55,15 +68,26 @@ public class AddCourseFragment extends Fragment {
         // Required empty public constructor
     }
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_add_course, container, false);
+
+
+
         setHasOptionsMenu(true);
-        final EditText from = (EditText) rootView.findViewById(R.id.et_add_course_from);
-        final EditText until = (EditText) rootView.findViewById(R.id.et_add_course_until);
-        final Button colorButton = (Button) rootView.findViewById(R.id.bt_add_course_color);
-        Spinner teacher = (Spinner) rootView.findViewById(R.id.sp_add_course_teacher);
+
+        //INITIATE FIELDS
+        from = (EditText) rootView.findViewById(R.id.et_add_course_from);
+        until = (EditText) rootView.findViewById(R.id.et_add_course_until);
+        colorButton = (Button) rootView.findViewById(R.id.bt_add_course_color);
+        teacher = (Spinner) rootView.findViewById(R.id.sp_add_course_teacher);
+        name = (EditText) rootView.findViewById(R.id.et_add_course_name);
+        room = (EditText) rootView.findViewById(R.id.et_add_course_room);
+        description = (EditText) rootView.findViewById(R.id.et_add_course_description);
+        day = (Spinner) rootView.findViewById(R.id.sp_add_course_day);
 
 
 
@@ -86,7 +110,6 @@ public class AddCourseFragment extends Fragment {
                 ContextCompat.getColor(getActivity(),R.color.primary8),
                 ContextCompat.getColor(getActivity(),R.color.primary9)};
         colorPickerDialog.initialize(R.string.colorChange,colors, colors[1], 3, colors.length);
-
 
         //Time picker for from time
         from.setOnClickListener(new View.OnClickListener() {
@@ -135,6 +158,8 @@ public class AddCourseFragment extends Fragment {
                 timePickerDialog.show();
             }});
 
+
+
         //Color picker when click on color button
         colorButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,51 +199,9 @@ public class AddCourseFragment extends Fragment {
                 return true;
             //When user click button save on toolbar
             case R.id.ab_save:
-                EditText name = (EditText) getView().findViewById(R.id.et_add_course_name);
-                EditText from = (EditText) getView().findViewById(R.id.et_add_course_from);
-                EditText until = (EditText) getView().findViewById(R.id.et_add_course_until);
-                Spinner teacher = (Spinner) getView().findViewById(R.id.sp_add_course_teacher);
-                Button color = (Button) getView().findViewById(R.id.bt_add_course_color);
-                EditText room = (EditText) getView().findViewById(R.id.et_add_course_room);
-                EditText description = (EditText) getView().findViewById(R.id.et_add_course_description);
-                Spinner day = (Spinner) getView().findViewById(R.id.sp_add_course_day);
 
-                if(TextUtils.isEmpty(name.getText().toString())) {
-                    name.setError("Name field cannot be empty");
-                    return false;
-                }
-
-                if(TextUtils.isEmpty(from.getText().toString())) {
-                    from.setError("From field cannot be empty");
-                    return false;
-                }
-
-                if(TextUtils.isEmpty(until.getText().toString())) {
-                    from.setError("Until field cannot be empty");
-                    return false;
-                }
-
-                if(teacher.getSelectedItem()==null) {
-                    TextView spinnerText = (TextView) teacher.getSelectedView();
-                    spinnerText.setError("Teacher field cannot be empty");
-                    return false;
-                }
-
-                if(TextUtils.isEmpty(room.getText().toString())) {
-                    room.setError("Room field cannot be empty");
-                    return false;
-                }
-
-
-                //CHECK OVERLAPS
-                if(checkTimeOverlap(from.getText().toString(),until.getText().toString(), day.getSelectedItem().toString()))
-                {
-                    Toast toast = Toast.makeText(getActivity(), R.string.overlap, Toast.LENGTH_SHORT);
-                    toast.show();
-                    return false;
-                }
-
-
+                if(isValid() == false)
+                    return  false;
 
                 db.insertCourse(name.getText().toString(),day.getSelectedItem().toString(),from.getText().toString(),until.getText().toString(), colorPickerDialog.getSelectedColor(), Integer.parseInt(room.getText().toString()),description.getText().toString(),((Teacher)teacher.getSelectedItem()).getTeacherId());
 
@@ -276,6 +259,27 @@ public class AddCourseFragment extends Fragment {
 
     }
 
+    //CHECK IF START TIME BEFORE END TIME
+
+    public boolean checkTimeCorrect(String start, String end)
+    {
+
+        //FORMAT THE START TIME AND END TIME
+        SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm");
+
+        //SHIFT OF USER
+        Date startA = formatTime(start);
+        Date endA = formatTime(end);
+
+        if((startA.before(endA) || startA.equals(endA)))
+            //incorrect
+            return true;
+
+        //correct
+        return false;
+
+    }
+
     //FORMAT TIME FROM A STRING
     public Date formatTime(String time)
     {
@@ -315,6 +319,62 @@ public class AddCourseFragment extends Fragment {
         }
 
         return time;
+    }
+
+    public boolean isValid()
+    {
+        if(TextUtils.isEmpty(name.getText().toString())) {
+            name.setError("Name field cannot be empty");
+            return false;
+        }
+
+        if(day.getSelectedItem() == null)
+        {
+            Toast toast = Toast.makeText(getActivity(), R.string.nullday, Toast.LENGTH_SHORT);
+            toast.show();
+            return false;
+        }
+
+        if(TextUtils.isEmpty(from.getText().toString())) {
+            from.setError("From field cannot be empty");
+            return false;
+        }
+
+        if(TextUtils.isEmpty(until.getText().toString())) {
+            until.setError("Until field cannot be empty");
+            return false;
+        }
+
+        if(teacher.getSelectedItem()==null) {
+            Toast toast = Toast.makeText(getActivity(), R.string.nullteacher, Toast.LENGTH_SHORT);
+            toast.show();
+            return false;
+        }
+
+        if(TextUtils.isEmpty(room.getText().toString())) {
+            room.setError("Room field cannot be empty");
+            return false;
+        }
+
+        //CHECK START BEFORE END
+        if(!checkTimeCorrect(from.getText().toString(),until.getText().toString()))
+        {
+            Toast toast = Toast.makeText(getActivity(), R.string.incorrecttime, Toast.LENGTH_SHORT);
+            toast.show();
+            return false;
+        }
+
+
+        //CHECK OVERLAPS
+        if(checkTimeOverlap(from.getText().toString(),until.getText().toString(), day.getSelectedItem().toString()))
+        {
+            Toast toast = Toast.makeText(getActivity(), R.string.overlap, Toast.LENGTH_SHORT);
+            toast.show();
+            return false;
+        }
+
+        return true;
+
     }
 
 

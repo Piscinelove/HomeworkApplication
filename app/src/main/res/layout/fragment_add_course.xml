@@ -169,7 +169,10 @@
             android:layout_below="@+id/sp_add_course_teacher"
             android:layout_toEndOf="@+id/tv_add_course_teacher"
             android:layout_toRightOf="@+id/tv_add_course_color"
-            android:text="choose" />
+            android:background="@color/primary2"
+            android:text="choose"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_add_course_room"

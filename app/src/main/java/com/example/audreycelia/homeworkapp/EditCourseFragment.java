@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.android.colorpicker.ColorPickerDialog;
 import com.android.colorpicker.ColorPickerSwatch;
@@ -39,14 +40,29 @@ import db.Teacher;
 
 public class EditCourseFragment extends Fragment {
 
+    //DB
     private DatabaseHelper db;
+    //FRAGMENTS HANDLE
     private Fragment fragment;
     private FragmentManager fragmentManager;
     private Menu menu;
+
+    //PICKERS AND VARIABLES NEEDED
     private TimePickerDialog timePickerDialog;
     private ColorPickerDialog colorPickerDialog;
     private int hour;
     private int minute;
+
+    //FIELDS
+    EditText name;
+    EditText from;
+    EditText until;
+    Button colorButton;
+    Spinner teacher;
+    EditText room;
+    EditText description;
+    Spinner day;
+    Button deleteButton;
 
 
     public EditCourseFragment() {
@@ -64,18 +80,6 @@ public class EditCourseFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        // Recupérer les éléments de la view
-        final EditText name = (EditText) getView().findViewById(R.id.et_edit_course_name);
-        final EditText from = (EditText) getView().findViewById(R.id.et_edit_course_from);
-        final EditText until = (EditText) getView().findViewById(R.id.et_edit_course_until);
-        final Spinner teacher = (Spinner) getView().findViewById(R.id.sp_edit_course_teacher);
-        final Button colorButton = (Button) getView().findViewById(R.id.bt_edit_course_color);
-        final EditText room = (EditText) getView().findViewById(R.id.et_edit_course_room);
-        final EditText description = (EditText) getView().findViewById(R.id.et_edit_course_description);
-        final Spinner day = (Spinner) getView().findViewById(R.id.sp_edit_course_day);
-
-        final Button deleteButton = (Button) getView().findViewById(R.id.bt_delete_edit_course);
-
         MenuItem edit = menu.findItem(R.id.ab_edit_edit);
         MenuItem back = menu.findItem(R.id.ab_edit_back);
         MenuItem undo = menu.findItem(R.id.ab_edit_undo);
@@ -90,6 +94,7 @@ public class EditCourseFragment extends Fragment {
                 return true;
 
             case R.id.ab_edit_edit:
+
                 //Color Picker
                 colorPickerDialog = new ColorPickerDialog();
                 int[] colors = {ContextCompat.getColor(getActivity(),R.color.primary1),
@@ -118,19 +123,8 @@ public class EditCourseFragment extends Fragment {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute)
                             {
-
-                                SimpleDateFormat hourFormatin = new SimpleDateFormat("K:mm");
-                                SimpleDateFormat hourFormatout = new SimpleDateFormat("KK:mm");
-                                Date date;
-                                try {
-                                    date = hourFormatin.parse(hourOfDay+":"+minute);
-                                    hourFormatout.format(date);
-                                    String hour = hourFormatout.format(date);
-                                    from.setText(hour);
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
-
+                                String hour = formatTimeString(hourOfDay+":"+minute);
+                                from.setText(hour);
                             }
                         },hour,minute,true);
                         timePickerDialog.show();
@@ -152,7 +146,8 @@ public class EditCourseFragment extends Fragment {
                             public void onTimeSet(TimePicker view, int hourOfDay,int minute)
                             {
 
-                                until.setText(hourOfDay + ":" + minute);
+                                String hour = formatTimeString(hourOfDay+":"+minute);
+                                until.setText(hour);
                             }
                         },hour,minute,true);
                         timePickerDialog.show();
@@ -180,22 +175,14 @@ public class EditCourseFragment extends Fragment {
                 });
 
                 //Enable les fields
-                deleteButton.setVisibility(View.VISIBLE);
-                name.setEnabled(true);
-                from.setEnabled(true);
-                until.setEnabled(true);
-                teacher.setEnabled(true);
-                colorButton.setEnabled(true);
-                room.setEnabled(true);
-                description.setEnabled(true);
-                day.setEnabled(true);
-
+                editMode(true);
 
                 //Gérer les boutons du menu
                 edit.setVisible(false);
                 back.setVisible(false);
                 undo.setVisible(true);
                 save.setVisible(true);
+
                 return true;
 
 
@@ -206,65 +193,29 @@ public class EditCourseFragment extends Fragment {
                 undo.setVisible(false);
                 save.setVisible(false);
 
-                deleteButton.setVisibility(View.INVISIBLE);
-                name.setEnabled(false);
-                from.setEnabled(false);
-                until.setEnabled(false);
-                teacher.setEnabled(false);
-                colorButton.setEnabled(false);
-                room.setEnabled(false);
-                description.setEnabled(false);
-                day.setEnabled(false);
+                editMode(false);
+
                 return true;
 
             case R.id.ab_edit_save:
 
-                if(TextUtils.isEmpty(name.getText().toString())) {
-                    name.setError("Name field cannot be empty");
-                    return false;
-                }
-
-                if(TextUtils.isEmpty(from.getText().toString())) {
-                    from.setError("From field cannot be empty");
-                    return false;
-                }
-
-                if(TextUtils.isEmpty(until.getText().toString())) {
-                    from.setError("Until field cannot be empty");
-                    return false;
-                }
-
-                if(teacher.getSelectedItem()==null) {
-                    TextView spinnerText = (TextView) teacher.getSelectedView();
-                    spinnerText.setError("Teacher field cannot be empty");
-                    return false;
-                }
-
-                if(TextUtils.isEmpty(room.getText().toString())) {
-                    room.setError("Room field cannot be empty");
-                    return false;
+                if(isValid() == false)
+                {
+                    return  false;
                 }
 
                 int color = ((ColorDrawable)colorButton.getBackground()).getColor();
-                db = new DatabaseHelper(getActivity().getApplicationContext());
                 db.updateCourse(courseId, name.getText().toString(),day.getSelectedItem().toString(),from.getText().toString(),until.getText().toString(), color, Integer.parseInt(room.getText().toString()),description.getText().toString(),((Teacher)teacher.getSelectedItem()).getTeacherId());
 
                 //Disable temporaiement les fields
-                deleteButton.setVisibility(View.INVISIBLE);
-                name.setEnabled(false);
-                from.setEnabled(false);
-                until.setEnabled(false);
-                teacher.setEnabled(false);
-                colorButton.setEnabled(false);
-                room.setEnabled(false);
-                description.setEnabled(false);
-                day.setEnabled(false);
+                editMode(false);
 
                 //Gérer les boutons du menu
                 edit.setVisible(true);
                 back.setVisible(true);
                 undo.setVisible(false);
                 save.setVisible(false);
+
                 return true;
 
             default:
@@ -278,40 +229,29 @@ public class EditCourseFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_edit_course, container, false);
+
         setHasOptionsMenu(true);
 
 
+        // Recupérer les éléments de la view
+        name = (EditText) rootView.findViewById(R.id.et_edit_course_name);
+        from = (EditText) rootView.findViewById(R.id.et_edit_course_from);
+        until = (EditText) rootView.findViewById(R.id.et_edit_course_until);
+        teacher = (Spinner) rootView.findViewById(R.id.sp_edit_course_teacher);
+        colorButton = (Button) rootView.findViewById(R.id.bt_edit_course_color);
+        room = (EditText) rootView.findViewById(R.id.et_edit_course_room);
+        description = (EditText) rootView.findViewById(R.id.et_edit_course_description);
+        day = (Spinner) rootView.findViewById(R.id.sp_edit_course_day);
+        deleteButton = (Button) rootView.findViewById(R.id.bt_delete_edit_course);
 
-       final int courseId = getArguments().getInt("SelectedCourseId");
+
+        final int courseId = getArguments().getInt("SelectedCourseId");
         db = new DatabaseHelper(getActivity().getApplicationContext());
         Course course = db.getCourseFromId(courseId);
-
-        // Recupérer les éléments de la view
-        EditText name = (EditText) rootView.findViewById(R.id.et_edit_course_name);
-        EditText from = (EditText) rootView.findViewById(R.id.et_edit_course_from);
-        EditText until = (EditText) rootView.findViewById(R.id.et_edit_course_until);
-        Spinner teacher = (Spinner) rootView.findViewById(R.id.sp_edit_course_teacher);
-        Button color = (Button) rootView.findViewById(R.id.bt_edit_course_color);
-        EditText room = (EditText) rootView.findViewById(R.id.et_edit_course_room);
-        EditText description = (EditText) rootView.findViewById(R.id.et_edit_course_description);
-        Spinner day = (Spinner) rootView.findViewById(R.id.sp_edit_course_day);
-        final Button deleteButton = (Button) rootView.findViewById(R.id.bt_delete_edit_course);
-
 
         name.setText(course.getName());
         from.setText(course.getStart());
         until.setText(course.getEnd());
-
-        //Disable temporaiement les fields
-        name.setEnabled(false);
-        from.setEnabled(false);
-        until.setEnabled(false);
-        teacher.setEnabled(false);
-        color.setEnabled(false);
-        room.setEnabled(false);
-        description.setEnabled(false);
-        day.setEnabled(false);
-
 
         //Fill spinner from database
         db = new DatabaseHelper(getActivity().getApplicationContext());
@@ -324,11 +264,14 @@ public class EditCourseFragment extends Fragment {
         Teacher selectedTeacher = db.getTeacherFromId(course.getTeacherId());
         teacher.setSelection(((ArrayAdapter)teacher.getAdapter()).getPosition(selectedTeacher));
 
-        color.setBackgroundColor(course.getColor());
+        colorButton.setBackgroundColor(course.getColor());
         room.setText(""+course.getRoom());
         description.setText(course.getDescription());
         day.setSelection(((ArrayAdapter)day.getAdapter()).getPosition(course.getDay()));
 
+
+        //DISABLE FIELDS
+        editMode(false);
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -345,6 +288,183 @@ public class EditCourseFragment extends Fragment {
             }
         });
         return  rootView;
+    }
+
+    public void editMode(boolean value)
+    {
+        //Disable temporaiement les fields
+        name.setEnabled(value);
+        from.setEnabled(value);
+        until.setEnabled(value);
+        teacher.setEnabled(value);
+        colorButton.setEnabled(value);
+        room.setEnabled(value);
+        description.setEnabled(value);
+        day.setEnabled(value);
+
+        if(value == true)
+            deleteButton.setVisibility(View.VISIBLE);
+        else
+            deleteButton.setVisibility(View.INVISIBLE);
+    }
+
+    //CHECK IF START TIME AND END TIME OF THE COURSE
+    //OVERLAPS WITH AN EXISTING COURSE IN DB
+
+    public boolean checkTimeOverlap(String start, String end, String day)
+    {
+
+        //FORMAT THE START TIME AND END TIME
+        SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm");
+
+        //SHIFT OF USER
+        Date startA = formatTime(start);
+        Date endA = formatTime(end);
+
+        //EXISTING SHIFT IN DB
+        Date startB;
+        Date endB;
+
+        //OPEN DATABASE HELPER
+        db = new DatabaseHelper(getActivity().getApplicationContext());
+        ArrayList<Course> existingCourses = db.getAllCourses();
+
+        //CHECKING IN ALL THE DB
+        for (Course existingCourse : existingCourses)
+        {
+
+            if(day.equals(existingCourse.getDay()))
+            {
+                startB = formatTime(existingCourse.getStart());
+                endB = formatTime(existingCourse.getEnd());
+
+                if ((startA.before(endB) || startA.equals(endB)) && (startB.before(endA) || startB.equals(endA))
+                        && (startA.before(endB) || startA.equals(endB)) && (startB.before(endB) || startB.equals(endB)))
+                    //overlaps
+                    return true;
+            }
+        }
+
+        //doesn't overlap
+        return false;
+
+    }
+
+    //CHECK IF START TIME BEFORE END TIME
+
+    public boolean checkTimeCorrect(String start, String end)
+    {
+
+        //FORMAT THE START TIME AND END TIME
+        SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm");
+
+        //SHIFT OF USER
+        Date startA = formatTime(start);
+        Date endA = formatTime(end);
+
+        if((startA.before(endA) || startA.equals(endA)))
+            //incorrect
+            return true;
+
+        //correct
+        return false;
+
+    }
+
+    //FORMAT TIME FROM A STRING
+    public Date formatTime(String time)
+    {
+        //FORMAT THE START TIME NAD
+        SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm");
+        Date date = new Date();
+
+        try
+        {
+            date = hourFormat.parse(time);
+
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
+
+        return date;
+    }
+
+    //FORMAT TIME FROM A STRING AND RETURN THE STRING
+    public String formatTimeString(String time)
+    {
+        //FORMAT THE START TIME NAD
+        SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm");
+        Date date = new Date();
+
+        try
+        {
+            date = hourFormat.parse(time);
+            time = hourFormat.format(date);
+
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
+
+        return time;
+    }
+
+    public boolean isValid()
+    {
+        if(TextUtils.isEmpty(name.getText().toString())) {
+            name.setError("Name field cannot be empty");
+            return false;
+        }
+
+        if(day.getSelectedItem() == null)
+        {
+            Toast toast = Toast.makeText(getActivity(), R.string.nullday, Toast.LENGTH_SHORT);
+            toast.show();
+            return false;
+        }
+
+        if(TextUtils.isEmpty(from.getText().toString())) {
+            from.setError("From field cannot be empty");
+            return false;
+        }
+
+        if(TextUtils.isEmpty(until.getText().toString())) {
+            until.setError("Until field cannot be empty");
+            return false;
+        }
+
+        if(teacher.getSelectedItem()==null) {
+            Toast toast = Toast.makeText(getActivity(), R.string.nullteacher, Toast.LENGTH_SHORT);
+            toast.show();
+            return false;
+        }
+
+        if(TextUtils.isEmpty(room.getText().toString())) {
+            room.setError("Room field cannot be empty");
+            return false;
+        }
+
+        //CHECK START BEFORE END
+        if(!checkTimeCorrect(from.getText().toString(),until.getText().toString()))
+        {
+            Toast toast = Toast.makeText(getActivity(), R.string.incorrecttime, Toast.LENGTH_SHORT);
+            toast.show();
+            return false;
+        }
+
+        //CHECK OVERLAPS
+        if(checkTimeOverlap(from.getText().toString(),until.getText().toString(), day.getSelectedItem().toString()))
+        {
+            Toast toast = Toast.makeText(getActivity(), R.string.overlap, Toast.LENGTH_SHORT);
+            toast.show();
+            return false;
+        }
+
+        return true;
+
     }
 
 }

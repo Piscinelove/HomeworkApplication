@@ -25,6 +25,9 @@
     <string name="color">Color</string>
     <string name="colorChange">Select one color:</string>
     <string name="overlap">Your course overlaps with another course</string>
+    <string name="nullday">You need to choose a day</string>
+    <string name="nullteacher">You need to choose a teacher</string>
+    <string name="incorrecttime">Start time must before end time</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

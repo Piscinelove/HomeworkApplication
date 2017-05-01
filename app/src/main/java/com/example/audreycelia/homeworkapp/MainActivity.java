@@ -28,16 +28,15 @@ public class MainActivity extends AppCompatActivity {
 
 
         if(fragmentManager.getBackStackEntryCount() > 0) {
-                super.onBackPressed();
                 Fragment currentFragment = fragmentManager.findFragmentById(R.id.main_container);
-                if(currentFragment instanceof CalendarFragment){
+                if(currentFragment instanceof CalendarFragment ){
                     navigation.getMenu().getItem(0).setChecked(true);
                 }
                 else if(currentFragment instanceof CourseFragment){
-                    navigation.getMenu().getItem(2).setChecked(true);
+                    navigation.getMenu().getItem(1).setChecked(true);
                 }
                 else if(currentFragment instanceof ExamFragment){
-                    navigation.getMenu().getItem(1).setChecked(true);
+                    navigation.getMenu().getItem(2).setChecked(true);
                 }
                 else if(currentFragment instanceof HomeworkFragment){
                     navigation.getMenu().getItem(3).setChecked(true);
@@ -45,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
                 else if(currentFragment instanceof TeacherFragment){
                     navigation.getMenu().getItem(4).setChecked(true);
                 }
+                else
+                    super.onBackPressed();
             }
         }
 
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
 
         fragment = new CalendarFragment();
+
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.main_container, fragment).commit();
         transaction.addToBackStack(null);
@@ -79,24 +81,30 @@ public class MainActivity extends AppCompatActivity {
 
                 {
                     case R.id.navigation_timetable:
-                        if (!(currentFragment instanceof CalendarFragment))
+                        if (!(currentFragment instanceof CalendarFragment)) {
                             fragment = new CalendarFragment();
+                        }
                         break;
                     case R.id.navigation_course:
-                        if (!(currentFragment instanceof CourseFragment))
+                        if (!(currentFragment instanceof CourseFragment)) {
                             fragment = new CourseFragment();
+                        }
+
                         break;
                     case R.id.navigation_exam:
-                        if (!(currentFragment instanceof ExamFragment))
+                        if (!(currentFragment instanceof ExamFragment)) {
                             fragment = new ExamFragment();
+                        }
                         break;
                     case R.id.navigation_homework:
-                        if (!(currentFragment instanceof HomeworkFragment))
+                        if (!(currentFragment instanceof HomeworkFragment)) {
                             fragment = new HomeworkFragment();
+                        }
                         break;
                     case R.id.navigation_teacher:
-                        if (!(currentFragment instanceof TeacherFragment))
+                        if (!(currentFragment instanceof TeacherFragment)) {
                             fragment = new TeacherFragment();
+                        }
                         break;
 
                 }
@@ -107,6 +115,8 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+
 
 
 
