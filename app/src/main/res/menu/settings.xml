@@ -13,14 +13,15 @@
 
         <menu android:id="@+id/sousmenu">
             <item android:id="@+id/french"
-                android:title="French"   />
+                android:title="@string/french"   />
 
             <item android:id="@+id/german"
-                android:title="German"  />
+                android:title="@string/german"  />
+
+            <item android:id="@+id/english"
+                android:title="@string/english"  />
         </menu>
     </item>
-
-
 
 
 </menu>

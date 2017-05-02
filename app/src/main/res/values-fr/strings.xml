@@ -30,4 +30,11 @@
     <string name="colorChange">Choisir une couleur:</string>
     <string name="todo">À faire</string>
     <string name="overlap">Votre cours se chevauche avec un autre cours</string>
+    <string name="courses">Cours</string>
+    <string name="english">Anglais</string>
+    <string name="exams">Examens</string>
+    <string name="french">Français</string>
+    <string name="german">Allemand</string>
+    <string name="title_settings">Paramètre</string>
+    <string name="choose">Choisir</string>
 </resources>

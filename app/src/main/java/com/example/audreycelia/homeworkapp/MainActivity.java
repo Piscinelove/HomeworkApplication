@@ -1,5 +1,7 @@
 package com.example.audreycelia.homeworkapp;
 
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,8 +13,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.CalendarView;
 import android.widget.Toast;
+
+import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -116,23 +121,46 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
+    }
+
+    public void changeLanguage (String toLoad) {
+        Locale locale = new Locale(toLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale= locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+        Intent intent = new Intent(MainActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     //Méthode qui se déclenchera au clic sur un item
     public boolean onOptionsItemSelected(MenuItem item) {
+        String languageToLoad;
         //On regarde quel item a été cliqué grâce à son id et on déclenche une action
         switch (item.getItemId()) {
             case R.id.action_bar_settings:
-                Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.french:
-                Toast.makeText(this, "French", Toast.LENGTH_SHORT).show();
+                languageToLoad = "fr";
+                changeLanguage(languageToLoad);
                 return true;
             case R.id.german:
-                Toast.makeText(this, "German", Toast.LENGTH_SHORT).show();
+                languageToLoad = "de";
+                changeLanguage(languageToLoad);
+                return true;
+            case R.id.english:
+                languageToLoad = "en";
+                changeLanguage(languageToLoad);
                 return true;
 
         }
-        return false;}
+        return false;
+    }
+
 
 }
+

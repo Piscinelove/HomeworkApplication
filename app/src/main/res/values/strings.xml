@@ -28,6 +28,7 @@
     <string name="room">Room</string>
     <string name="description">Description</string>
     <string name="color">Color</string>
+    <string name="choose">Choose</string>
     <string name="colorChange">Select one color:</string>
     <string name="overlapcourse">Your course overlaps with another course</string>
     <string name="nullday">You need to choose a day</string>
