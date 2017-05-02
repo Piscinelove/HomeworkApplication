@@ -45,7 +45,6 @@ public class HomeworkFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 int homeworkId = ((Homework) listView.getItemAtPosition(position)).getHomeworkId();
-                System.out.println("ID HOMEWORK = "+homeworkId);
                 Bundle bundle = new Bundle();
                 bundle.putInt("SelectedHomeworkId", homeworkId);
                 fragmentManager = getActivity().getSupportFragmentManager();

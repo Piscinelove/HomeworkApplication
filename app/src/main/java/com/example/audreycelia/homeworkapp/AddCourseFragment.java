@@ -52,14 +52,14 @@ public class AddCourseFragment extends Fragment {
     private int minute;
 
     //FIELDS
-    EditText name;
-    EditText from;
-    EditText until;
-    Button colorButton;
-    Spinner teacher;
-    EditText room;
-    EditText description;
-    Spinner day;
+    private EditText name;
+    private EditText from;
+    private EditText until;
+    private Button colorButton;
+    private Spinner teacher;
+    private EditText room;
+    private EditText description;
+    private Spinner day;
 
 
 
@@ -263,10 +263,6 @@ public class AddCourseFragment extends Fragment {
 
     public boolean checkTimeCorrect(String start, String end)
     {
-
-        //FORMAT THE START TIME AND END TIME
-        SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm");
-
         //SHIFT OF USER
         Date startA = formatTime(start);
         Date endA = formatTime(end);
@@ -336,12 +332,14 @@ public class AddCourseFragment extends Fragment {
         }
 
         if(TextUtils.isEmpty(from.getText().toString())) {
-            from.setError("From field cannot be empty");
+            Toast toast = Toast.makeText(getActivity(), R.string.nullfrom, Toast.LENGTH_SHORT);
+            toast.show();
             return false;
         }
 
         if(TextUtils.isEmpty(until.getText().toString())) {
-            until.setError("Until field cannot be empty");
+            Toast toast = Toast.makeText(getActivity(), R.string.nulluntil, Toast.LENGTH_SHORT);
+            toast.show();
             return false;
         }
 
@@ -368,7 +366,7 @@ public class AddCourseFragment extends Fragment {
         //CHECK OVERLAPS
         if(checkTimeOverlap(from.getText().toString(),until.getText().toString(), day.getSelectedItem().toString()))
         {
-            Toast toast = Toast.makeText(getActivity(), R.string.overlap, Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(getActivity(), R.string.overlapcourse, Toast.LENGTH_SHORT);
             toast.show();
             return false;
         }

@@ -24,10 +24,16 @@
     <string name="description">Description</string>
     <string name="color">Color</string>
     <string name="colorChange">Select one color:</string>
-    <string name="overlap">Your course overlaps with another course</string>
+    <string name="overlapcourse">Your course overlaps with another course</string>
     <string name="nullday">You need to choose a day</string>
     <string name="nullteacher">You need to choose a teacher</string>
     <string name="incorrecttime">Start time must before end time</string>
+    <string name="nullcourse">You need to choose a course</string>
+    <string name="nulldate">You need to choose a date</string>
+    <string name="nullfrom">From field can not be empty</string>
+    <string name="nulluntil">Until field can not be empty</string>
+    <string name="overlapexam">Your exam overlaps with another exam</string>
+
 
 
     <!-- TODO: Remove or change this placeholder text -->

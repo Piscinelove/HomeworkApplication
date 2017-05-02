@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.android.colorpicker.ColorPickerDialog;
 
@@ -31,15 +32,19 @@ import java.util.Date;
 
 import db.Course;
 import db.DatabaseHelper;
+import db.Exam;
 import db.Teacher;
 
 
 public class AddExamFragment extends Fragment {
 
-    private Button saveButton;
+    //DB
     private DatabaseHelper db;
+    //FRAGMENTS HANDLE
     private Fragment fragment;
     private FragmentManager fragmentManager;
+
+    //PICKERS AND VARIABLES NEEDED
     private TimePickerDialog timePickerDialog;
     private DatePickerDialog datePickerDialog;
     private int hour;
@@ -47,6 +52,16 @@ public class AddExamFragment extends Fragment {
     private int month;
     private int year;
     private int day;
+
+    //FIELDS
+    private EditText name;
+    private EditText date;
+    private EditText from;
+    private EditText until;
+    private Spinner course;
+    private EditText room;
+    private EditText grade;
+    private EditText description;
 
     public AddExamFragment() {
         // Required empty public constructor
@@ -68,75 +83,27 @@ public class AddExamFragment extends Fragment {
                 return true;
 
             case R.id.ab_save:
-            EditText name = (EditText) getView().findViewById(R.id.et_add_exam_name);
-            EditText date = (EditText) getView().findViewById(R.id.et_add_exam_date);
-            EditText from = (EditText) getView().findViewById(R.id.et_add_exam_from);
-            EditText until = (EditText) getView().findViewById(R.id.et_add_exam_until);
-            Spinner course = (Spinner) getView().findViewById(R.id.sp_add_exam_course);
-            EditText room = (EditText) getView().findViewById(R.id.et_add_exam_room);
-            EditText grade = (EditText) getView().findViewById(R.id.et_add_exam_grade);
-            EditText description = (EditText) getView().findViewById(R.id.et_add_exam_description);
+
+                if(isValid() == false)
+                    return  false;
 
 
+                db = new DatabaseHelper(getActivity().getApplicationContext());
+                //transform date format for correct handling in db
+                String examDate = convertTimeToDatabase(date.getText().toString());
+
+                if(TextUtils.isEmpty(grade.getText().toString()))
+                    db.insertExam(name.getText().toString(),examDate,from.getText().toString(),until.getText().toString(), 0, Integer.parseInt(room.getText().toString()),description.getText().toString(),((Course)course.getSelectedItem()).getCourseId());
+                else
+                    db.insertExam(name.getText().toString(),examDate,from.getText().toString(),until.getText().toString(), Double.parseDouble(grade.getText().toString()), Integer.parseInt(room.getText().toString()),description.getText().toString(),((Course)course.getSelectedItem()).getCourseId());
 
 
-            if(TextUtils.isEmpty(name.getText().toString())) {
-                name.setError("Name field cannot be empty");
-                return false;
-            }
+                fragmentManager = getActivity().getSupportFragmentManager();
+                fragment = new ExamFragment();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.addToBackStack(null);
+                transaction.replace(R.id.main_container, fragment).commit();
 
-            if(TextUtils.isEmpty(date.getText().toString())) {
-                date.setError("Date field cannot be empty");
-                return false;
-            }
-
-            if(TextUtils.isEmpty(from.getText().toString())) {
-                from.setError("From field cannot be empty");
-                return false;
-            }
-
-            if(TextUtils.isEmpty(until.getText().toString())) {
-                from.setError("Until field cannot be empty");
-                return false;
-            }
-
-            if(course.getSelectedItem()==null) {
-                TextView spinnerText = (TextView) course.getSelectedView();
-                spinnerText.setError("Course field cannot be empty");
-                return false;
-            }
-
-            if(TextUtils.isEmpty(room.getText().toString())) {
-                room.setError("Room field cannot be empty");
-                return false;
-            }
-
-
-            db = new DatabaseHelper(getActivity().getApplicationContext());
-            //transform date format for correct handling in db
-            SimpleDateFormat dateFormatin = new SimpleDateFormat("dd.MM.yyyy");
-            SimpleDateFormat dateFormatout = new SimpleDateFormat("yyyyMMdd");
-            String examDate ="";
-            Date dateTime;
-                try
-                {
-                    dateTime = dateFormatin.parse(date.getText().toString());
-                    examDate = dateFormatout.format(dateTime);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-            if(TextUtils.isEmpty(grade.getText().toString()))
-                db.insertExam(name.getText().toString(),examDate,from.getText().toString(),until.getText().toString(), 0, Integer.parseInt(room.getText().toString()),description.getText().toString(),1);
-            else
-                db.insertExam(name.getText().toString(),examDate,from.getText().toString(),until.getText().toString(), Double.parseDouble(grade.getText().toString()), Integer.parseInt(room.getText().toString()),description.getText().toString(),1);
-
-
-            fragmentManager = getActivity().getSupportFragmentManager();
-            fragment = new ExamFragment();
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.addToBackStack(null);
-            transaction.replace(R.id.main_container, fragment).commit();
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -148,10 +115,15 @@ public class AddExamFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_add_exam, container, false);
         setHasOptionsMenu(true);
 
-        final EditText date = (EditText) rootView.findViewById(R.id.et_add_exam_date);
-        final EditText from = (EditText) rootView.findViewById(R.id.et_add_exam_from);
-        final EditText until = (EditText) rootView.findViewById(R.id.et_add_exam_until);
-        Spinner course = (Spinner) rootView.findViewById(R.id.sp_add_exam_course);
+        //INITIATE FIELDS
+        name = (EditText) rootView.findViewById(R.id.et_add_exam_name);
+        date = (EditText) rootView.findViewById(R.id.et_add_exam_date);
+        from = (EditText) rootView.findViewById(R.id.et_add_exam_from);
+        until = (EditText) rootView.findViewById(R.id.et_add_exam_until);
+        course = (Spinner) rootView.findViewById(R.id.sp_add_exam_course);
+        room = (EditText) rootView.findViewById(R.id.et_add_exam_room);
+        grade = (EditText) rootView.findViewById(R.id.et_add_exam_grade);
+        description = (EditText) rootView.findViewById(R.id.et_add_exam_description);
 
         //Fill spinner from database
         db = new DatabaseHelper(getActivity().getApplicationContext());
@@ -174,21 +146,12 @@ public class AddExamFragment extends Fragment {
                 //Launch date Picker Dialog
                 datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
+                    {
 
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-                        Date dateTime;
-                        try {
                             month++;
-                            dateTime = dateFormat.parse(dayOfMonth+"."+month+"."+year);
-                            dateFormat.format(dateTime);
-                            String courseDate = dateFormat.format(dateTime);
-
+                            String courseDate = formatDateString(dayOfMonth+"."+month+"."+year);
                             date.setText(courseDate);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-
                     }
                 },year,month, day);
                 datePickerDialog.show();
@@ -213,17 +176,8 @@ public class AddExamFragment extends Fragment {
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute)
                     {
 
-                        SimpleDateFormat hourFormatout = new SimpleDateFormat("HH:mm");
-                        Date date;
-                        try {
-                            date = hourFormatout.parse(hourOfDay+":"+minute);
-                            hourFormatout.format(date);
-                            String hour = hourFormatout.format(date);
-
-                            from.setText(hour);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
+                        String hour = formatTimeString(hourOfDay+":"+minute);
+                        from.setText(hour);
 
 
 
@@ -248,22 +202,209 @@ public class AddExamFragment extends Fragment {
                     public void onTimeSet(TimePicker view, int hourOfDay,int minute)
                     {
 
-                        SimpleDateFormat hourFormatout = new SimpleDateFormat("HH:mm");
-                        Date date;
-                        try {
-                            date = hourFormatout.parse(hourOfDay+":"+minute);
-                            hourFormatout.format(date);
-                            String hour = hourFormatout.format(date);
-
-                            until.setText(hour);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
+                        String hour = formatTimeString(hourOfDay+":"+minute);
+                        until.setText(hour);
                     }
                 },hour,minute,true);
                 timePickerDialog.show();
             }});
 
         return  rootView;
+    }
+
+    //FORMAT DATE FROM A STRING AND RETURN THE STRING
+    public String formatDateString(String dateString)
+    {
+        //FORMAT THE START TIME NAD
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        Date date;
+
+        try
+        {
+            date = dateFormat.parse(dateString);
+            dateString = dateFormat.format(date);
+
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
+
+        return dateString;
+    }
+
+    //FORMAT TIME FROM A STRING
+    public Date formatTime(String time)
+    {
+        //FORMAT THE START TIME NAD
+        SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm");
+        Date date = new Date();
+
+        try
+        {
+            date = hourFormat.parse(time);
+
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
+
+        return date;
+    }
+
+    //FORMAT TIME FROM A STRING AND RETURN THE STRING
+    public String formatTimeString(String time)
+    {
+        //FORMAT THE START TIME NAD
+        SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm");
+        Date date = new Date();
+
+        try
+        {
+            date = hourFormat.parse(time);
+            time = hourFormat.format(date);
+
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
+
+        return time;
+    }
+
+    public String convertTimeToDatabase(String examDate)
+    {
+        SimpleDateFormat dateFormatin = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat dateFormatout = new SimpleDateFormat("yyyyMMdd");
+        Date dateTime;
+        try
+        {
+            dateTime = dateFormatin.parse(examDate);
+            examDate = dateFormatout.format(dateTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return  examDate;
+    }
+
+    //CHECK IF START TIME BEFORE END TIME
+
+    public boolean checkTimeCorrect(String start, String end)
+    {
+        //SHIFT OF USER
+        Date startA = formatTime(start);
+        Date endA = formatTime(end);
+
+        if((startA.before(endA) || startA.equals(endA)))
+            //incorrect
+            return true;
+
+        //correct
+        return false;
+
+    }
+
+    //CHECK IF START TIME AND END TIME OF THE COURSE
+    //OVERLAPS WITH AN EXISTING COURSE IN DB
+
+    public boolean checkTimeOverlap(String start, String end, String date)
+    {
+
+        //FORMAT THE START TIME AND END TIME
+        SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm");
+
+        //SHIFT OF USER
+        Date startA = formatTime(start);
+        Date endA = formatTime(end);
+
+        //EXISTING SHIFT IN DB
+        Date startB;
+        Date endB;
+
+        //OPEN DATABASE HELPER
+        db = new DatabaseHelper(getActivity().getApplicationContext());
+        ArrayList<Exam> existingExams = db.getAllExams();
+
+        //CHECKING IN ALL THE DB
+        for (Exam existingExam : existingExams)
+        {
+
+            if(date.equals(existingExam.getDate()))
+            {
+                startB = formatTime(existingExam.getStart());
+                endB = formatTime(existingExam.getEnd());
+
+                if ((startA.before(endB) || startA.equals(endB)) && (startB.before(endA) || startB.equals(endA))
+                        && (startA.before(endB) || startA.equals(endB)) && (startB.before(endB) || startB.equals(endB)))
+                    //overlaps
+                    return true;
+            }
+        }
+
+        //doesn't overlap
+        return false;
+
+    }
+
+    public boolean isValid()
+    {
+        if(TextUtils.isEmpty(name.getText().toString())) {
+            name.setError("Name field cannot be empty");
+            return false;
+        }
+
+        if(TextUtils.isEmpty(date.getText().toString())) {
+            Toast toast = Toast.makeText(getActivity(), R.string.nulldate, Toast.LENGTH_SHORT);
+            toast.show();
+            return false;
+        }
+
+        if(TextUtils.isEmpty(from.getText().toString())) {
+            Toast toast = Toast.makeText(getActivity(), R.string.nullfrom, Toast.LENGTH_SHORT);
+            toast.show();
+            return false;
+        }
+
+        if(TextUtils.isEmpty(until.getText().toString())) {
+            Toast toast = Toast.makeText(getActivity(), R.string.nulluntil, Toast.LENGTH_SHORT);
+            toast.show();
+            return false;
+        }
+
+
+        //CHECK START BEFORE END
+        if(!checkTimeCorrect(from.getText().toString(),until.getText().toString()))
+        {
+            Toast toast = Toast.makeText(getActivity(), R.string.incorrecttime, Toast.LENGTH_SHORT);
+            toast.show();
+            return false;
+        }
+
+
+        //CHECK OVERLAPS
+        if(checkTimeOverlap(from.getText().toString(),until.getText().toString(), date.getText().toString()))
+        {
+            Toast toast = Toast.makeText(getActivity(), R.string.overlapexam, Toast.LENGTH_SHORT);
+            toast.show();
+            return false;
+        }
+
+        if(course.getSelectedItem() == null)
+        {
+            Toast toast = Toast.makeText(getActivity(), R.string.nullcourse, Toast.LENGTH_SHORT);
+            toast.show();
+            return false;
+        }
+
+        if(TextUtils.isEmpty(room.getText().toString())) {
+            room.setError("Room field cannot be empty");
+            return false;
+        }
+
+        return true;
+
     }
 }

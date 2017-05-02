@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.android.colorpicker.ColorPickerDialog;
 
@@ -39,20 +40,32 @@ import db.Teacher;
 
 public class EditExamFragment extends Fragment {
 
+    //DB
     private DatabaseHelper db;
+    //FRAGMENTS HANDLE
     private Fragment fragment;
     private FragmentManager fragmentManager;
     private Menu menu;
 
+    //PICKERS AND VARIABLES NEEDED
     private TimePickerDialog timePickerDialog;
     private DatePickerDialog datePickerDialog;
-
     private int hour;
     private int minute;
-
     private int month;
     private int year;
     private int day;
+
+    //FIELDS
+    private EditText name;
+    private EditText date;
+    private EditText from;
+    private EditText until;
+    private Spinner course;
+    private EditText room;
+    private EditText grade;
+    private EditText description;
+    private Button deleteButton;
 
     public EditExamFragment() {
         // Required empty public constructor
@@ -75,16 +88,6 @@ public class EditExamFragment extends Fragment {
         MenuItem save = menu.findItem(R.id.ab_edit_save);
 
         final int examId = getArguments().getInt("SelectedExamId");
-
-        final EditText name = (EditText) getView().findViewById(R.id.et_edit_exam_name);
-        final EditText date = (EditText) getView().findViewById(R.id.et_edit_exam_date);
-        final EditText from = (EditText) getView().findViewById(R.id.et_edit_exam_from);
-        final EditText until = (EditText) getView().findViewById(R.id.et_edit_exam_until);
-        final Spinner course = (Spinner) getView().findViewById(R.id.sp_edit_exam_course);
-        final EditText room = (EditText) getView().findViewById(R.id.et_edit_exam_room);
-        final EditText grade = (EditText) getView().findViewById(R.id.et_edit_exam_grade);
-        final EditText description = (EditText) getView().findViewById(R.id.et_edit_exam_description);
-        final Button deleteButton = (Button) getView().findViewById(R.id.bt_delete_edit_exam);
 
         switch (item.getItemId())
         {
@@ -308,15 +311,16 @@ public class EditExamFragment extends Fragment {
 
         Exam exam = db.getExamFromId(examId);
 
-         EditText name = (EditText) rootView.findViewById(R.id.et_edit_exam_name);
-         EditText date = (EditText) rootView.findViewById(R.id.et_edit_exam_date);
-         EditText from = (EditText) rootView.findViewById(R.id.et_edit_exam_from);
-         EditText until = (EditText) rootView.findViewById(R.id.et_edit_exam_until);
-         Spinner course = (Spinner) rootView.findViewById(R.id.sp_edit_exam_course);
-         EditText room = (EditText) rootView.findViewById(R.id.et_edit_exam_room);
-         EditText grade = (EditText) rootView.findViewById(R.id.et_edit_exam_grade);
-         EditText description = (EditText) rootView.findViewById(R.id.et_edit_exam_description);
-         final Button deleteButton = (Button) rootView.findViewById(R.id.bt_delete_edit_exam);
+        // Recupérer les éléments de la view
+        name = (EditText) rootView.findViewById(R.id.et_edit_exam_name);
+        date = (EditText) rootView.findViewById(R.id.et_edit_exam_date);
+        from = (EditText) rootView.findViewById(R.id.et_edit_exam_from);
+        until = (EditText) rootView.findViewById(R.id.et_edit_exam_until);
+        course = (Spinner) rootView.findViewById(R.id.sp_edit_exam_course);
+        room = (EditText) rootView.findViewById(R.id.et_edit_exam_room);
+        grade = (EditText) rootView.findViewById(R.id.et_edit_exam_grade);
+        description = (EditText) rootView.findViewById(R.id.et_edit_exam_description);
+        deleteButton = (Button) rootView.findViewById(R.id.bt_delete_edit_exam);
 
 
         //Disable temporaiement les fields
@@ -368,5 +372,219 @@ public class EditExamFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    public void editMode(boolean value)
+    {
+        //Disable temporaiement les fields
+        name.setEnabled(value);
+        date.setEnabled(value);
+        from.setEnabled(value);
+        until.setEnabled(value);
+        course.setEnabled(value);
+        room.setEnabled(value);
+        grade.setEnabled(value);
+        description.setEnabled(value);
+
+        if(value == true)
+            deleteButton.setVisibility(View.VISIBLE);
+        else
+            deleteButton.setVisibility(View.INVISIBLE);
+    }
+
+    //FORMAT DATE FROM A STRING AND RETURN THE STRING
+    public String formatDateString(String dateString)
+    {
+        //FORMAT THE START TIME NAD
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        Date date;
+
+        try
+        {
+            date = dateFormat.parse(dateString);
+            dateString = dateFormat.format(date);
+
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
+
+        return dateString;
+    }
+
+    //FORMAT TIME FROM A STRING
+    public Date formatTime(String time)
+    {
+        //FORMAT THE START TIME NAD
+        SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm");
+        Date date = new Date();
+
+        try
+        {
+            date = hourFormat.parse(time);
+
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
+
+        return date;
+    }
+
+    //FORMAT TIME FROM A STRING AND RETURN THE STRING
+    public String formatTimeString(String time)
+    {
+        //FORMAT THE START TIME NAD
+        SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm");
+        Date date = new Date();
+
+        try
+        {
+            date = hourFormat.parse(time);
+            time = hourFormat.format(date);
+
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
+
+        return time;
+    }
+
+    public String convertTimeToDatabase(String examDate)
+    {
+        SimpleDateFormat dateFormatin = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat dateFormatout = new SimpleDateFormat("yyyyMMdd");
+        Date dateTime;
+        try
+        {
+            dateTime = dateFormatin.parse(examDate);
+            examDate = dateFormatout.format(dateTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return  examDate;
+    }
+
+    //CHECK IF START TIME BEFORE END TIME
+
+    public boolean checkTimeCorrect(String start, String end)
+    {
+        //SHIFT OF USER
+        Date startA = formatTime(start);
+        Date endA = formatTime(end);
+
+        if((startA.before(endA) || startA.equals(endA)))
+            //incorrect
+            return true;
+
+        //correct
+        return false;
+
+    }
+
+    //CHECK IF START TIME AND END TIME OF THE COURSE
+    //OVERLAPS WITH AN EXISTING COURSE IN DB
+
+    public boolean checkTimeOverlap(String start, String end, String date)
+    {
+
+        //FORMAT THE START TIME AND END TIME
+        SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm");
+
+        //SHIFT OF USER
+        Date startA = formatTime(start);
+        Date endA = formatTime(end);
+
+        //EXISTING SHIFT IN DB
+        Date startB;
+        Date endB;
+
+        //OPEN DATABASE HELPER
+        db = new DatabaseHelper(getActivity().getApplicationContext());
+        ArrayList<Exam> existingExams = db.getAllExams();
+
+        //CHECKING IN ALL THE DB
+        for (Exam existingExam : existingExams)
+        {
+
+            if(date.equals(existingExam.getDate()))
+            {
+                startB = formatTime(existingExam.getStart());
+                endB = formatTime(existingExam.getEnd());
+
+                if ((startA.before(endB) || startA.equals(endB)) && (startB.before(endA) || startB.equals(endA))
+                        && (startA.before(endB) || startA.equals(endB)) && (startB.before(endB) || startB.equals(endB)))
+                    //overlaps
+                    return true;
+            }
+        }
+
+        //doesn't overlap
+        return false;
+
+    }
+
+    public boolean isValid()
+    {
+        if(TextUtils.isEmpty(name.getText().toString())) {
+            name.setError("Name field cannot be empty");
+            return false;
+        }
+
+        if(TextUtils.isEmpty(date.getText().toString())) {
+            Toast toast = Toast.makeText(getActivity(), R.string.nulldate, Toast.LENGTH_SHORT);
+            toast.show();
+            return false;
+        }
+
+        if(TextUtils.isEmpty(from.getText().toString())) {
+            Toast toast = Toast.makeText(getActivity(), R.string.nullfrom, Toast.LENGTH_SHORT);
+            toast.show();
+            return false;
+        }
+
+        if(TextUtils.isEmpty(until.getText().toString())) {
+            Toast toast = Toast.makeText(getActivity(), R.string.nulluntil, Toast.LENGTH_SHORT);
+            toast.show();
+            return false;
+        }
+
+
+        //CHECK START BEFORE END
+        if(!checkTimeCorrect(from.getText().toString(),until.getText().toString()))
+        {
+            Toast toast = Toast.makeText(getActivity(), R.string.incorrecttime, Toast.LENGTH_SHORT);
+            toast.show();
+            return false;
+        }
+
+
+        //CHECK OVERLAPS
+        if(checkTimeOverlap(from.getText().toString(),until.getText().toString(), date.getText().toString()))
+        {
+            Toast toast = Toast.makeText(getActivity(), R.string.overlapexam, Toast.LENGTH_SHORT);
+            toast.show();
+            return false;
+        }
+
+        if(course.getSelectedItem() == null)
+        {
+            Toast toast = Toast.makeText(getActivity(), R.string.nullcourse, Toast.LENGTH_SHORT);
+            toast.show();
+            return false;
+        }
+
+        if(TextUtils.isEmpty(room.getText().toString())) {
+            room.setError("Room field cannot be empty");
+            return false;
+        }
+
+        return true;
+
     }
 }
