@@ -27,6 +27,14 @@ public class EditTeacherFragment extends Fragment {
     private FragmentManager fragmentManager;
     private Menu menu;
 
+    //FIELDS
+    EditText firstName;
+    EditText lastName;
+    EditText phone;
+    EditText email;
+    EditText description;
+    ImageButton deleteButton;
+
     public EditTeacherFragment() {
         // Required empty public constructor
     }
@@ -64,12 +72,8 @@ public class EditTeacherFragment extends Fragment {
                 return true;
             case R.id.ab_edit_edit:
 
-                deleteButton.setVisibility(View.VISIBLE);
-                firstName.setEnabled(true);
-                lastName.setEnabled(true);
-                email.setEnabled(true);
-                phone.setEnabled(true);
-                description.setEnabled(true);
+                //Enable les fields
+                editMode(true);
 
                 //Gérer les boutons du menu
                 edit.setVisible(false);
@@ -87,38 +91,15 @@ public class EditTeacherFragment extends Fragment {
                 undo.setVisible(false);
                 save.setVisible(false);
 
-                deleteButton.setVisibility(View.INVISIBLE);
-                firstName.setEnabled(false);
-                lastName.setEnabled(false);
-                email.setEnabled(false);
-                phone.setEnabled(false);
-                description.setEnabled(false);
+                editMode(false);
 
                 return true;
 
             case R.id.ab_edit_save:
 
-                if(TextUtils.isEmpty(firstName.getText().toString())) {
-                    firstName.setError("Firstname field cannot be empty");
-                    return false;
-                }
-
-                if(TextUtils.isEmpty(lastName.getText().toString())) {
-                    lastName.setError("Lastname field cannot be empty");
-                    return false;
-                }
-
-
-                if(!TextUtils.isEmpty(phone.getText().toString()) && !isPhoneValid(phone.getText()))
+                if(isValid() == false)
                 {
-                    phone.setError("Invalid phone number");
-                    return false;
-                }
-
-                if(!TextUtils.isEmpty(email.getText().toString()) && !isEmailValid(email.getText()))
-                {
-                    email.setError("Invalid email");
-                    return false;
+                    return  false;
                 }
 
                 db = new DatabaseHelper(getActivity().getApplicationContext());
@@ -126,12 +107,8 @@ public class EditTeacherFragment extends Fragment {
 
                 deleteButton.setVisibility(View.INVISIBLE);
 
-                //Gérer les fields
-                firstName.setEnabled(false);
-                lastName.setEnabled(false);
-                email.setEnabled(false);
-                phone.setEnabled(false);
-                description.setEnabled(false);
+                ///Disable temporaiement les fields
+                editMode(false);
 
                 //Gérer les boutons du menu
                 edit.setVisible(true);
@@ -154,18 +131,17 @@ public class EditTeacherFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_edit_teacher, container, false);
         setHasOptionsMenu(true);
 
+        //INITIATE FIELDS
+        firstName = (EditText) rootView.findViewById(R.id.et_edit_teacher_firstname);
+        lastName = (EditText) rootView.findViewById(R.id.et_edit_teacher_lastname);
+        phone = (EditText) rootView.findViewById(R.id.et_edit_teacher_phone);
+        email = (EditText) rootView.findViewById(R.id.et_edit_teacher_email);
+        description = (EditText) rootView.findViewById(R.id.et_edit_teacher_description);
+        deleteButton = (ImageButton) rootView.findViewById(R.id.ib_delete_edit_teacher);
+
         final int teacherId = getArguments().getInt("SelectedTeacherId");
         db = new DatabaseHelper(getActivity().getApplicationContext());
-
         Teacher teacher = db.getTeacherFromId(teacherId);
-
-        final EditText firstName = (EditText) rootView.findViewById(R.id.et_edit_teacher_firstname);
-        final EditText lastName = (EditText) rootView.findViewById(R.id.et_edit_teacher_lastname);
-        final EditText phone = (EditText) rootView.findViewById(R.id.et_edit_teacher_phone);
-        final EditText email = (EditText) rootView.findViewById(R.id.et_edit_teacher_email);
-        final EditText description = (EditText) rootView.findViewById(R.id.et_edit_teacher_description);
-
-        final ImageButton deleteButton = (ImageButton) rootView.findViewById(R.id.ib_delete_edit_teacher);
 
         firstName.setText(teacher.getFirstName());
         lastName.setText(teacher.getLastName());
@@ -175,34 +151,44 @@ public class EditTeacherFragment extends Fragment {
 
 
         //Disable temporaiement les fields
-        firstName.setEnabled(false);
-        lastName.setEnabled(false);
-        phone.setEnabled(false);
-        email.setEnabled(false);
-        description.setEnabled(false);
+        editMode(false);
 
 
-                deleteButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        db.deleteTeacher(teacherId);
-                        deleteButton.setVisibility(View.INVISIBLE);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                db.deleteTeacher(teacherId);
+                deleteButton.setVisibility(View.INVISIBLE);
 
-                        fragmentManager = getActivity().getSupportFragmentManager();
-                        fragment = new TeacherFragment();
-                        FragmentTransaction transaction = fragmentManager.beginTransaction();
-                        transaction.addToBackStack(null);
-                        transaction.replace(R.id.main_container, fragment).commit();
+                fragmentManager = getActivity().getSupportFragmentManager();
+                fragment = new TeacherFragment();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.addToBackStack(null);
+                transaction.replace(R.id.main_container, fragment).commit();
 
 
-
-                    }
-                });
+            }
+        });
 
 
 
 
         return rootView;
+    }
+
+    public void editMode(boolean value)
+    {
+        //Disable temporaiement les fields
+        firstName.setEnabled(value);
+        lastName.setEnabled(value);
+        phone.setEnabled(value);
+        email.setEnabled(value);
+        description.setEnabled(value);
+
+        if(value == true)
+            deleteButton.setVisibility(View.VISIBLE);
+        else
+            deleteButton.setVisibility(View.INVISIBLE);
     }
 
     private boolean isEmailValid(CharSequence email)
@@ -217,6 +203,35 @@ public class EditTeacherFragment extends Fragment {
         if(Patterns.PHONE.matcher(phone).matches())
             return true;
         return false;
+    }
+
+    public boolean isValid()
+    {
+        if(TextUtils.isEmpty(firstName.getText().toString())) {
+            firstName.setError("Firstname field cannot be empty");
+            return false;
+        }
+
+        if(TextUtils.isEmpty(lastName.getText().toString())) {
+            lastName.setError("Lastname field cannot be empty");
+            return false;
+        }
+
+
+        if(!TextUtils.isEmpty(phone.getText().toString()) && !isPhoneValid(phone.getText()))
+        {
+            phone.setError("Invalid phone number");
+            return false;
+        }
+
+        if(!TextUtils.isEmpty(email.getText().toString()) && !isEmailValid(email.getText()))
+        {
+            email.setError("Invalid email");
+            return false;
+        }
+
+        return true;
+
     }
 
 

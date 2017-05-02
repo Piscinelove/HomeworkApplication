@@ -175,11 +175,11 @@ public class EditHomeworkFragment extends Fragment {
         setHasOptionsMenu(true);
 
         //INITIATE FIELDS
-        name = (EditText) rootView.findViewById(R.id.et_add_homework_name);
-        date = (EditText) rootView.findViewById(R.id.et_add_homework_date);
-        course = (Spinner) rootView.findViewById(R.id.sp_add_homework_course);
-        done = (CheckBox) rootView.findViewById(R.id.cb_add_homework_done);
-        description = (EditText) rootView.findViewById(R.id.et_add_homework_description);
+        name = (EditText) rootView.findViewById(R.id.et_edit_homework_name);
+        date = (EditText) rootView.findViewById(R.id.et_edit_homework_date);
+        course = (Spinner) rootView.findViewById(R.id.sp_edit_homework_course);
+        done = (CheckBox) rootView.findViewById(R.id.cb_edit_homework_done);
+        description = (EditText) rootView.findViewById(R.id.et_edit_homework_description);
         deleteButton = (Button) rootView.findViewById(R.id.bt_delete_edit_homework);
 
         final int homeworkId = getArguments().getInt("SelectedHomeworkId");

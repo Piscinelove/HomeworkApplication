@@ -21,7 +21,6 @@ import db.DatabaseHelper;
 
 public class AddTeacherFragment extends Fragment {
 
-    private Button saveButton;
     private DatabaseHelper db;
     private Fragment fragment;
     private FragmentManager fragmentManager;
@@ -81,11 +80,11 @@ public class AddTeacherFragment extends Fragment {
         setHasOptionsMenu(true);
 
         //INITIATE FIELDS
-        firstName = (EditText) getView().findViewById(R.id.et_add_teacher_firstname);
-        lastName = (EditText) getView().findViewById(R.id.et_add_teacher_lastname);
-        email = (EditText) getView().findViewById(R.id.et_add_teacher_email);
-        phone = (EditText) getView().findViewById(R.id.et_add_teacher_phone);
-        description = (EditText) getView().findViewById(R.id.et_add_teacher_description);
+        firstName = (EditText) rootView.findViewById(R.id.et_add_teacher_firstname);
+        lastName = (EditText) rootView.findViewById(R.id.et_add_teacher_lastname);
+        email = (EditText) rootView.findViewById(R.id.et_add_teacher_email);
+        phone = (EditText) rootView.findViewById(R.id.et_add_teacher_phone);
+        description = (EditText) rootView.findViewById(R.id.et_add_teacher_description);
 
         return  rootView;
     }
