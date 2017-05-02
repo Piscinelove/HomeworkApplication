@@ -24,6 +24,10 @@ public class CalendarFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //set the title on the app
+        getActivity().setTitle(R.string.app_name);
         return inflater.inflate(R.layout.fragment_calendar, container, false);
+
+
     }
 }

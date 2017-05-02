@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -62,7 +63,7 @@ public class EditCourseFragment extends Fragment {
     private EditText room;
     private EditText description;
     private Spinner day;
-    private Button deleteButton;
+    private ImageButton deleteButton;
 
 
     public EditCourseFragment() {
@@ -242,7 +243,7 @@ public class EditCourseFragment extends Fragment {
         room = (EditText) rootView.findViewById(R.id.et_edit_course_room);
         description = (EditText) rootView.findViewById(R.id.et_edit_course_description);
         day = (Spinner) rootView.findViewById(R.id.sp_edit_course_day);
-        deleteButton = (Button) rootView.findViewById(R.id.bt_delete_edit_course);
+        deleteButton = (ImageButton) rootView.findViewById(R.id.ib_delete_edit_course);
 
 
         final int courseId = getArguments().getInt("SelectedCourseId");

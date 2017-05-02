@@ -35,6 +35,9 @@ public class HomeworkFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView =  inflater.inflate(R.layout.fragment_homework, container, false);
 
+        //set the title on the app
+        getActivity().setTitle(R.string.title_homework);
+
         db = new DatabaseHelper(getActivity().getApplicationContext());
 
         ArrayList<Homework> listHomeworks = db.getAllHomeworks();

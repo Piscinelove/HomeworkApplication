@@ -36,6 +36,9 @@ public class CourseFragment extends Fragment {
 
         View rootView =  inflater.inflate(R.layout.fragment_course, container, false);
 
+        //set the title on the app
+        getActivity().setTitle(R.string.title_course);
+
         //fill the list view with the db
         db = new DatabaseHelper(getActivity().getApplicationContext());
 

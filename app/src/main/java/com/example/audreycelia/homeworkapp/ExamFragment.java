@@ -36,6 +36,9 @@ public class ExamFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_exam, container, false);
 
+        //set the title on the app
+        getActivity().setTitle(R.string.title_exam);
+
         db = new DatabaseHelper(getActivity().getApplicationContext());
 
 

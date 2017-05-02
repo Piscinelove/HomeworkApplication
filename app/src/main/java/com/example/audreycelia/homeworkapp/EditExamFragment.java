@@ -19,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -65,7 +66,7 @@ public class EditExamFragment extends Fragment {
     private EditText room;
     private EditText grade;
     private EditText description;
-    private Button deleteButton;
+    private ImageButton deleteButton;
 
     public EditExamFragment() {
         // Required empty public constructor
@@ -237,7 +238,7 @@ public class EditExamFragment extends Fragment {
         room = (EditText) rootView.findViewById(R.id.et_edit_exam_room);
         grade = (EditText) rootView.findViewById(R.id.et_edit_exam_grade);
         description = (EditText) rootView.findViewById(R.id.et_edit_exam_description);
-        deleteButton = (Button) rootView.findViewById(R.id.bt_delete_edit_exam);
+        deleteButton = (ImageButton) rootView.findViewById(R.id.ib_delete_edit_exam);
 
         final int examId = getArguments().getInt("SelectedExamId");
         db = new DatabaseHelper(getActivity().getApplicationContext());

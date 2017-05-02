@@ -32,6 +32,9 @@ public class TeacherFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView =  inflater.inflate(R.layout.fragment_teacher, container, false);
+
+        //set the title on the app
+        getActivity().setTitle(R.string.title_teacher);
         //fill the list view with the db
         db = new DatabaseHelper(getActivity().getApplicationContext());
         ArrayList<Teacher> listTeachers = db.getAllTeachers();
