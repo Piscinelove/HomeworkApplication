@@ -13,6 +13,9 @@
     <string name="firstname">Firstname</string>
     <string name="lastname">Lastname</string>
     <string name="course">Course</string>
+    <string name="courses">Courses</string>
+    <string name="homeworks">Homeworks</string>
+    <string name="exams">Exams</string>
     <string name="phone">Phone</string>
     <string name="email">Email</string>
     <string name="date">Date</string>

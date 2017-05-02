@@ -279,6 +279,50 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public ArrayList<Course> getAllCoursesFromDay(String day) {
+        ArrayList<Course> listCourses = new ArrayList<Course>();
+
+        //SELECT
+        String select = "SELECT  * FROM " + DatabaseContract.Courses.TABLE_NAME+" WHERE "+DatabaseContract.Courses.COURSE_DAY+" = '"+day+"' ORDER BY "
+                +" CASE "
+                +" WHEN DAY = 'Sunday' THEN 1 "
+                +" WHEN DAY = 'Monday' THEN 2 "
+                +" WHEN DAY = 'Tuesday' THEN 3 "
+                +" WHEN DAY = 'Wednesday' THEN 4 "
+                +" WHEN DAY = 'Thursday' THEN 5 "
+                +" WHEN DAY = 'Friday' THEN 6 "
+                +" WHEN DAY = 'Saturday' THEN 7 "
+                +" END ASC, "+DatabaseContract.Courses.COURSE_START+" ASC, "+DatabaseContract.Courses.COURSE_END+" ASC, "+DatabaseContract.Courses.COURSE_NAME+" ASC";
+
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(select, null);
+
+
+        if (cursor.moveToFirst()) {
+            do {
+                Course course = new Course();
+                course.setCourseId(Integer.parseInt(cursor.getString(0)));
+                course.setName(cursor.getString(1));
+                course.setDay(cursor.getString(2));
+                course.setStart(cursor.getString(3));
+                course.setEnd(cursor.getString(4));
+                course.setColor(Integer.parseInt(cursor.getString(5)));
+                course.setRoom(Integer.parseInt(cursor.getString(6)));
+                course.setDescription(cursor.getString(7));
+                course.setTeacherId(Integer.parseInt(cursor.getString(8)));
+
+                //POPULATE THE ARRAY LIST
+                listCourses.add(course);
+
+            } while (cursor.moveToNext());
+        }
+
+        db.close();
+        return listCourses;
+
+    }
+
     public ArrayList<Teacher> getAllTeachers() {
         ArrayList<Teacher> listTeachers = new ArrayList<Teacher>();
 
@@ -344,6 +388,43 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return listHomeworks;
     }
 
+    //SELECT METHODS
+    public ArrayList<Homework> getAllHomeworksFromDate(String date) {
+        ArrayList<Homework> listHomeworks = new ArrayList<Homework>();
+
+        //SELECT
+        String select = "SELECT  * FROM " + DatabaseContract.Homeworks.TABLE_NAME+" WHERE "+DatabaseContract.Homeworks.HOMEWORK_DEADLINE+" = '"+date+"' ORDER BY "+DatabaseContract.Homeworks.HOMEWORK_DEADLINE+" ASC, "+DatabaseContract.Homeworks.HOMEWORK_NAME+" ASC";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(select, null);
+
+
+        if (cursor.moveToFirst()) {
+            do {
+                Homework homework = new Homework();
+
+                homework.setHomeworkId(Integer.parseInt(cursor.getString(0)));
+                homework.setName(cursor.getString(1));
+                homework.setDeadline(cursor.getString(2));
+                if(Integer.parseInt(cursor.getString(3))==1){
+                    homework.setDone(true);
+                }
+                else
+                    homework.setDone(false);
+
+                homework.setDescription(cursor.getString(4));
+                homework.setCourseId(Integer.parseInt(cursor.getString(5)));
+
+                //POPULATE THE ARRAY LIST
+                listHomeworks.add(homework);
+
+            } while (cursor.moveToNext());
+        }
+
+        db.close();
+        return listHomeworks;
+    }
+
 
     //SELECT METHODS
     public ArrayList<Exam> getAllExams() {
@@ -351,6 +432,41 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         //SELECT
         String select = "SELECT  * FROM " + DatabaseContract.Exams.TABLE_NAME + " ORDER BY "+DatabaseContract.Exams.EXAM_DATE+" ASC, "+DatabaseContract.Exams.EXAM_START+" ASC, "+DatabaseContract.Exams.EXAM_END+" ASC, "+DatabaseContract.Exams.EXAM_NAME+" ASC";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(select, null);
+
+
+        if (cursor.moveToFirst()) {
+            do {
+                Exam exam = new Exam();
+
+                exam.setExamId(Integer.parseInt(cursor.getString(0)));
+                exam.setName(cursor.getString(1));
+                exam.setDate(cursor.getString(2));
+                exam.setStart(cursor.getString(3));
+                exam.setEnd(cursor.getString(4));
+                exam.setGrade(cursor.getDouble(5));
+                exam.setRoom(Integer.parseInt(cursor.getString(6)));
+                exam.setDescription(cursor.getString(7));
+                exam.setCourseId(Integer.parseInt(cursor.getString(8)));
+
+                //POPULATE THE ARRAY LIST
+                listExams.add(exam);
+
+            } while (cursor.moveToNext());
+        }
+
+        db.close();
+        return listExams;
+    }
+
+    //SELECT METHODS
+    public ArrayList<Exam> getAllExamsFromDate(String date) {
+        ArrayList<Exam> listExams = new ArrayList<Exam>();
+
+        //SELECT
+        String select = "SELECT  * FROM " + DatabaseContract.Exams.TABLE_NAME+" WHERE "+DatabaseContract.Exams.EXAM_DATE+" = '"+date+"' ORDER BY "+DatabaseContract.Exams.EXAM_DATE+" ASC, "+DatabaseContract.Exams.EXAM_START+" ASC, "+DatabaseContract.Exams.EXAM_END+" ASC, "+DatabaseContract.Exams.EXAM_NAME+" ASC";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(select, null);
