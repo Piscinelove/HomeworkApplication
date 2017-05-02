@@ -8,8 +8,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.CalendarView;
+import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -25,8 +28,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
-
         if(fragmentManager.getBackStackEntryCount() > 0) {
                 Fragment currentFragment = fragmentManager.findFragmentById(R.id.main_container);
                 if(currentFragment instanceof CalendarFragment ){
@@ -56,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
 
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -116,9 +116,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
     }
+
+    //Méthode qui se déclenchera au clic sur un item
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //On regarde quel item a été cliqué grâce à son id et on déclenche une action
+        switch (item.getItemId()) {
+            case R.id.action_bar_settings:
+                Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.french:
+                Toast.makeText(this, "French", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.german:
+                Toast.makeText(this, "German", Toast.LENGTH_SHORT).show();
+                return true;
+
+        }
+        return false;}
+
 }

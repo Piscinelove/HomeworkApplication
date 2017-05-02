@@ -8,8 +8,17 @@
         android:enabled="true"
         android:icon="@drawable/ic_settings"
         android:orderInCategory="-10"
-        android:title="@string/french"
-        app:showAsAction="always" />
+        android:title="settings"
+        app:showAsAction="always" >
+
+        <menu android:id="@+id/sousmenu">
+            <item android:id="@+id/french"
+                android:title="French"   />
+
+            <item android:id="@+id/german"
+                android:title="German"  />
+        </menu>
+    </item>
 
 
 
