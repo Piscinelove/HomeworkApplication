@@ -5,6 +5,8 @@
     <string name="title_exam">Exam</string>
     <string name="title_homework">Homework</string>
     <string name="title_teacher">Teacher</string>
+    <string name="title_settings">Settings</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="name">Name</string>
@@ -37,6 +39,10 @@
     <string name="nulluntil">Until field can not be empty</string>
     <string name="overlapexam">Your exam overlaps with another exam</string>
 
+
+    <string name="french">French</string>
+    <string name="german">German</string>
+    <string name="english">English</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
