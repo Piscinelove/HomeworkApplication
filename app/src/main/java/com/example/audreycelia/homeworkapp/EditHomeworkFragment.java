@@ -17,7 +17,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,7 +50,7 @@ public class EditHomeworkFragment extends Fragment {
     private Spinner course;
     private CheckBox done;
     private EditText description;
-    private ImageButton deleteButton;
+    private Button deleteButton;
 
     public EditHomeworkFragment() {
         // Required empty public constructor
@@ -176,12 +175,12 @@ public class EditHomeworkFragment extends Fragment {
         setHasOptionsMenu(true);
 
         //INITIATE FIELDS
-        name = (EditText) rootView.findViewById(R.id.et_add_homework_name);
-        date = (EditText) rootView.findViewById(R.id.et_add_homework_date);
-        course = (Spinner) rootView.findViewById(R.id.sp_add_homework_course);
-        done = (CheckBox) rootView.findViewById(R.id.cb_add_homework_done);
-        description = (EditText) rootView.findViewById(R.id.et_add_homework_description);
-        deleteButton = (ImageButton) rootView.findViewById(R.id.ib_delete_edit_homework);
+        name = (EditText) rootView.findViewById(R.id.et_edit_homework_name);
+        date = (EditText) rootView.findViewById(R.id.et_edit_homework_date);
+        course = (Spinner) rootView.findViewById(R.id.sp_edit_homework_course);
+        done = (CheckBox) rootView.findViewById(R.id.cb_edit_homework_done);
+        description = (EditText) rootView.findViewById(R.id.et_edit_homework_description);
+        deleteButton = (Button) rootView.findViewById(R.id.bt_delete_edit_homework);
 
         final int homeworkId = getArguments().getInt("SelectedHomeworkId");
         db = new DatabaseHelper(getActivity().getApplicationContext());
