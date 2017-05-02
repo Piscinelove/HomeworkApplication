@@ -147,14 +147,17 @@ public class MainActivity extends AppCompatActivity {
             case R.id.french:
                 languageToLoad = "fr";
                 changeLanguage(languageToLoad);
+
                 return true;
             case R.id.german:
                 languageToLoad = "de";
                 changeLanguage(languageToLoad);
+
                 return true;
             case R.id.english:
                 languageToLoad = "en";
                 changeLanguage(languageToLoad);
+
                 return true;
 
         }

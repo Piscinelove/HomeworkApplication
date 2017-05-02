@@ -125,10 +125,9 @@
             android:layout_below="@+id/et_add_course_until"
             android:gravity="bottom"
             android:padding="10dp"
-            android:text="Teacher"
+            android:text="@string/title_teacher"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="18dp"
-            tools:text="Teacher" />
+            android:textSize="18dp" />
 
         <Spinner
             android:id="@+id/sp_add_course_teacher"
@@ -155,10 +154,9 @@
             android:layout_below="@+id/tv_add_course_teacher"
             android:gravity="bottom"
             android:padding="10dp"
-            android:text="Color"
+            android:text="@string/color"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="18dp"
-            tools:text="Color" />
+            android:textSize="18dp" />
 
         <Button
             android:id="@+id/bt_add_course_color"
@@ -170,7 +168,7 @@
             android:layout_toEndOf="@+id/tv_add_course_teacher"
             android:layout_toRightOf="@+id/tv_add_course_color"
             android:background="@color/primary2"
-            android:text="choose"
+            android:text="@string/choose"
             android:textColor="@color/colorIcons"
             android:textStyle="bold" />
 
@@ -183,10 +181,9 @@
             android:layout_below="@+id/tv_add_course_color"
             android:gravity="bottom"
             android:padding="10dp"
-            android:text="Room"
+            android:text="@string/room"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="18dp"
-            tools:text="Room" />
+            android:textSize="18dp" />
 
         <EditText
             android:id="@+id/et_add_course_room"
@@ -211,10 +208,9 @@
             android:layout_below="@+id/tv_add_course_room"
             android:gravity="bottom"
             android:padding="10dp"
-            android:text="Description"
+            android:text="@string/description"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="18dp"
-            tools:text="Description" />
+            android:textSize="18dp" />
 
         <EditText
             android:id="@+id/et_add_course_description"

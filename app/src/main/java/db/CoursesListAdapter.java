@@ -71,7 +71,29 @@ public class CoursesListAdapter extends BaseAdapter {
 
             if(previousDay == null || !previousDay.equals(actualDay) ) {
                 holder.header.setVisibility(View.VISIBLE);
-                holder.header.setText(listData.get(position).getDay());
+                switch (listData.get(position).getDay()){
+                    case "Monday":
+                        holder.header.setText(R.string.monday);
+                        break;
+                    case "Tuesday":
+                        holder.header.setText(R.string.tuesday);
+                        break;
+                    case "Wednesday":
+                        holder.header.setText(R.string.wednesday);
+                        break;
+                    case "Thursday":
+                        holder.header.setText(R.string.thursday);
+                        break;
+                    case "Friday":
+                        holder.header.setText(R.string.friday);
+                        break;
+                    case "Saturday":
+                        holder.header.setText(R.string.saturday);
+                        break;
+                    case "Sunday":
+                        holder.header.setText(R.string.sunday);
+                        break;
+                }
             }
             else
                 holder.header.setVisibility(View.GONE);
