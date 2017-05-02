@@ -171,7 +171,7 @@
             android:layout_toRightOf="@+id/tv_add_course_color"
             android:background="@color/primary2"
             android:text="choose"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/colorIcons"
             android:textStyle="bold" />
 
         <TextView

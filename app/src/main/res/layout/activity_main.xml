@@ -27,10 +27,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorAccent"
-        android:foregroundTint="@color/colorWhite"
-        app:itemIconTint="@color/colorWhite"
-        app:itemTextColor="@color/colorWhite"
+        android:background="@color/colorPrimary"
+        android:foregroundTint="@color/colorIcons"
+        app:itemIconTint="@color/colorIcons"
+        app:itemTextColor="@color/colorIcons"
         >
     </android.support.design.widget.BottomNavigationView>
 

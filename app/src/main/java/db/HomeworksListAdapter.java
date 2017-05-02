@@ -62,7 +62,7 @@ public class HomeworksListAdapter extends BaseAdapter {
             holder.date.setImageResource(R.drawable.ic_save);
         }
         else {
-            holder.date.setBackgroundColor(ContextCompat.getColor(convertView.getContext(),R.color.colorBlue));
+            holder.date.setBackgroundColor(ContextCompat.getColor(convertView.getContext(),R.color.colorAccent));
             holder.date.setImageResource(R.drawable.ic_todo);
         }
 
