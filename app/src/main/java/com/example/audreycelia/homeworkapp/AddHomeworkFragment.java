@@ -143,6 +143,7 @@ public class AddHomeworkFragment extends Fragment {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
+                        month++;
                         String courseDate = formatDateString(dayOfMonth+"."+month+"."+year);
                         date.setText(courseDate);
 
