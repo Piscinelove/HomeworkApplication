@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import db.DatabaseHelper;
 
@@ -24,6 +25,13 @@ public class AddTeacherFragment extends Fragment {
     private DatabaseHelper db;
     private Fragment fragment;
     private FragmentManager fragmentManager;
+
+    //FIELDS
+    EditText firstName;
+    EditText lastName;
+    EditText email;
+    EditText phone;
+    EditText description;
 
     public AddTeacherFragment() {
         // Required empty public constructor
@@ -45,34 +53,9 @@ public class AddTeacherFragment extends Fragment {
                 return true;
 
             case R.id.ab_save:
-                EditText firstName = (EditText) getView().findViewById(R.id.et_add_teacher_firstname);
-                EditText lastName = (EditText) getView().findViewById(R.id.et_add_teacher_lastname);
-                EditText email = (EditText) getView().findViewById(R.id.et_add_teacher_email);
-                EditText phone = (EditText) getView().findViewById(R.id.et_add_teacher_phone);
-                EditText description = (EditText) getView().findViewById(R.id.et_add_teacher_description);
 
-                if(TextUtils.isEmpty(firstName.getText().toString())) {
-                    firstName.setError("Firstname field cannot be empty");
-                    return false;
-                }
-
-                if(TextUtils.isEmpty(lastName.getText().toString())) {
-                    lastName.setError("Lastname field cannot be empty");
-                    return false;
-                }
-
-
-                if(!TextUtils.isEmpty(phone.getText().toString()) && !isPhoneValid(phone.getText()))
-                {
-                    phone.setError("Invalid phone number");
-                    return false;
-                }
-
-                if(!TextUtils.isEmpty(email.getText().toString()) && !isEmailValid(email.getText()))
-                {
-                    email.setError("Invalid email");
-                    return false;
-                }
+                if(isValid() == false)
+                    return  false;
 
 
                 db = new DatabaseHelper(getActivity().getApplicationContext());
@@ -97,6 +80,13 @@ public class AddTeacherFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_add_teacher, container, false);
         setHasOptionsMenu(true);
 
+        //INITIATE FIELDS
+        firstName = (EditText) getView().findViewById(R.id.et_add_teacher_firstname);
+        lastName = (EditText) getView().findViewById(R.id.et_add_teacher_lastname);
+        email = (EditText) getView().findViewById(R.id.et_add_teacher_email);
+        phone = (EditText) getView().findViewById(R.id.et_add_teacher_phone);
+        description = (EditText) getView().findViewById(R.id.et_add_teacher_description);
+
         return  rootView;
     }
 
@@ -112,6 +102,35 @@ public class AddTeacherFragment extends Fragment {
         if(Patterns.PHONE.matcher(phone).matches())
             return true;
         return false;
+    }
+
+    public boolean isValid()
+    {
+        if(TextUtils.isEmpty(firstName.getText().toString())) {
+            firstName.setError("Firstname field cannot be empty");
+            return false;
+        }
+
+        if(TextUtils.isEmpty(lastName.getText().toString())) {
+            lastName.setError("Lastname field cannot be empty");
+            return false;
+        }
+
+
+        if(!TextUtils.isEmpty(phone.getText().toString()) && !isPhoneValid(phone.getText()))
+        {
+            phone.setError("Invalid phone number");
+            return false;
+        }
+
+        if(!TextUtils.isEmpty(email.getText().toString()) && !isEmailValid(email.getText()))
+        {
+            email.setError("Invalid email");
+            return false;
+        }
+
+        return true;
+
     }
 
 }

@@ -14,15 +14,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
-import com.android.colorpicker.ColorPickerDialog;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,7 +29,6 @@ import java.util.Date;
 import db.Course;
 import db.DatabaseHelper;
 import db.Exam;
-import db.Teacher;
 
 
 public class AddExamFragment extends Fragment {
@@ -90,7 +85,7 @@ public class AddExamFragment extends Fragment {
 
                 db = new DatabaseHelper(getActivity().getApplicationContext());
                 //transform date format for correct handling in db
-                String examDate = convertTimeToDatabase(date.getText().toString());
+                String examDate = convertDateToDatabase(date.getText().toString());
 
                 if(TextUtils.isEmpty(grade.getText().toString()))
                     db.insertExam(name.getText().toString(),examDate,from.getText().toString(),until.getText().toString(), 0, Integer.parseInt(room.getText().toString()),description.getText().toString(),((Course)course.getSelectedItem()).getCourseId());
@@ -274,7 +269,7 @@ public class AddExamFragment extends Fragment {
         return time;
     }
 
-    public String convertTimeToDatabase(String examDate)
+    public String convertDateToDatabase(String examDate)
     {
         SimpleDateFormat dateFormatin = new SimpleDateFormat("dd.MM.yyyy");
         SimpleDateFormat dateFormatout = new SimpleDateFormat("yyyyMMdd");

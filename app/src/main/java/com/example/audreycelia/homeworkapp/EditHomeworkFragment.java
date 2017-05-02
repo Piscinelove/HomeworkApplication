@@ -19,6 +19,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -43,6 +44,14 @@ public class EditHomeworkFragment extends Fragment {
     private int year;
     private int day;
 
+    //FIELDS
+    private EditText name;
+    private EditText date;
+    private Spinner course;
+    private CheckBox done;
+    private EditText description;
+    private Button deleteButton;
+
     public EditHomeworkFragment() {
         // Required empty public constructor
     }
@@ -63,14 +72,6 @@ public class EditHomeworkFragment extends Fragment {
         MenuItem save = menu.findItem(R.id.ab_edit_save);
 
         final int homeworkId = getArguments().getInt("SelectedHomeworkId");
-
-        final EditText name = (EditText) getView().findViewById(R.id.et_edit_homework_name);
-        final EditText date = (EditText) getView().findViewById(R.id.et_edit_homework_date);
-        final Spinner course = (Spinner) getView().findViewById(R.id.sp_edit_homework_course);
-        final CheckBox done = (CheckBox) getView().findViewById(R.id.cb_edit_homework_done);
-        final EditText description = (EditText) getView().findViewById(R.id.et_edit_homework_description);
-        final Button deleteButton = (Button) getView().findViewById(R.id.bt_delete_edit_homework);
-
 
         switch (item.getItemId())
         {
@@ -95,17 +96,8 @@ public class EditHomeworkFragment extends Fragment {
                             @Override
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
-                                SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-                                Date dateTime;
-                                try {
-                                    dateTime = dateFormat.parse(dayOfMonth+"."+month+"."+year);
-                                    dateFormat.format(dateTime);
-                                    String courseDate = dateFormat.format(dateTime);
-
-                                    date.setText(courseDate);
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
+                                String courseDate = formatDateString(dayOfMonth+"."+month+"."+year);
+                                date.setText(courseDate);
 
                             }
                         },year,month, day);
@@ -114,64 +106,41 @@ public class EditHomeworkFragment extends Fragment {
                 });
 
                 //Enable les fields
-                deleteButton.setVisibility(View.VISIBLE);
-                name.setEnabled(true);
-                date.setEnabled(true);
-                course.setEnabled(true);
-                done.setEnabled(true);
-                description.setEnabled(true);
+                editMode(true);
 
                 //Gérer les boutons du menu
                 edit.setVisible(false);
                 back.setVisible(false);
                 undo.setVisible(true);
                 save.setVisible(true);
+
                 return true;
 
             case R.id.ab_edit_undo:
+
                 //Gérer les boutons du menu
                 edit.setVisible(true);
                 back.setVisible(true);
                 undo.setVisible(false);
                 save.setVisible(false);
 
-                deleteButton.setVisibility(View.INVISIBLE);
-                name.setEnabled(false);
-                date.setEnabled(false);
-                course.setEnabled(false);
-                done.setEnabled(false);
-                description.setEnabled(false);
+                editMode(false);
+
                 return true;
 
             case R.id.ab_edit_save:
-                if(TextUtils.isEmpty(name.getText().toString())) {
-                    name.setError("Name field cannot be empty");
-                    return false;
-                }
 
-                if(TextUtils.isEmpty(date.getText().toString())) {
-                    date.setError("Date field cannot be empty");
-                    return false;
-                }
-
-                if(course.getSelectedItem()==null) {
-                    TextView spinnerText = (TextView) course.getSelectedView();
-                    spinnerText.setError("Course field cannot be empty");
-                    return false;
-                }
-
-                //transform date format for correct handling in db
-                SimpleDateFormat dateFormatin = new SimpleDateFormat("dd.MM.yyyy");
-                SimpleDateFormat dateFormatout = new SimpleDateFormat("yyyyMMdd");
-                String examDate ="";
-                Date dateTime;
-                try
+                if(isValid() == false)
                 {
-                    dateTime = dateFormatin.parse(date.getText().toString());
-                    examDate = dateFormatout.format(dateTime);
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                    return  false;
                 }
+
+
+
+
+                db = new DatabaseHelper(getActivity().getApplicationContext());
+                //transform date format for correct handling in db
+                String examDate = convertDateToDatabase(date.getText().toString());
 
                 boolean checked;
                 if(done.isChecked())
@@ -179,16 +148,10 @@ public class EditHomeworkFragment extends Fragment {
                 else
                     checked = false;
 
-                db = new DatabaseHelper(getActivity().getApplicationContext());
-                db.updateHomework(homeworkId,name.getText().toString(),examDate,checked,description.getText().toString(),1);
+                db.updateHomework(homeworkId,name.getText().toString(),examDate,checked,description.getText().toString(),((Course)course.getSelectedItem()).getCourseId());
 
                 //Disable temporaiement les fields
-                deleteButton.setVisibility(View.INVISIBLE);
-                name.setEnabled(false);
-                date.setEnabled(false);
-                course.setEnabled(false);
-                done.setEnabled(false);
-                description.setEnabled(false);
+                editMode(false);
 
                 //Gérer les boutons du menu
                 edit.setVisible(true);
@@ -208,32 +171,23 @@ public class EditHomeworkFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_edit_homework, container, false);
+
         setHasOptionsMenu(true);
+
+        //INITIATE FIELDS
+        name = (EditText) rootView.findViewById(R.id.et_add_homework_name);
+        date = (EditText) rootView.findViewById(R.id.et_add_homework_date);
+        course = (Spinner) rootView.findViewById(R.id.sp_add_homework_course);
+        done = (CheckBox) rootView.findViewById(R.id.cb_add_homework_done);
+        description = (EditText) rootView.findViewById(R.id.et_add_homework_description);
+        deleteButton = (Button) rootView.findViewById(R.id.bt_delete_edit_homework);
 
         final int homeworkId = getArguments().getInt("SelectedHomeworkId");
         db = new DatabaseHelper(getActivity().getApplicationContext());
-
         Homework homework = db.getHomeworkFromId(homeworkId);
-
-
-         EditText name = (EditText) rootView.findViewById(R.id.et_edit_homework_name);
-         final EditText date = (EditText) rootView.findViewById(R.id.et_edit_homework_date);
-         Spinner course = (Spinner) rootView.findViewById(R.id.sp_edit_homework_course);
-         CheckBox done = (CheckBox) rootView.findViewById(R.id.cb_edit_homework_done);
-         EditText description = (EditText) rootView.findViewById(R.id.et_edit_homework_description);
-        final Button deleteButton = (Button) rootView.findViewById(R.id.bt_delete_edit_homework);
 
         name.setText(homework.getName());
         date.setText(homework.getDeadline());
-        description.setText(homework.getDescription());
-
-        //Disable temporaiement les fields
-        name.setEnabled(false);
-        date.setEnabled(false);
-        course.setEnabled(false);
-        done.setEnabled(false);
-        description.setEnabled(false);
-
 
         //Fill spinner from database
         db = new DatabaseHelper(getActivity().getApplicationContext());
@@ -245,6 +199,12 @@ public class EditHomeworkFragment extends Fragment {
         // Récupérer le nom pour le mettre comme élément sélectionner dans le spinner
         Course selectedCourse = db.getCourseFromId(homework.getCourseId());
         course.setSelection(((ArrayAdapter)course.getAdapter()).getPosition(selectedCourse));
+
+        done.setChecked(homework.isDone());
+        description.setText(homework.getDescription());
+
+        //Disable temporaiement les fields
+        editMode(false);
 
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -263,6 +223,82 @@ public class EditHomeworkFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    public void editMode(boolean value)
+    {
+        //Disable temporaiement les fields
+        name.setEnabled(value);
+        date.setEnabled(value);
+        done.setEnabled(value);
+        course.setEnabled(value);
+        description.setEnabled(value);
+
+        if(value == true)
+            deleteButton.setVisibility(View.VISIBLE);
+        else
+            deleteButton.setVisibility(View.INVISIBLE);
+    }
+
+    //FORMAT DATE FROM A STRING AND RETURN THE STRING
+    public String formatDateString(String dateString)
+    {
+        //FORMAT THE START TIME NAD
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        Date date;
+
+        try
+        {
+            date = dateFormat.parse(dateString);
+            dateString = dateFormat.format(date);
+
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
+
+        return dateString;
+    }
+
+    public boolean isValid()
+    {
+        if(TextUtils.isEmpty(name.getText().toString())) {
+            name.setError("Name field cannot be empty");
+            return false;
+        }
+
+        if(TextUtils.isEmpty(date.getText().toString())) {
+            Toast toast = Toast.makeText(getActivity(), R.string.nulldate, Toast.LENGTH_SHORT);
+            toast.show();
+            return false;
+        }
+
+        if(course.getSelectedItem() == null)
+        {
+            Toast toast = Toast.makeText(getActivity(), R.string.nullcourse, Toast.LENGTH_SHORT);
+            toast.show();
+            return false;
+        }
+
+        return true;
+
+    }
+
+    public String convertDateToDatabase(String examDate)
+    {
+        SimpleDateFormat dateFormatin = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat dateFormatout = new SimpleDateFormat("yyyyMMdd");
+        Date dateTime;
+        try
+        {
+            dateTime = dateFormatin.parse(examDate);
+            examDate = dateFormatout.format(dateTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return  examDate;
     }
 
 
