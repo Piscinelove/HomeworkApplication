@@ -76,6 +76,8 @@ public class EditExamFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
         inflater.inflate(R.menu.editactionbar, menu);
+        inflater.inflate(R.menu.settings, menu);
+
         this.menu = menu;
         super.onCreateOptionsMenu(menu, inflater);
     }
