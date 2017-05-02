@@ -112,18 +112,9 @@ public class EditExamFragment extends Fragment {
                             @Override
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
-                                SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-                                Date dateTime;
-                                try {
-                                    month++;
-                                    dateTime = dateFormat.parse(dayOfMonth+"."+month+"."+year);
-                                    dateFormat.format(dateTime);
-                                    String courseDate = dateFormat.format(dateTime);
-
-                                    date.setText(courseDate);
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
+                                month++;
+                                String courseDate = formatDateString(dayOfMonth+"."+month+"."+year);
+                                date.setText(courseDate);
 
                             }
                         },year,month, day);
@@ -147,17 +138,8 @@ public class EditExamFragment extends Fragment {
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute)
                             {
 
-                                SimpleDateFormat hourFormatin = new SimpleDateFormat("K:mm");
-                                SimpleDateFormat hourFormatout = new SimpleDateFormat("KK:mm");
-                                Date date;
-                                try {
-                                    date = hourFormatin.parse(hourOfDay+":"+minute);
-                                    hourFormatout.format(date);
-                                    String hour = hourFormatout.format(date);
-                                    from.setText(hour);
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
+                                String hour = formatTimeString(hourOfDay+":"+minute);
+                                from.setText(hour);
 
                             }
                         },hour,minute,true);
@@ -180,22 +162,15 @@ public class EditExamFragment extends Fragment {
                             public void onTimeSet(TimePicker view, int hourOfDay,int minute)
                             {
 
-                                until.setText(hourOfDay + ":" + minute);
+                                String hour = formatTimeString(hourOfDay+":"+minute);
+                                until.setText(hour);
                             }
                         },hour,minute,true);
                         timePickerDialog.show();
                     }});
 
                 //Enable les fields
-                deleteButton.setVisibility(View.VISIBLE);
-                name.setEnabled(true);
-                date.setEnabled(true);
-                from.setEnabled(true);
-                until.setEnabled(true);
-                course.setEnabled(true);
-                room.setEnabled(true);
-                grade.setEnabled(true);
-                description.setEnabled(true);
+                editMode(true);
 
                 //Gérer les boutons du menu
                 edit.setVisible(false);
@@ -212,78 +187,25 @@ public class EditExamFragment extends Fragment {
                 undo.setVisible(false);
                 save.setVisible(false);
 
-                deleteButton.setVisibility(View.INVISIBLE);
-                name.setEnabled(false);
-                date.setEnabled(false);
-                from.setEnabled(false);
-                until.setEnabled(false);
-                course.setEnabled(false);
-                room.setEnabled(false);
-                grade.setEnabled(false);
-                description.setEnabled(false);
+                editMode(false);
+
                 return true;
 
             case R.id.ab_edit_save:
 
-                if(TextUtils.isEmpty(name.getText().toString())) {
-                    name.setError("Name field cannot be empty");
-                    return false;
-                }
-
-                if(TextUtils.isEmpty(date.getText().toString())) {
-                    date.setError("Date field cannot be empty");
-                    return false;
-                }
-
-                if(TextUtils.isEmpty(from.getText().toString())) {
-                    from.setError("From field cannot be empty");
-                    return false;
-                }
-
-                if(TextUtils.isEmpty(until.getText().toString())) {
-                    from.setError("Until field cannot be empty");
-                    return false;
-                }
-
-                if(course.getSelectedItem()==null) {
-                    TextView spinnerText = (TextView) course.getSelectedView();
-                    spinnerText.setError("Course field cannot be empty");
-                    return false;
-                }
-
-                if(TextUtils.isEmpty(room.getText().toString())) {
-                    room.setError("Room field cannot be empty");
-                    return false;
-                }
-
-                //transform date format for correct handling in db
-                SimpleDateFormat dateFormatin = new SimpleDateFormat("dd.MM.yyyy");
-                SimpleDateFormat dateFormatout = new SimpleDateFormat("yyyyMMdd");
-                String examDate ="";
-                Date dateTime;
-                try
+                if(isValid() == false)
                 {
-                    dateTime = dateFormatin.parse(date.getText().toString());
-                    examDate = dateFormatout.format(dateTime);
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                    return  false;
                 }
 
                 db = new DatabaseHelper(getActivity().getApplicationContext());
-                db.updateExam(examId,name.getText().toString(),examDate,from.getText().toString(),until.getText().toString(), Double.parseDouble(grade.getText().toString()), Integer.parseInt(room.getText().toString()),description.getText().toString(),1);
+
+                String examDate = convertTimeToDatabase(date.getText().toString());
+                db.updateExam(examId,name.getText().toString(),examDate,from.getText().toString(),until.getText().toString(), Double.parseDouble(grade.getText().toString()), Integer.parseInt(room.getText().toString()),description.getText().toString(),((Course)course.getSelectedItem()).getCourseId());
 
 
                 //Disable temporaiement les fields
-                deleteButton.setVisibility(View.INVISIBLE);
-
-                name.setEnabled(false);
-                date.setEnabled(false);
-                from.setEnabled(false);
-                until.setEnabled(false);
-                course.setEnabled(false);
-                room.setEnabled(false);
-                grade.setEnabled(false);
-                description.setEnabled(false);
+                editMode(false);
 
                 //Gérer les boutons du menu
                 edit.setVisible(true);
@@ -306,11 +228,6 @@ public class EditExamFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_edit_exam, container, false);
         setHasOptionsMenu(true);
 
-        final int examId = getArguments().getInt("SelectedExamId");
-        db = new DatabaseHelper(getActivity().getApplicationContext());
-
-        Exam exam = db.getExamFromId(examId);
-
         // Recupérer les éléments de la view
         name = (EditText) rootView.findViewById(R.id.et_edit_exam_name);
         date = (EditText) rootView.findViewById(R.id.et_edit_exam_date);
@@ -322,16 +239,9 @@ public class EditExamFragment extends Fragment {
         description = (EditText) rootView.findViewById(R.id.et_edit_exam_description);
         deleteButton = (Button) rootView.findViewById(R.id.bt_delete_edit_exam);
 
-
-        //Disable temporaiement les fields
-        name.setEnabled(false);
-        date.setEnabled(false);
-        from.setEnabled(false);
-        until.setEnabled(false);
-        course.setEnabled(false);
-        room.setEnabled(false);
-        grade.setEnabled(false);
-        description.setEnabled(false);
+        final int examId = getArguments().getInt("SelectedExamId");
+        db = new DatabaseHelper(getActivity().getApplicationContext());
+        Exam exam = db.getExamFromId(examId);
 
         name.setText(exam.getName());
         date.setText(exam.getDate());
@@ -349,12 +259,12 @@ public class EditExamFragment extends Fragment {
         Course selectedCourse = db.getCourseFromId(exam.getCourseId());
         course.setSelection(((ArrayAdapter)course.getAdapter()).getPosition(selectedCourse));
 
-
         room.setText(""+exam.getRoom());
         grade.setText(""+exam.getGrade());
         description.setText(exam.getDescription());
 
-
+        //Disable temporaiement les fields
+        editMode(false);
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -19,6 +19,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -42,6 +43,13 @@ public class AddHomeworkFragment extends Fragment {
     private int month;
     private int year;
     private int day;
+
+    //FIELDS
+    private EditText name;
+    private EditText date;
+    private Spinner course;
+    private CheckBox done;
+    private EditText description;
 
 
     public AddHomeworkFragment() {
@@ -67,44 +75,12 @@ public class AddHomeworkFragment extends Fragment {
 
             case R.id.ab_save:
 
-                EditText name = (EditText) getView().findViewById(R.id.et_add_homework_name);
-                EditText date = (EditText) getView().findViewById(R.id.et_add_homework_date);
-                Spinner course = (Spinner) getView().findViewById(R.id.sp_add_homework_course);
-                CheckBox done = (CheckBox) getView().findViewById(R.id.cb_add_homework_done);
-                EditText description = (EditText) getView().findViewById(R.id.et_add_homework_description);
-
-
-
-                if(TextUtils.isEmpty(name.getText().toString())) {
-                    name.setError("Name field cannot be empty");
-                    return false;
-                }
-
-                if(TextUtils.isEmpty(date.getText().toString())) {
-                    date.setError("Date field cannot be empty");
-                    return false;
-                }
-
-                if(course.getSelectedItem()==null) {
-                    TextView spinnerText = (TextView) course.getSelectedView();
-                    spinnerText.setError("Course field cannot be empty");
-                    return false;
-                }
+                if(isValid() == false)
+                    return  false;
 
                 db = new DatabaseHelper(getActivity().getApplicationContext());
                 //transform date format for correct handling in db
-                SimpleDateFormat dateFormatin = new SimpleDateFormat("dd.MM.yyyy");
-                SimpleDateFormat dateFormatout = new SimpleDateFormat("yyyyMMdd");
-                String examDate ="";
-                Date dateTime;
-                try
-                {
-                    dateTime = dateFormatin.parse(date.getText().toString());
-                    examDate = dateFormatout.format(dateTime);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
+                String examDate = convertDateToDatabase(date.getText().toString());
 
                 boolean checked;
                 if(done.isChecked())
@@ -113,7 +89,7 @@ public class AddHomeworkFragment extends Fragment {
                     checked = false;
 
                 db = new DatabaseHelper(getActivity().getApplicationContext());
-                db.insertHomework(name.getText().toString(),examDate,checked,description.getText().toString(),1);
+                db.insertHomework(name.getText().toString(),examDate,checked,description.getText().toString(),((Course)course.getSelectedItem()).getCourseId());
 
                 fragmentManager = getActivity().getSupportFragmentManager();
                 fragment = new HomeworkFragment();
@@ -132,10 +108,15 @@ public class AddHomeworkFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_add_homework, container, false);
+
         setHasOptionsMenu(true);
 
-        final EditText date = (EditText) rootView.findViewById(R.id.et_add_homework_date);
-        Spinner course = (Spinner) rootView.findViewById(R.id.sp_add_homework_course);
+        //INITIATE FIELDS
+        name = (EditText) rootView.findViewById(R.id.et_add_homework_name);
+        date = (EditText) rootView.findViewById(R.id.et_add_homework_date);
+        course = (Spinner) rootView.findViewById(R.id.sp_add_homework_course);
+        done = (CheckBox) rootView.findViewById(R.id.cb_add_homework_done);
+        description = (EditText) rootView.findViewById(R.id.et_add_homework_description);
 
         //Fill spinner from database
         db = new DatabaseHelper(getActivity().getApplicationContext());
@@ -160,18 +141,8 @@ public class AddHomeworkFragment extends Fragment {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-                        Date dateTime;
-                        try {
-                            month++;
-                            dateTime = dateFormat.parse(dayOfMonth+"."+month+"."+year);
-                            dateFormat.format(dateTime);
-                            String courseDate = dateFormat.format(dateTime);
-
-                            date.setText(courseDate);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
+                        String courseDate = formatDateString(dayOfMonth+"."+month+"."+year);
+                        date.setText(courseDate);
 
                     }
                 },year,month, day);
@@ -182,5 +153,66 @@ public class AddHomeworkFragment extends Fragment {
         });
 
         return  rootView;
+    }
+
+    //FORMAT DATE FROM A STRING AND RETURN THE STRING
+    public String formatDateString(String dateString)
+    {
+        //FORMAT THE START TIME NAD
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        Date date;
+
+        try
+        {
+            date = dateFormat.parse(dateString);
+            dateString = dateFormat.format(date);
+
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
+
+        return dateString;
+    }
+
+    public String convertDateToDatabase(String examDate)
+    {
+        SimpleDateFormat dateFormatin = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat dateFormatout = new SimpleDateFormat("yyyyMMdd");
+        Date dateTime;
+        try
+        {
+            dateTime = dateFormatin.parse(examDate);
+            examDate = dateFormatout.format(dateTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return  examDate;
+    }
+
+    public boolean isValid()
+    {
+        if(TextUtils.isEmpty(name.getText().toString())) {
+            name.setError("Name field cannot be empty");
+            return false;
+        }
+
+        if(TextUtils.isEmpty(date.getText().toString())) {
+            Toast toast = Toast.makeText(getActivity(), R.string.nulldate, Toast.LENGTH_SHORT);
+            toast.show();
+            return false;
+        }
+
+        if(course.getSelectedItem() == null)
+        {
+            Toast toast = Toast.makeText(getActivity(), R.string.nullcourse, Toast.LENGTH_SHORT);
+            toast.show();
+            return false;
+        }
+
+       return true;
+
     }
 }
