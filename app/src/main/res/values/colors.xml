@@ -15,18 +15,17 @@
     <color name="colorRed">#D64541</color>
     <color name="done">#66CC99</color>
 
-    //E4F1FE
 
     //couleur pour color picker
-    <color name="primary1">#F44336</color>
-    <color name="primary2">#7A5547</color>
-    <color name="primary3">#9C27B0</color>
-    <color name="primary4">#673AB7</color>
-    <color name="primary5">#4CAF50</color>
-    <color name="primary6">#FFC107</color>
-    <color name="primary7">#CDDC39</color>
-    <color name="primary8">#009688</color>
-    <color name="primary9">#3F51B5</color>
+    <color name="primary1">#D2527F</color>
+    <color name="primary2">#2574A9</color>
+    <color name="primary3">#FFA000</color>
+    <color name="primary4">#455A64</color>
+    <color name="primary5">#D64541</color>
+    <color name="primary6">#66CC99</color>
+    <color name="primary7">#674172</color>
+    <color name="primary8">#00BCD4</color>
+    <color name="primary9">#FDE3A7</color>
 
 
 

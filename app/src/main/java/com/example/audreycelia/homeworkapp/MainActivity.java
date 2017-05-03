@@ -114,16 +114,15 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
-
-
     }
 
     public void changeLanguage (String toLoad) {
         Locale locale = new Locale(toLoad);
         Locale.setDefault(locale);
         Configuration config = new Configuration();
+        //noinspection deprecation
         config.locale= locale;
+        //noinspection deprecation
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
         Intent intent = new Intent(MainActivity.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -136,13 +135,12 @@ public class MainActivity extends AppCompatActivity {
         //On regarde quel item a été cliqué grâce à son id et on déclenche une action
         switch (item.getItemId()) {
             case R.id.action_bar_settings:
-                //Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.french:
                 languageToLoad = "fr";
                 changeLanguage(languageToLoad);
-
                 return true;
+
             case R.id.german:
                 languageToLoad = "de";
                 changeLanguage(languageToLoad);
@@ -151,13 +149,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.english:
                 languageToLoad = "en";
                 changeLanguage(languageToLoad);
-
                 return true;
 
         }
         return false;
     }
-
 
 }
 
