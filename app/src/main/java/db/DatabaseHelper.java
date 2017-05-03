@@ -204,7 +204,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void deleteCourse (int courseId)
     {
         SQLiteDatabase db = this.getWritableDatabase();
+
+
         db.delete(DatabaseContract.Courses.TABLE_NAME, DatabaseContract.Courses.COURSE_ID + " = ?", new String[]{String.valueOf(courseId)});
+        db.delete(DatabaseContract.Homeworks.TABLE_NAME, DatabaseContract.Homeworks.HOMEWORK_COURSE_ID + " = ?", new String[]{String.valueOf(courseId)});
+        db.delete(DatabaseContract.Exams.TABLE_NAME, DatabaseContract.Exams.EXAM_COURSE_ID + " = ?", new String[]{String.valueOf(courseId)});
+
         db.close();
     }
 
@@ -212,7 +217,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void deleteTeacher (int teacherId)
     {
         SQLiteDatabase db = this.getWritableDatabase();
+
         db.delete(DatabaseContract.Teachers.TABLE_NAME, DatabaseContract.Teachers.TEACHER_ID + " = ?", new String[]{String.valueOf(teacherId)});
+        Course course = getCourseFromTeacherId(teacherId);
+        deleteCourse(course.getCourseId());
+
+
         db.close();
     }
 
@@ -223,6 +233,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.delete(DatabaseContract.Homeworks.TABLE_NAME, DatabaseContract.Homeworks.HOMEWORK_ID + " = ?", new String[]{String.valueOf(homeworkId)});
         db.close();
     }
+
 
     //DELETE METHODS
     public void deleteExam (int examId)
@@ -525,6 +536,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         //SELECT
         String select = "SELECT  * FROM " + DatabaseContract.Courses.TABLE_NAME + " WHERE "+DatabaseContract.Courses.COURSE_ID+" = "+courseId;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(select, null);
+        Course course = new Course();
+
+        if (cursor.moveToFirst()) {
+            do {
+                course.setCourseId(Integer.parseInt(cursor.getString(0)));
+                course.setName(cursor.getString(1));
+                course.setDay(cursor.getString(2));
+                course.setStart(cursor.getString(3));
+                course.setEnd(cursor.getString(4));
+                course.setColor(Integer.parseInt(cursor.getString(5)));
+                course.setRoom(Integer.parseInt(cursor.getString(6)));
+                course.setDescription(cursor.getString(7));
+                course.setTeacherId(Integer.parseInt(cursor.getString(8)));
+            }
+            while (cursor.moveToNext());
+        }
+
+        db.close();
+        return course;
+    }
+
+    //SELECT COURSE FORM ID
+    public Course getCourseFromTeacherId(int teacherId) {
+        Teacher teacher = new Teacher();
+
+        //SELECT
+        String select = "SELECT  * FROM " + DatabaseContract.Courses.TABLE_NAME + " WHERE "+DatabaseContract.Courses.COURSE_TEACHER_ID+" = "+teacherId;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(select, null);

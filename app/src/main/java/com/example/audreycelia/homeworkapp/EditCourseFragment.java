@@ -200,7 +200,7 @@ public class EditCourseFragment extends Fragment {
 
             case R.id.ab_edit_save:
 
-                if(isValid() == false)
+                if(isValid(courseId) == false)
                 {
                     return  false;
                 }
@@ -312,7 +312,7 @@ public class EditCourseFragment extends Fragment {
     //CHECK IF START TIME AND END TIME OF THE COURSE
     //OVERLAPS WITH AN EXISTING COURSE IN DB
 
-    public boolean checkTimeOverlap(String start, String end, String day)
+    public boolean checkTimeOverlap(String start, String end, String day, int courseId)
     {
 
         //FORMAT THE START TIME AND END TIME
@@ -340,7 +340,7 @@ public class EditCourseFragment extends Fragment {
                 endB = formatTime(existingCourse.getEnd());
 
                 if ((startA.before(endB) || startA.equals(endB)) && (startB.before(endA) || startB.equals(endA))
-                        && (startA.before(endB) || startA.equals(endB)) && (startB.before(endB) || startB.equals(endB)))
+                        && (startA.before(endB) || startA.equals(endB)) && (startB.before(endB) || startB.equals(endB)) && existingCourse.getCourseId() != courseId)
                     //overlaps
                     return true;
             }
@@ -409,7 +409,7 @@ public class EditCourseFragment extends Fragment {
         return time;
     }
 
-    public boolean isValid()
+    public boolean isValid(int courseId)
     {
         if(TextUtils.isEmpty(name.getText().toString())) {
             name.setError(getText(R.string.wrongName));
@@ -455,7 +455,7 @@ public class EditCourseFragment extends Fragment {
         }
 
         //CHECK OVERLAPS
-        if(checkTimeOverlap(from.getText().toString(),until.getText().toString(), day.getSelectedItem().toString()))
+        if(checkTimeOverlap(from.getText().toString(),until.getText().toString(), day.getSelectedItem().toString(), courseId))
         {
             Toast toast = Toast.makeText(getActivity(), R.string.overlapcourse, Toast.LENGTH_SHORT);
             toast.show();

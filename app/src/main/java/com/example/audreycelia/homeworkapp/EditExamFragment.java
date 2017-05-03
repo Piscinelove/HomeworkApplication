@@ -191,7 +191,7 @@ public class EditExamFragment extends Fragment {
 
             case R.id.ab_edit_save:
 
-                if(isValid() == false)
+                if(isValid(examId) == false)
                 {
                     return  false;
                 }
@@ -398,7 +398,7 @@ public class EditExamFragment extends Fragment {
     //CHECK IF START TIME AND END TIME OF THE COURSE
     //OVERLAPS WITH AN EXISTING COURSE IN DB
 
-    public boolean checkTimeOverlap(String start, String end, String date)
+    public boolean checkTimeOverlap(String start, String end, String date, int examId)
     {
 
         //FORMAT THE START TIME AND END TIME
@@ -426,7 +426,7 @@ public class EditExamFragment extends Fragment {
                 endB = formatTime(existingExam.getEnd());
 
                 if ((startA.before(endB) || startA.equals(endB)) && (startB.before(endA) || startB.equals(endA))
-                        && (startA.before(endB) || startA.equals(endB)) && (startB.before(endB) || startB.equals(endB)))
+                        && (startA.before(endB) || startA.equals(endB)) && (startB.before(endB) || startB.equals(endB)) && existingExam.getExamId() != examId)
                     //overlaps
                     return true;
             }
@@ -437,7 +437,7 @@ public class EditExamFragment extends Fragment {
 
     }
 
-    public boolean isValid()
+    public boolean isValid(int examId)
     {
         if(TextUtils.isEmpty(name.getText().toString())) {
             name.setError(getText(R.string.wrongName));
@@ -473,7 +473,7 @@ public class EditExamFragment extends Fragment {
 
 
         //CHECK OVERLAPS
-        if(checkTimeOverlap(from.getText().toString(),until.getText().toString(), date.getText().toString()))
+        if(checkTimeOverlap(from.getText().toString(),until.getText().toString(), date.getText().toString(),examId))
         {
             Toast toast = Toast.makeText(getActivity(), R.string.overlapexam, Toast.LENGTH_SHORT);
             toast.show();
