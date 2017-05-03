@@ -268,7 +268,7 @@ public class EditHomeworkFragment extends Fragment {
     public boolean isValid()
     {
         if(TextUtils.isEmpty(name.getText().toString())) {
-            name.setError("Name field cannot be empty");
+            name.setError(getText(R.string.wrongName));
             return false;
         }
 

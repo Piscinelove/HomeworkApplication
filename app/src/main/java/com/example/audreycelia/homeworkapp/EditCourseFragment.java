@@ -414,7 +414,7 @@ public class EditCourseFragment extends Fragment {
     public boolean isValid()
     {
         if(TextUtils.isEmpty(name.getText().toString())) {
-            name.setError("Name field cannot be empty");
+            name.setError(getText(R.string.wrongName));
             return false;
         }
 
@@ -444,7 +444,7 @@ public class EditCourseFragment extends Fragment {
         }
 
         if(TextUtils.isEmpty(room.getText().toString())) {
-            room.setError("Room field cannot be empty");
+            room.setError(getText(R.string.nullRoom));
             return false;
         }
 
