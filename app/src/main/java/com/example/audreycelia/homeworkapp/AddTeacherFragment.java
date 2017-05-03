@@ -108,19 +108,19 @@ public class AddTeacherFragment extends Fragment {
     public boolean isValid()
     {
         if(TextUtils.isEmpty(firstName.getText().toString())) {
-            firstName.setError("Firstname field cannot be empty");
+            firstName.setError(getText(R.string.nullFirstname));
             return false;
         }
 
         if(TextUtils.isEmpty(lastName.getText().toString())) {
-            lastName.setError("Lastname field cannot be empty");
+            lastName.setError(getText(R.string.nullLastname));
             return false;
         }
 
 
         if(!TextUtils.isEmpty(phone.getText().toString()) && !isPhoneValid(phone.getText()))
         {
-            phone.setError("Invalid phone number");
+            phone.setError(getText(R.string.wrongPhone));
             return false;
         }
 

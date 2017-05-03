@@ -318,10 +318,11 @@ public class AddCourseFragment extends Fragment {
         return time;
     }
 
+    //testing validate field
     public boolean isValid()
     {
         if(TextUtils.isEmpty(name.getText().toString())) {
-            name.setError("Name field cannot be empty");
+            name.setError(getText(R.string.wrongName));
             return false;
         }
 
@@ -351,7 +352,7 @@ public class AddCourseFragment extends Fragment {
         }
 
         if(TextUtils.isEmpty(room.getText().toString())) {
-            room.setError("Room field cannot be empty");
+            room.setError(getText(R.string.nullRoom));
             return false;
         }
 
