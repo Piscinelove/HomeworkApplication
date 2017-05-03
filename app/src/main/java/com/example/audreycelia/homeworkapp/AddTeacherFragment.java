@@ -126,7 +126,7 @@ public class AddTeacherFragment extends Fragment {
 
         if(!TextUtils.isEmpty(email.getText().toString()) && !isEmailValid(email.getText()))
         {
-            email.setError("Invalid email");
+            email.setError(getText(R.string.wrongEmail));
             return false;
         }
 
