@@ -35,7 +35,7 @@
             android:layout_toEndOf="@+id/tv_edit_course_name"
             android:layout_toRightOf="@+id/tv_edit_course_name"
             android:textColor="@color/text_color"
-            android:backgroundTint="@color/text_color"/>
+            />
 
         <TextView
             android:id="@+id/tv_edit_course_day"
@@ -89,8 +89,7 @@
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:inputType="time"
-            android:textColor="@color/text_color"
-            android:backgroundTint="@color/text_color"/>
+            android:textColor="@color/text_color"/>
 
         <TextView
             android:id="@+id/tv_edit_course_until"
@@ -119,8 +118,7 @@
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:inputType="time"
-            android:textColor="@color/text_color"
-            android:backgroundTint="@color/text_color"/>
+            android:textColor="@color/text_color"/>
 
         <TextView
             android:id="@+id/tv_edit_course_teacher"
@@ -202,8 +200,7 @@
             android:layout_toRightOf="@+id/tv_edit_course_color"
             android:ems="10"
             android:inputType="number"
-            android:textColor="@color/text_color"
-            android:backgroundTint="@color/text_color"/>
+            android:textColor="@color/text_color"/>
 
         <TextView
             android:id="@+id/tv_edit_course_description"
@@ -231,7 +228,6 @@
             android:gravity="left|top"
             android:inputType="textMultiLine"
             android:textColor="@color/text_color"
-            android:backgroundTint="@color/text_color"
             android:layout_above="@+id/ib_delete_edit_course" />
 
         <ImageButton

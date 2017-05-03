@@ -27,7 +27,8 @@
         android:paddingLeft="30dp"
         android:paddingTop="5dp"
         android:textColor="@color/colorIcons"
-        android:textSize="25dp"
+        android:textSize="15dp"
+        android:gravity="center_vertical"
         android:textStyle="bold"
         tools:text="Pseudo" />
 

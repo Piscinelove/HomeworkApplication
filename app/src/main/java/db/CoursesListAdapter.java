@@ -53,6 +53,7 @@ public class CoursesListAdapter extends BaseAdapter {
                 convertView = layoutInflater.inflate(R.layout.row_course, null);
                 holder = new CoursesListAdapter.ViewHolder();
                 holder.header = (TextView) convertView.findViewById(R.id.tv_course_header);
+
                 holder.shift = (TextView) convertView.findViewById(R.id.tv_course_date);
                 holder.courseName = (TextView) convertView.findViewById(R.id.tv_course_name);
                 convertView.setTag(holder);
@@ -61,6 +62,7 @@ public class CoursesListAdapter extends BaseAdapter {
             }
 
             holder.shift.setText(listData.get(position).getStart()+" " + listData.get(position).getEnd());
+            holder.shift.setBackgroundColor(listData.get(position).getColor());
             holder.courseName.setText(listData.get(position).getName());
 
             //test if show header
