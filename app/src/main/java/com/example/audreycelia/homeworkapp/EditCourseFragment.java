@@ -1,6 +1,8 @@
 package com.example.audreycelia.homeworkapp;
 
+import android.app.AlertDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -277,14 +279,34 @@ public class EditCourseFragment extends Fragment {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                db.deleteCourse(courseId);
-                deleteButton.setVisibility(View.INVISIBLE);
 
-                fragmentManager = getActivity().getSupportFragmentManager();
-                fragment = new CourseFragment();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.addToBackStack(null);
-                transaction.replace(R.id.main_container, fragment).commit();
+                //alert dialog
+                new AlertDialog.Builder(getContext())
+                        .setMessage(R.string.deleteCourse)
+                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // continue with delete
+                                db.deleteCourse(courseId);
+                                deleteButton.setVisibility(View.INVISIBLE);
+
+                                fragmentManager = getActivity().getSupportFragmentManager();
+                                fragment = new CourseFragment();
+                                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                                transaction.addToBackStack(null);
+                                transaction.replace(R.id.main_container, fragment).commit();
+
+                            }
+                        })
+                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
+
+
 
             }
         });
