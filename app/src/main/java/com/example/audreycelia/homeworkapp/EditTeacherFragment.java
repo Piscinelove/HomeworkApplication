@@ -95,7 +95,7 @@ public class EditTeacherFragment extends Fragment {
                 save.setVisible(false);
 
                 editMode(false);
-
+                getActivity().getSupportFragmentManager().popBackStack();
                 return true;
 
             case R.id.ab_edit_save:

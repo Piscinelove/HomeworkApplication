@@ -99,4 +99,16 @@ public class Course {
     public String toString() {
         return this.name;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof Course)){
+            return false;
+        }
+        Course c = (Course) obj;
+        if(this.courseId == c.getCourseId()){
+            return true;
+        }
+        return false;
+    }
 }

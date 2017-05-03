@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.CalendarView;
 import java.util.Locale;
@@ -21,28 +22,41 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
 
 
+
     CalendarView calendar ;
 
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        navigation.getMenu().getItem(0).setChecked(true);
 
+
+    }
 
     @Override
     public void onBackPressed() {
-        if(fragmentManager.getBackStackEntryCount() > 0) {
+            if(fragmentManager.getBackStackEntryCount() > 0)
+            {
                 Fragment currentFragment = fragmentManager.findFragmentById(R.id.main_container);
                 if(currentFragment instanceof CalendarFragment ){
                     navigation.getMenu().getItem(0).setChecked(true);
+                    finish();
                 }
                 else if(currentFragment instanceof CourseFragment){
                     navigation.getMenu().getItem(1).setChecked(true);
+                    finish();
                 }
                 else if(currentFragment instanceof ExamFragment){
                     navigation.getMenu().getItem(2).setChecked(true);
+                    finish();
                 }
                 else if(currentFragment instanceof HomeworkFragment){
                     navigation.getMenu().getItem(3).setChecked(true);
+                    finish();
                 }
                 else if(currentFragment instanceof TeacherFragment){
                     navigation.getMenu().getItem(4).setChecked(true);
+                    finish();
                 }
                 else
                     super.onBackPressed();
@@ -55,11 +69,19 @@ public class MainActivity extends AppCompatActivity {
     //test
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_main);
 
 
+
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
+
         navigation.inflateMenu(R.menu.navigation);
+
+        navigation.getMenu().getItem(0).setChecked(true);
+
+
 
         fragmentManager = getSupportFragmentManager();
 
@@ -68,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.main_container, fragment).commit();
         transaction.addToBackStack(null);
-        navigation.getMenu().getItem(0).setChecked(true);
+
 
 
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {

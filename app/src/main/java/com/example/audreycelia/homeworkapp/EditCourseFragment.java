@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -64,6 +65,7 @@ public class EditCourseFragment extends Fragment {
     private EditText description;
     private Spinner day;
     private ImageButton deleteButton;
+    private ArrayAdapter<Teacher> spinnerAdapter;
 
 
     public EditCourseFragment() {
@@ -198,6 +200,7 @@ public class EditCourseFragment extends Fragment {
 
                 editMode(false);
 
+                getActivity().getSupportFragmentManager().popBackStack();
                 return true;
 
             case R.id.ab_edit_save:
@@ -259,13 +262,16 @@ public class EditCourseFragment extends Fragment {
         //Fill spinner from database
         db = new DatabaseHelper(getActivity().getApplicationContext());
         ArrayList<Teacher> teachers = db.getAllTeachers();
-        ArrayAdapter<Teacher> dataAdapter = new ArrayAdapter<Teacher>(getActivity(), android.R.layout.simple_spinner_item, teachers);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        teacher.setAdapter(dataAdapter);
+        spinnerAdapter = new ArrayAdapter<Teacher>(getContext(), android.R.layout.simple_spinner_dropdown_item, teachers);
+        teacher.setAdapter(spinnerAdapter);
 
         // Récupérer le nom et prénom du teacher pour le mettre comme élément sélectionner dans le spinner
         Teacher selectedTeacher = db.getTeacherFromId(course.getTeacherId());
-        teacher.setSelection(((ArrayAdapter)teacher.getAdapter()).getPosition(selectedTeacher));
+
+        int position = spinnerAdapter.getPosition(selectedTeacher);
+        teacher.setSelection(position);
+
+
 
         colorButton.setBackgroundColor(course.getColor());
         room.setText(""+course.getRoom());
@@ -275,6 +281,8 @@ public class EditCourseFragment extends Fragment {
 
         //DISABLE FIELDS
         editMode(false);
+
+        //int position = spinnerAdapter.getPosition()e
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -487,5 +495,4 @@ public class EditCourseFragment extends Fragment {
         return true;
 
     }
-
 }

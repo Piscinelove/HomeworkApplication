@@ -203,6 +203,7 @@ public class AddCourseFragment extends Fragment {
                 if(isValid() == false)
                     return  false;
 
+
                 db.insertCourse(name.getText().toString(),day.getSelectedItem().toString(),from.getText().toString(),until.getText().toString(), colorPickerDialog.getSelectedColor(), Integer.parseInt(room.getText().toString()),description.getText().toString(),((Teacher)teacher.getSelectedItem()).getTeacherId());
 
                 fragmentManager = getActivity().getSupportFragmentManager();

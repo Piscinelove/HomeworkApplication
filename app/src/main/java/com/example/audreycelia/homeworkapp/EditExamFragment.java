@@ -62,6 +62,7 @@ public class EditExamFragment extends Fragment {
     private EditText grade;
     private EditText description;
     private ImageButton deleteButton;
+    private ArrayAdapter<Course> spinnerAdapter;
 
     public EditExamFragment() {
         // Required empty public constructor
@@ -186,7 +187,7 @@ public class EditExamFragment extends Fragment {
                 save.setVisible(false);
 
                 editMode(false);
-
+                getActivity().getSupportFragmentManager().popBackStack();
                 return true;
 
             case R.id.ab_edit_save:
@@ -249,13 +250,13 @@ public class EditExamFragment extends Fragment {
         //Fill spinner from database
         db = new DatabaseHelper(getActivity().getApplicationContext());
         ArrayList<Course> courses = db.getAllCourses();
-        ArrayAdapter<Course> dataAdapter = new ArrayAdapter<Course>(getActivity(), android.R.layout.simple_spinner_item, courses);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        course.setAdapter(dataAdapter);
+        spinnerAdapter = new ArrayAdapter<Course>(getContext(), android.R.layout.simple_spinner_dropdown_item, courses);
+        course.setAdapter(spinnerAdapter);
 
         // Récupérer le nom pour le mettre comme élément sélectionner dans le spinner
         Course selectedCourse = db.getCourseFromId(exam.getCourseId());
-        course.setSelection(((ArrayAdapter)course.getAdapter()).getPosition(selectedCourse));
+        int position = spinnerAdapter.getPosition(selectedCourse);
+        course.setSelection(position);
 
         room.setText(""+exam.getRoom());
         grade.setText(""+exam.getGrade());

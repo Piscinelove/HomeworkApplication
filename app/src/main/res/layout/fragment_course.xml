@@ -13,7 +13,7 @@ tools:context="com.example.audreycelia.homeworkapp.CourseFragment">
 
             <SearchView
                 android:id="@+id/search_bar_course"
-                android:layout_width="300dp"
+                android:layout_width="290dp"
                 android:layout_height="50dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
@@ -32,6 +32,8 @@ tools:context="com.example.audreycelia.homeworkapp.CourseFragment">
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/search_bar_course"
+                android:layout_toRightOf="@+id/search_bar_course"
                 android:background="@color/colorAccent"
                 android:clickable="true"
                 app:srcCompat="@drawable/ic_plus" />

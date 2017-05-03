@@ -36,6 +36,8 @@ public class ExamFragment extends Fragment {
         // Required empty public constructor
     }
 
+
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();

@@ -79,4 +79,18 @@ public class Teacher {
     public String toString() {
         return firstName + " " + lastName;
     }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof Teacher)){
+            return false;
+        }
+        Teacher t = (Teacher) obj;
+        if(this.teacherId == t.getTeacherId()){
+            return true;
+        }
+        return false;
+    }
+
 }
