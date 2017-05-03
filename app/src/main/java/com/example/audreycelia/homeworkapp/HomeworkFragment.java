@@ -12,10 +12,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import java.util.ArrayList;
 
 import db.DatabaseHelper;
+import db.ExamsListAdapter;
 import db.Homework;
 import db.HomeworksListAdapter;
 
@@ -23,10 +25,12 @@ import db.HomeworksListAdapter;
 public class HomeworkFragment extends Fragment {
 
     private ListView listView;
+    private HomeworksListAdapter adapter;
     private DatabaseHelper db;
     private ImageButton addButton;
     private Fragment fragment;
     private FragmentManager fragmentManager;
+    private SearchView searchBar;
 
     public  HomeworkFragment()
     {
@@ -50,11 +54,16 @@ public class HomeworkFragment extends Fragment {
         //set the title on the app
         getActivity().setTitle(R.string.title_homework);
 
+        //initialise search bar
+        searchBar = (SearchView) rootView.findViewById(R.id.search_bar_homework);
+
         db = new DatabaseHelper(getActivity().getApplicationContext());
 
         ArrayList<Homework> listHomeworks = db.getAllHomeworks();
         listView = (ListView) rootView.findViewById(R.id.listHomeworks);
-        listView.setAdapter(new HomeworksListAdapter(getActivity().getApplicationContext(), listHomeworks));
+        adapter = new HomeworksListAdapter(getActivity().getApplicationContext(), listHomeworks);
+        listView.setAdapter(adapter);
+        listView.setTextFilterEnabled(true);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -82,6 +91,25 @@ public class HomeworkFragment extends Fragment {
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.addToBackStack(null);
                 transaction.replace(R.id.main_container, fragment).commit();
+            }
+        });
+
+
+        //when searching
+        searchBar.setIconifiedByDefault(false);
+        searchBar.setSubmitButtonEnabled(true);
+        searchBar.setQueryHint(getText(R.string.search));
+        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                String text = newText.toString();
+                adapter.filter(text);
+                return  true;
             }
         });
 

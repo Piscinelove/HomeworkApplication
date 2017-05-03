@@ -18,10 +18,13 @@ import java.util.ArrayList;
 public class TeachersListAdapter extends BaseAdapter {
     private ArrayList<Teacher> listData;
     private LayoutInflater layoutInflater;
+    private ArrayList<Teacher> copie;
 
     public TeachersListAdapter(Context aContext, ArrayList<Teacher> listData) {
         this.listData = listData;
         layoutInflater = LayoutInflater.from(aContext);
+        copie = new ArrayList<Teacher>();
+        copie.addAll(listData);
     }
 
     @Override
@@ -53,6 +56,22 @@ public class TeachersListAdapter extends BaseAdapter {
 
         holder.teacherName.setText(listData.get(position).getFirstName()+" " + listData.get(position).getLastName());
         return convertView;
+    }
+
+    // Filter Class
+    public void filter(String charText) {
+        charText = charText.toLowerCase();
+        listData.clear();
+        if (charText.length() == 0) {
+            listData.addAll(copie);
+        } else {
+            for (Teacher searchTeacher : copie) {
+                if (searchTeacher.getLastName().toLowerCase().contains(charText) || searchTeacher.getFirstName().toLowerCase().contains(charText)) {
+                    listData.add(searchTeacher);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
     static class ViewHolder {

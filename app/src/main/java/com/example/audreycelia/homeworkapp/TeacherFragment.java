@@ -12,19 +12,23 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import java.util.ArrayList;
 
 import db.DatabaseHelper;
+import db.ExamsListAdapter;
 import db.Teacher;
 import db.TeachersListAdapter;
 
 public class TeacherFragment extends Fragment {
     private ListView listView;
+    private TeachersListAdapter adapter;
     private DatabaseHelper db;
     private ImageButton addButton;
     private Fragment fragment;
     private FragmentManager fragmentManager;
+    private SearchView searchBar;
 
     public  TeacherFragment()
     {
@@ -48,11 +52,18 @@ public class TeacherFragment extends Fragment {
 
         //set the title on the app
         getActivity().setTitle(R.string.title_teacher);
+
+        //initialise search bar
+        searchBar = (SearchView) rootView.findViewById(R.id.search_bar_teacher);
+
         //fill the list view with the db
         db = new DatabaseHelper(getActivity().getApplicationContext());
         ArrayList<Teacher> listTeachers = db.getAllTeachers();
         listView = (ListView) rootView.findViewById(R.id.listTeachers);
-        listView.setAdapter(new TeachersListAdapter(getActivity().getApplicationContext(), listTeachers));
+        adapter = new TeachersListAdapter(getActivity().getApplicationContext(), listTeachers);
+        listView.setAdapter(adapter);
+        listView.setTextFilterEnabled(true);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -84,8 +95,27 @@ public class TeacherFragment extends Fragment {
             }
         });
 
+        //when searching
+        searchBar.setIconifiedByDefault(false);
+        searchBar.setSubmitButtonEnabled(true);
+        searchBar.setQueryHint(getText(R.string.search));
+        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                String text = newText.toString();
+                adapter.filter(text);
+                return  true;
+            }
+        });
+
         return  rootView;
     }
+
 
 }
 

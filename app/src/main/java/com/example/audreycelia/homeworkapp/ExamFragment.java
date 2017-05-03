@@ -12,9 +12,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import java.util.ArrayList;
 
+import db.CoursesListAdapter;
 import db.DatabaseHelper;
 import db.Exam;
 import db.ExamsListAdapter;
@@ -23,10 +25,12 @@ import db.ExamsListAdapter;
 public class ExamFragment extends Fragment {
 
     private ListView listView;
+    private ExamsListAdapter adapter;
     private DatabaseHelper db;
     private ImageButton addButton;
     private Fragment fragment;
     private FragmentManager fragmentManager;
+    private SearchView searchBar;
 
 
     public ExamFragment() {
@@ -51,12 +55,17 @@ public class ExamFragment extends Fragment {
         //set the title on the app
         getActivity().setTitle(R.string.title_exam);
 
+        //initialise search bar
+        searchBar = (SearchView) rootView.findViewById(R.id.search_bar_exam);
+
         db = new DatabaseHelper(getActivity().getApplicationContext());
 
 
         ArrayList<Exam> listExams = db.getAllExams();
         listView = (ListView) rootView.findViewById(R.id.listExams);
-        listView.setAdapter(new ExamsListAdapter(getActivity().getApplicationContext(), listExams));
+        adapter = new ExamsListAdapter(getActivity().getApplicationContext(), listExams);
+        listView.setAdapter(adapter);
+        listView.setTextFilterEnabled(true);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -86,6 +95,25 @@ public class ExamFragment extends Fragment {
                 transaction.replace(R.id.main_container, fragment).commit();
             }
         });
+
+        //when searching
+        searchBar.setIconifiedByDefault(false);
+        searchBar.setSubmitButtonEnabled(true);
+        searchBar.setQueryHint(getText(R.string.search));
+        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                String text = newText.toString();
+                adapter.filter(text);
+                return  true;
+            }
+        });
+
 
 
         return  rootView;

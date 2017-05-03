@@ -21,10 +21,13 @@ public class HomeworksListAdapter extends BaseAdapter {
 
     private ArrayList<Homework> listData;
     private LayoutInflater layoutInflater;
+    private ArrayList<Homework> copie;
 
     public HomeworksListAdapter(Context aContext, ArrayList<Homework> listData) {
         this.listData = listData;
         layoutInflater = LayoutInflater.from(aContext);
+        copie = new ArrayList<Homework>();
+        copie.addAll(listData);
     }
 
     @Override
@@ -85,6 +88,22 @@ public class HomeworksListAdapter extends BaseAdapter {
             holder.header.setVisibility(View.GONE);
 
         return convertView;
+    }
+
+    // Filter Class
+    public void filter(String charText) {
+        charText = charText.toLowerCase();
+        listData.clear();
+        if (charText.length() == 0) {
+            listData.addAll(copie);
+        } else {
+            for (Homework searchHomework : copie) {
+                if (searchHomework.getName().toLowerCase().contains(charText)) {
+                    listData.add(searchHomework);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
     static class ViewHolder {

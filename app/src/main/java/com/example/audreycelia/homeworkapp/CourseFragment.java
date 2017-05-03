@@ -100,7 +100,7 @@ public class CourseFragment extends Fragment {
         //when searching
         searchBar.setIconifiedByDefault(false);
         searchBar.setSubmitButtonEnabled(true);
-        searchBar.setQueryHint("Search");
+        searchBar.setQueryHint(getText(R.string.search));
         searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

@@ -19,10 +19,13 @@ public class ExamsListAdapter extends BaseAdapter {
 
     private ArrayList<Exam> listData;
     private LayoutInflater layoutInflater;
+    private ArrayList<Exam> copie;
 
     public ExamsListAdapter(Context aContext, ArrayList<Exam> listData) {
         this.listData = listData;
         layoutInflater = LayoutInflater.from(aContext);
+        copie = new ArrayList<Exam>();
+        copie.addAll(listData);
     }
 
     @Override
@@ -74,6 +77,22 @@ public class ExamsListAdapter extends BaseAdapter {
             holder.header.setVisibility(View.GONE);
 
         return convertView;
+    }
+
+    // Filter Class
+    public void filter(String charText) {
+        charText = charText.toLowerCase();
+        listData.clear();
+        if (charText.length() == 0) {
+            listData.addAll(copie);
+        } else {
+            for (Exam searchExam : copie) {
+                if (searchExam.getName().toLowerCase().contains(charText)) {
+                    listData.add(searchExam);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
     static class ViewHolder {
