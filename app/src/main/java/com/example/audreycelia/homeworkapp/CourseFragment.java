@@ -25,6 +25,7 @@ import db.DatabaseHelper;
 public class CourseFragment extends Fragment {
 
     private ListView listView;
+    private CoursesListAdapter adapter;
     private DatabaseHelper db;
     private ImageButton addButton;
     private Fragment fragment;
@@ -63,7 +64,7 @@ public class CourseFragment extends Fragment {
 
         ArrayList<Course> listCourses = db.getAllCourses();
         listView = (ListView) rootView.findViewById(R.id.listCourses);
-        final CoursesListAdapter adapter = new CoursesListAdapter(getActivity().getApplicationContext(), listCourses);
+        adapter = new CoursesListAdapter(getActivity().getApplicationContext(), listCourses);
         listView.setAdapter(adapter);
         listView.setTextFilterEnabled(true);
 
@@ -108,8 +109,9 @@ public class CourseFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                adapter.filter(newText);
-                return  false;
+                String text = newText.toString();
+                adapter.filter(text);
+                return  true;
             }
         });
 
