@@ -158,6 +158,7 @@ public class EditTeacherFragment extends Fragment {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 db.deleteTeacher(teacherId);
                 deleteButton.setVisibility(View.INVISIBLE);
 
