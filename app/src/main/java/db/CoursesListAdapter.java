@@ -20,12 +20,15 @@ public class CoursesListAdapter extends BaseAdapter {
 
         private ArrayList<Course> listData;
         private LayoutInflater layoutInflater;
+        private ArrayList<Course> copie;
 
 
 
         public CoursesListAdapter(Context aContext, ArrayList<Course> listData) {
             this.listData = listData;
             layoutInflater = LayoutInflater.from(aContext);
+            copie = new ArrayList<Course>();
+            copie.addAll(listData);
         }
 
         @Override
@@ -106,14 +109,13 @@ public class CoursesListAdapter extends BaseAdapter {
 
     // Filter Class
     public void filter(String charText) {
-        ArrayList<Course> copie = listData;
-        charText = charText.toLowerCase(Locale.getDefault());
+        charText = charText.toLowerCase();
         listData.clear();
         if (charText.length() == 0) {
             listData.addAll(copie);
         } else {
             for (Course searchCourse : copie) {
-                if (searchCourse.getName().toLowerCase(Locale.getDefault()).contains(charText)) {
+                if (searchCourse.getName().toLowerCase().contains(charText)) {
                     listData.add(searchCourse);
                 }
             }
