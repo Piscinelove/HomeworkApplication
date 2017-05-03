@@ -44,12 +44,12 @@
         android:paddingTop="5dp"
         android:background="@color/colorLight"
         android:textColor="@color/colorIcons"
-        android:textSize="25dp"
+        android:textSize="15dp"
+        android:gravity="center_vertical"
         android:textStyle="bold"
         tools:text="Pseudo"
         android:layout_toRightOf="@+id/tv_exam_date"
         android:layout_toEndOf="@+id/tv_exam_date"
-        android:layout_alignBottom="@+id/tv_exam_date"
-        android:gravity="fill"/>
+        android:layout_alignBottom="@+id/tv_exam_date"/>
 
 </RelativeLayout>

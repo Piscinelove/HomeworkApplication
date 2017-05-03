@@ -3,7 +3,6 @@
     <string name="color">Farbe</string>
     <string name="course">Kurs</string>
     <string name="date">Datum</string>
-    <string name="day">Tag</string>
     <string name="description">Beschreibung</string>
     <string name="done">Erledigt</string>
     <string name="email">Email</string>
@@ -53,4 +52,9 @@
     <string name="wrongEmail">Falsch Email</string>
     <string name="wrongName">Das Feld E-Mail kann nicht leer sein \"</string>
     <string name="wrongPhone">Falsch Telefon</string>
+    <string name="deleteCourse">Warnung: Das Löschen eines Kurses kann anderen Elements, die damit zusammenhängen, löschen. Bist du sicher ?</string>
+    <string name="deleteTeacher">Warnung: Das Löschen einen Lehrer kann anderen Elements, die damit zusammenhängen, löschen. Bist du sicher ?</string>
+    <string name="day">Tag</string>
+    <string name="no">Nein</string>
+    <string name="yes">Ja</string>
 </resources>

@@ -49,8 +49,8 @@
     <string name="nullLastname">Lastname field cannot be empty</string>
     <string name="wrongPhone">Invalid phone number</string>
     <string name="wrongEmail">Invalid email</string>
-    <string name="deleteTeacher">Warning : deleting a teacher may delete courses related to it</string>
-    <string name="deleteCourse">Warning : deleting a course may delete exams and homeworks related to it</string>
+    <string name="deleteTeacher">Warning : deleting a teacher may delete other elements related to it. Are you sure ?</string>
+    <string name="deleteCourse">Warning : deleting a course may delete other elements related to it. Are you sure ?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
 

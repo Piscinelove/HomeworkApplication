@@ -53,4 +53,8 @@
     <string name="wrongEmail">Faux email</string>
     <string name="wrongName">Le champs nom ne peut pas être vide</string>
     <string name="wrongPhone">Faux téléphone</string>
+    <string name="deleteCourse">Attention : supprimer un cours peut aussi supprimer d\'autres éléments liés à celui-ci. Etes-vous sure ?</string>
+    <string name="deleteTeacher">Attention : supprimer un prof peut aussi supprimer d\'autres éléments liés à celui-ci. Etes-vous sure ?</string>
+    <string name="no">Non</string>
+    <string name="yes">Oui</string>
 </resources>
