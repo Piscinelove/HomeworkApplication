@@ -13,12 +13,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.ParseException;
@@ -33,13 +31,10 @@ import db.DatabaseHelper;
 
 public class AddHomeworkFragment extends Fragment {
 
-    private Button saveButton;
     private DatabaseHelper db;
     private Fragment fragment;
     private FragmentManager fragmentManager;
     private DatePickerDialog datePickerDialog;
-    private int hour;
-    private int minute;
     private int month;
     private int year;
     private int day;

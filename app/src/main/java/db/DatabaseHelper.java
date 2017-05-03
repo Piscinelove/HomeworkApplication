@@ -6,10 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import java.sql.Time;
+
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Rafael Peixoto on 22.04.2017.

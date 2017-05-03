@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.example.audreycelia.homeworkapp.R;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 /**
  * Created by audreycelia on 22.04.17.

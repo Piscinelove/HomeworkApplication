@@ -20,7 +20,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -35,7 +34,6 @@ import java.util.Date;
 
 import db.Course;
 import db.DatabaseHelper;
-import db.Exam;
 import db.Teacher;
 
 

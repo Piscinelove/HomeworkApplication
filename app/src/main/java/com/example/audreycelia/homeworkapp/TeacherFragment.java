@@ -17,7 +17,6 @@ import android.widget.SearchView;
 import java.util.ArrayList;
 
 import db.DatabaseHelper;
-import db.ExamsListAdapter;
 import db.Teacher;
 import db.TeachersListAdapter;
 

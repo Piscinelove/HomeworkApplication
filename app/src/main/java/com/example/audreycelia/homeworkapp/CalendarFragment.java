@@ -20,13 +20,11 @@ import java.util.Date;
 import java.util.Locale;
 
 import db.Course;
-import db.CoursesListAdapter;
 import db.CoursesListAdapterCalendar;
 import db.DatabaseHelper;
 import db.Exam;
 import db.ExamsListAdapterCalendar;
 import db.Homework;
-import db.HomeworksListAdapter;
 import db.HomeworksListAdapterCalendar;
 
 

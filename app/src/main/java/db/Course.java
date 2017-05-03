@@ -1,7 +1,5 @@
 package db;
 
-import java.sql.Time;
-
 /**
  * Created by Rafael Peixoto on 06.04.2017.
  */
