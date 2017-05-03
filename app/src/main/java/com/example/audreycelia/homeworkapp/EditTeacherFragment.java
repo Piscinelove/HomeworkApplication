@@ -1,5 +1,7 @@
 package com.example.audreycelia.homeworkapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -159,14 +161,31 @@ public class EditTeacherFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                db.deleteTeacher(teacherId);
-                deleteButton.setVisibility(View.INVISIBLE);
+                //alert dialog
+                new AlertDialog.Builder(getContext())
+                        .setMessage(R.string.deleteTeacher)
+                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // continue with delete
+                                db.deleteTeacher(teacherId);
+                                deleteButton.setVisibility(View.INVISIBLE);
 
-                fragmentManager = getActivity().getSupportFragmentManager();
-                fragment = new TeacherFragment();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.addToBackStack(null);
-                transaction.replace(R.id.main_container, fragment).commit();
+                                fragmentManager = getActivity().getSupportFragmentManager();
+                                fragment = new TeacherFragment();
+                                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                                transaction.addToBackStack(null);
+                                transaction.replace(R.id.main_container, fragment).commit();
+                            }
+                        })
+                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+
+
 
 
             }
