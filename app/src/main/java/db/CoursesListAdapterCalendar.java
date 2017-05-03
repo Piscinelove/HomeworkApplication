@@ -58,6 +58,7 @@ public class CoursesListAdapterCalendar extends BaseAdapter {
             }
 
             holder.shift.setText(listData.get(position).getStart()+" " + listData.get(position).getEnd());
+            holder.shift.setBackgroundColor(listData.get(position).getColor());
             holder.courseName.setText(listData.get(position).getName());
 
             //test if show header
