@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.example.audreycelia.homeworkapp.R;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Created by audreycelia on 22.04.17.
@@ -103,7 +104,25 @@ public class CoursesListAdapter extends BaseAdapter {
             return convertView;
         }
 
-static class ViewHolder {
+    // Filter Class
+    public void filter(String charText) {
+        ArrayList<Course> copie = listData;
+        charText = charText.toLowerCase(Locale.getDefault());
+        listData.clear();
+        if (charText.length() == 0) {
+            listData.addAll(copie);
+        } else {
+            for (Course searchCourse : copie) {
+                if (searchCourse.getName().toLowerCase(Locale.getDefault()).contains(charText)) {
+                    listData.add(searchCourse);
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+
+    static class ViewHolder {
     TextView header;
     TextView shift;
     TextView courseName;

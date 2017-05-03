@@ -37,6 +37,7 @@ public class CalendarFragment extends Fragment {
     private ListView listViewExams;
     private ListView listViewHomeworks;
 
+
     //CALENDAR
     private Calendar c;
     private CalendarView calendar ;
@@ -134,13 +135,7 @@ public class CalendarFragment extends Fragment {
 
             }
         });
-
         return  rootView;
-
-
-
-
-
     }
 
     public static class ListUtils {

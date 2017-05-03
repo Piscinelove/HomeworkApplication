@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import java.util.ArrayList;
 
@@ -27,6 +29,7 @@ public class CourseFragment extends Fragment {
     private ImageButton addButton;
     private Fragment fragment;
     private FragmentManager fragmentManager;
+    private SearchView searchBar;
 
 
     public CourseFragment() {
@@ -52,12 +55,17 @@ public class CourseFragment extends Fragment {
         //set the title on the app
         getActivity().setTitle(R.string.title_course);
 
+        //initialise search bar
+        searchBar = (SearchView) rootView.findViewById(R.id.search_bar_course);
+
         //fill the list view with the db
         db = new DatabaseHelper(getActivity().getApplicationContext());
 
         ArrayList<Course> listCourses = db.getAllCourses();
         listView = (ListView) rootView.findViewById(R.id.listCourses);
-        listView.setAdapter(new CoursesListAdapter(getActivity().getApplicationContext(), listCourses));
+        final CoursesListAdapter adapter = new CoursesListAdapter(getActivity().getApplicationContext(), listCourses);
+        listView.setAdapter(adapter);
+        listView.setTextFilterEnabled(true);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -88,6 +96,22 @@ public class CourseFragment extends Fragment {
             }
         });
 
+        //when searching
+        searchBar.setIconifiedByDefault(false);
+        searchBar.setSubmitButtonEnabled(true);
+        searchBar.setQueryHint("Search");
+        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.filter(newText);
+                return  false;
+            }
+        });
 
         return  rootView;
     }
