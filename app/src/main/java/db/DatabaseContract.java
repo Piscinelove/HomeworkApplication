@@ -95,7 +95,7 @@ public final class DatabaseContract {
                     + Courses.COURSE_ROOM + " INTEGER NOT NULL, "
                     + Courses.COURSE_DESCRIPTION + " TEXT NULL, "
                     + Courses.COURSE_TEACHER_ID + " INTEGER NOT NULL, "
-                    + " FOREIGN KEY ("+Courses.COURSE_TEACHER_ID+") REFERENCES " + Teachers.TABLE_NAME+"("+Teachers.TEACHER_ID+"));";
+                    + " FOREIGN KEY ("+Courses.COURSE_TEACHER_ID+") REFERENCES " + Teachers.TABLE_NAME+"("+Teachers.TEACHER_ID+") ON DELETE CASCADE );";
 
     //Database creation sql statement teachers
     public static final String CREATE_TABLE_TEACHERS =
@@ -116,7 +116,7 @@ public final class DatabaseContract {
                     + Homeworks.HOMEWORK_DONE + " INTEGER DEFAULT 0, "
                     + Homeworks.HOMEWORK_DESCRIPTION + " TEXT NULL, "
                     + Homeworks.HOMEWORK_COURSE_ID + " INTEGER NOT NULL, "
-                    + " FOREIGN KEY ("+Homeworks.HOMEWORK_COURSE_ID+") REFERENCES " + Courses.TABLE_NAME+"("+Courses.COURSE_ID+"));";
+                    + " FOREIGN KEY ("+Homeworks.HOMEWORK_COURSE_ID+") REFERENCES " + Courses.TABLE_NAME+"("+Courses.COURSE_ID+") ON DELETE CASCADE );";
 
     //Database creation sql statement exams
     public static final String CREATE_TABLE_EXAMS =
@@ -130,7 +130,7 @@ public final class DatabaseContract {
                     + Exams.EXAM_ROOM + " INTEGER NOT NULL, "
                     + Exams.EXAM_DESCRIPTION + " TEXT NULL, "
                     + Exams.EXAM_COURSE_ID + " INTEGER NOT NULL, "
-                    + " FOREIGN KEY ("+Exams.EXAM_COURSE_ID+") REFERENCES " + Courses.TABLE_NAME+"("+Courses.COURSE_ID+"));";
+                    + " FOREIGN KEY ("+Exams.EXAM_COURSE_ID+") REFERENCES " + Courses.TABLE_NAME+"("+Courses.COURSE_ID+") ON DELETE CASCADE );";
 
     //Database drop sql statement courses
     public static final String DELETE_TABLE_COURSES = "DROP TABLE IF EXISTS " + Courses.TABLE_NAME;

@@ -1,7 +1,6 @@
 package com.example.audreycelia.homeworkapp;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,10 +19,6 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView navigation;
     private Fragment fragment;
     private FragmentManager fragmentManager;
-
-    //LANGUAGE SETTINGS
-    SharedPreferences settings;
-    SharedPreferences.Editor editor;
 
 
 
@@ -73,11 +68,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         setContentView(R.layout.activity_main);
-
-        //initialiser shared settings
-        settings= getSharedPreferences("SettingsFile", 0);
-        editor = settings.edit();
-        setLanguageOnStart();
 
 
 
@@ -166,55 +156,21 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.french:
                 languageToLoad = "fr";
-                editor.putBoolean("english", false);
-                editor.putBoolean("french", true);
-                editor.putBoolean("german", false);
-                editor.apply();
                 changeLanguage(languageToLoad);
                 return true;
 
             case R.id.german:
                 languageToLoad = "de";
-                editor.putBoolean("english", false);
-                editor.putBoolean("french", false);
-                editor.putBoolean("german", true);
-                editor.apply();
                 changeLanguage(languageToLoad);
 
                 return true;
             case R.id.english:
                 languageToLoad = "en";
-                editor.putBoolean("english", true);
-                editor.putBoolean("french", false);
-                editor.putBoolean("german", false);
-                editor.apply();
                 changeLanguage(languageToLoad);
                 return true;
 
         }
         return false;
-    }
-
-    public void setLanguageOnStart(){
-
-        String languageToLoad;
-
-        boolean englishSetting = settings.getBoolean("english",true);
-        boolean frenchSetting = settings.getBoolean("french", false);
-        boolean germanSetting = settings.getBoolean("german", false);
-
-        if (englishSetting){
-            languageToLoad = "en";
-            changeLanguage(languageToLoad);
-        }else if (frenchSetting) {
-            languageToLoad = "fr";
-            changeLanguage(languageToLoad);
-        }
-        else if(germanSetting){
-            languageToLoad = "de";
-            changeLanguage(languageToLoad);
-
-        }
     }
 
 }

@@ -203,12 +203,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //DELETE METHODS
     public void deleteCourse (int courseId)
     {
+
         SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("PRAGMA foreign_keys=ON");
 
-
+        //db.delete(DatabaseContract.Homeworks.TABLE_NAME, DatabaseContract.Homeworks.HOMEWORK_COURSE_ID + " = ?", new String[]{String.valueOf(courseId)});
+        //db.delete(DatabaseContract.Exams.TABLE_NAME, DatabaseContract.Exams.EXAM_COURSE_ID + " = ?", new String[]{String.valueOf(courseId)});
         db.delete(DatabaseContract.Courses.TABLE_NAME, DatabaseContract.Courses.COURSE_ID + " = ?", new String[]{String.valueOf(courseId)});
-        db.delete(DatabaseContract.Homeworks.TABLE_NAME, DatabaseContract.Homeworks.HOMEWORK_COURSE_ID + " = ?", new String[]{String.valueOf(courseId)});
-        db.delete(DatabaseContract.Exams.TABLE_NAME, DatabaseContract.Exams.EXAM_COURSE_ID + " = ?", new String[]{String.valueOf(courseId)});
+
 
         db.close();
     }
@@ -217,10 +219,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void deleteTeacher (int teacherId)
     {
         SQLiteDatabase db = this.getWritableDatabase();
-
+        db.execSQL("PRAGMA foreign_keys=ON");
+        //Course course = getCourseFromTeacherId(teacherId);
+        //deleteCourse(course.getCourseId());
         db.delete(DatabaseContract.Teachers.TABLE_NAME, DatabaseContract.Teachers.TEACHER_ID + " = ?", new String[]{String.valueOf(teacherId)});
-        Course course = getCourseFromTeacherId(teacherId);
-        deleteCourse(course.getCourseId());
 
 
         db.close();
@@ -230,6 +232,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void deleteHomework (int homeworkId)
     {
         SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("PRAGMA foreign_keys=ON");
         db.delete(DatabaseContract.Homeworks.TABLE_NAME, DatabaseContract.Homeworks.HOMEWORK_ID + " = ?", new String[]{String.valueOf(homeworkId)});
         db.close();
     }
@@ -239,6 +242,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void deleteExam (int examId)
     {
         SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("PRAGMA foreign_keys=ON");
         db.delete(DatabaseContract.Exams.TABLE_NAME, DatabaseContract.Exams.EXAM_ID + " = ?", new String[]{String.valueOf(examId)});
         db.close();
     }
