@@ -3,6 +3,7 @@ package com.example.audreycelia.homeworkapp;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -66,8 +67,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        loadLastLanguage();
 
         setContentView(R.layout.activity_main);
+
+
 
 
 
@@ -142,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
         config.locale= locale;
         //noinspection deprecation
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("LANGUAGE", toLoad).commit();
         Intent intent = new Intent(MainActivity.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
@@ -171,6 +176,18 @@ public class MainActivity extends AppCompatActivity {
 
         }
         return false;
+    }
+
+    private void loadLastLanguage() {
+        String language = PreferenceManager.getDefaultSharedPreferences(this).getString("LANGUAGE", "en");
+        Locale locale = new Locale(language);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        //noinspection deprecation
+        config.locale = locale;
+        //noinspection deprecation
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
     }
 
 }
