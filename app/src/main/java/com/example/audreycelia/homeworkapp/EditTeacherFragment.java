@@ -59,13 +59,7 @@ public class EditTeacherFragment extends Fragment {
         MenuItem save = menu.findItem(R.id.ab_edit_save);
 
         final int teacherId = getArguments().getInt("SelectedTeacherId");
-
-        final EditText firstName = (EditText) getView().findViewById(R.id.et_edit_teacher_firstname);
-        final EditText lastName = (EditText) getView().findViewById(R.id.et_edit_teacher_lastname);
-        final EditText phone = (EditText) getView().findViewById(R.id.et_edit_teacher_phone);
-        final EditText email = (EditText) getView().findViewById(R.id.et_edit_teacher_email);
-        final EditText description = (EditText) getView().findViewById(R.id.et_edit_teacher_description);
-        final ImageButton deleteButton = (ImageButton) getView().findViewById(R.id.ib_delete_edit_teacher);
+        
 
         switch (item.getItemId())
         {

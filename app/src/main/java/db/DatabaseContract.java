@@ -104,8 +104,8 @@ public final class DatabaseContract {
                     + Teachers.TEACHER_FIRSTNAME + " TEXT NOT NULL, "
                     + Teachers.TEACHER_LASTNAME + " TEXT NOT NULL, "
                     + Teachers.TEACHER_PHONE + " TEXT NULL, "
-                    + Teachers.TEACHER_DESCRIPTION + " TEXT NULL, "
-                    + Teachers.TEACHER_EMAIL + " TEXT NULL" + ");";
+                    + Teachers.TEACHER_EMAIL + " TEXT NULL, "
+                    + Teachers.TEACHER_DESCRIPTION + " TEXT NULL" + ");";
 
     //Database creation sql statement homeworks
     public static final String CREATE_TABLE_HOMEWORKS =

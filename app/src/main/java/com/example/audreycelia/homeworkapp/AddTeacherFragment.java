@@ -82,8 +82,8 @@ public class AddTeacherFragment extends Fragment {
         //INITIATE FIELDS
         firstName = (EditText) rootView.findViewById(R.id.et_add_teacher_firstname);
         lastName = (EditText) rootView.findViewById(R.id.et_add_teacher_lastname);
-        email = (EditText) rootView.findViewById(R.id.et_add_teacher_email);
         phone = (EditText) rootView.findViewById(R.id.et_add_teacher_phone);
+        email = (EditText) rootView.findViewById(R.id.et_add_teacher_email);
         description = (EditText) rootView.findViewById(R.id.et_add_teacher_description);
 
         return  rootView;

@@ -220,15 +220,14 @@
         <EditText
             android:id="@+id/et_edit_course_description"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="115dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/tv_edit_course_description"
             android:ems="30"
             android:gravity="left|top"
             android:inputType="textMultiLine"
-            android:textColor="@color/text_color"
-            android:layout_above="@+id/ib_delete_edit_course" />
+            android:textColor="@color/text_color" />
 
         <ImageButton
             android:id="@+id/ib_delete_edit_course"
