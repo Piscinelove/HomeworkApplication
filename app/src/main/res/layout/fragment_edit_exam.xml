@@ -180,7 +180,8 @@
             android:layout_alignParentRight="true"
             android:layout_alignStart="@+id/sp_edit_exam_course"
             android:layout_below="@+id/sp_edit_exam_course"
-            android:textColor="@color/text_color"/>
+            android:inputType="number"
+            android:textColor="@color/text_color" />
 
         <TextView
             android:id="@+id/tv_edit_exam_grade"
@@ -204,9 +205,10 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/et_edit_exam_room"
-            android:textColor="@color/text_color"
+            android:layout_toEndOf="@+id/tv_edit_exam_room"
             android:layout_toRightOf="@+id/tv_edit_exam_room"
-            android:layout_toEndOf="@+id/tv_edit_exam_room" />
+            android:inputType="numberDecimal"
+            android:textColor="@color/text_color" />
 
         <TextView
             android:id="@+id/tv_edit_exam_description"
@@ -233,8 +235,6 @@
             android:layout_alignParentStart="true"
             android:layout_above="@+id/ib_delete_edit_exam"
             android:textColor="@color/text_color"/>
-
-
 
         <ImageButton
             android:id="@+id/ib_delete_edit_exam"
