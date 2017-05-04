@@ -16,6 +16,13 @@
     <item
         app:showAsAction="ifRoom"
         android:enabled="true"
+        android:id="@+id/navigation_teacher"
+        android:icon="@drawable/ic_teacher"
+        android:title="@string/title_teacher" />
+
+    <item
+        app:showAsAction="ifRoom"
+        android:enabled="true"
         android:id="@+id/navigation_course"
         android:icon="@drawable/ic_course"
         android:title="@string/title_course"
@@ -36,12 +43,7 @@
         android:icon="@drawable/ic_homework"
         android:title="@string/title_homework" />
 
-    <item
-        app:showAsAction="ifRoom"
-        android:enabled="true"
-        android:id="@+id/navigation_teacher"
-        android:icon="@drawable/ic_teacher"
-        android:title="@string/title_teacher" />
+
 
 
 

@@ -23,13 +23,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    CalendarView calendar ;
-
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         navigation.getMenu().getItem(0).setChecked(true);
-
 
     }
 
@@ -42,19 +39,19 @@ public class MainActivity extends AppCompatActivity {
                     navigation.getMenu().getItem(0).setChecked(true);
                     finish();
                 }
-                else if(currentFragment instanceof CourseFragment){
+                else if(currentFragment instanceof TeacherFragment){
                     navigation.getMenu().getItem(1).setChecked(true);
                     finish();
                 }
-                else if(currentFragment instanceof ExamFragment){
+                else if(currentFragment instanceof CourseFragment){
                     navigation.getMenu().getItem(2).setChecked(true);
                     finish();
                 }
-                else if(currentFragment instanceof HomeworkFragment){
+                else if(currentFragment instanceof ExamFragment){
                     navigation.getMenu().getItem(3).setChecked(true);
                     finish();
                 }
-                else if(currentFragment instanceof TeacherFragment){
+                else if(currentFragment instanceof HomeworkFragment){
                     navigation.getMenu().getItem(4).setChecked(true);
                     finish();
                 }
